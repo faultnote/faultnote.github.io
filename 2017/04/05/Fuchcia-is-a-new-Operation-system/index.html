@@ -1,0 +1,690 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="OS,Dart," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="구글 다트 언어를 기본으로 탑제한 구글의 새 운영체제작년(2016년) 구글 Dart 언어를 공부하면서 듣게 된 소식 중 가장 흥미로웠던 것은 바로 구글이 새 운영체제를 만들고 있다는 소식이었습니다. 인터넷 세상을 장악하고 있는 구글이 동종 업계 비슷한 레벨의 회사와 비교해 없거나 부족한 것은 자사의 오퍼레이팅 시스템인데 그런 부분을 볼 때 어찌 보면 당연한">
+<meta name="keywords" content="OS,Dart">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fuchcia Is a New Operation System">
+<meta property="og:url" content="http://steps-in.github.io/2017/04/05/Fuchcia-is-a-new-Operation-system/index.html">
+<meta property="og:site_name" content="Steps-in">
+<meta property="og:description" content="구글 다트 언어를 기본으로 탑제한 구글의 새 운영체제작년(2016년) 구글 Dart 언어를 공부하면서 듣게 된 소식 중 가장 흥미로웠던 것은 바로 구글이 새 운영체제를 만들고 있다는 소식이었습니다. 인터넷 세상을 장악하고 있는 구글이 동종 업계 비슷한 레벨의 회사와 비교해 없거나 부족한 것은 자사의 오퍼레이팅 시스템인데 그런 부분을 볼 때 어찌 보면 당연한">
+<meta property="og:updated_time" content="2017-05-20T10:47:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fuchcia Is a New Operation System">
+<meta name="twitter:description" content="구글 다트 언어를 기본으로 탑제한 구글의 새 운영체제작년(2016년) 구글 Dart 언어를 공부하면서 듣게 된 소식 중 가장 흥미로웠던 것은 바로 구글이 새 운영체제를 만들고 있다는 소식이었습니다. 인터넷 세상을 장악하고 있는 구글이 동종 업계 비슷한 레벨의 회사와 비교해 없거나 부족한 것은 자사의 오퍼레이팅 시스템인데 그런 부분을 볼 때 어찌 보면 당연한">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '작성자'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://steps-in.github.io/2017/04/05/Fuchcia-is-a-new-Operation-system/"/>
+
+
+
+
+
+  <title> Fuchcia Is a New Operation System | Steps-in </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="ko">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Steps-in</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            홈
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            아카이브
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            태그
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2017/04/05/Fuchcia-is-a-new-Operation-system/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="soomtong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Steps-in">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Fuchcia Is a New Operation System
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">작성일</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-05T08:50:11+09:00">
+                2017-04-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="구글-다트-언어를-기본으로-탑제한-구글의-새-운영체제"><a href="#구글-다트-언어를-기본으로-탑제한-구글의-새-운영체제" class="headerlink" title="구글 다트 언어를 기본으로 탑제한 구글의 새 운영체제"></a>구글 다트 언어를 기본으로 탑제한 구글의 새 운영체제</h2><p>작년(2016년) 구글 <code>Dart</code> 언어를 공부하면서 듣게 된 소식 중 가장 흥미로웠던 것은 바로 구글이 새 운영체제를 만들고 있다는 소식이었습니다. 인터넷 세상을 장악하고 있는 구글이 동종 업계 비슷한 레벨의 회사와 비교해 없거나 부족한 것은 자사의 오퍼레이팅 시스템인데 그런 부분을 볼 때 어찌 보면 당연한 노력일 것이라 추측됩니다.</p>
+<p>올해 이 운영체제에 대한 소식이 조금 더 들려올 것인가 아니면 사라져가는 구글의 또 다른 프로젝트로 남을 것인가 개인적으로 관심이 높습니다. 구글은 이미 <code>Go</code> 언어를 가지고 있지만 <code>Dart</code> 라는 언어도 계속 지원하고 있습니다.</p>
+<p>사실 작년 이 소식을 접했을 때 가장 관심이 가던 부분은 이 운영체제의 기본 시스템 언어로 다트를 사용할 것이라는 이야기였는데 다트 언어가 더 높은 곳으로 성장하기 위해 가장 빨리 그 가능성을 높일 수 있는 부분이 될 것이라 기대했기 때문이죠.</p>
+<p>Fuchcia 운영체제에 대해 조금 더 알아보겠습니다.</p>
+<h3 id="개요"><a href="#개요" class="headerlink" title="개요"></a>개요</h3><p>한글로는 ‘푸크시아’ 라고 발음되고 꽃의 이름입니다.</p>
+<ul>
+<li>푸크시아: 구글이 주도하고 있는 오픈소스 운영체제</li>
+<li>소스코드 저장소: <a href="https://fuchsia.googlesource.com/" target="_blank" rel="external">https://fuchsia.googlesource.com/</a></li>
+<li>라이센스: BSD 3</li>
+</ul>
+<p>커널과 유저 스페이스 시스템 모두 개발되고 있으며 GUI 를 함께 제공합니다.</p>
+<p>코어 드라이버와 운영체제의 가장 기본적인 서비스를 담당하고 있는 <code>Magenta</code> 커널이라고 불리는 커널은 <code>Little Kernel</code> 이라고 불리는 MIT 라이센스 기반의 커널에 기반을 두고 있습니다. 마젠타 커널은 마이크로 커널로 분류됩니다. 따라서 드라이버 레이어, 네트워크 스택, 파일 시스템 등은 유저 스페이스에 속합니다.</p>
+<p>네트워크 레이어는 <code>lwIP</code> (<a href="https://savannah.nongnu.org/projects/lwip/" target="_blank" rel="external">https://savannah.nongnu.org/projects/lwip/</a>) 를 기반으로 재작성 되고 있으며 파일 시스템은 <code>minfs</code> 라고 불리는 파일 시스템을 새로 구현해 사용합니다. 그래픽 드라이버는 <code>Magma</code> 라고 불리는 프로젝트로 <code>Escher</code> 라는 GUI 프레임워크와 함께 작성되고 있으며 물리적으로는 <code>Vulkan</code> 라이브러리에 기반을 두고 있습니다.</p>
+<p>리눅스와 다르게 POSIX 호환을 염두해 두고 있지는 않습니다. 일반적인 64비트 시스템을 대상으로 설치해 볼 수 있다고 합니다.</p>
+<p>이미 이야기 했드시 푸크시아 운영체제에서 돌아가는 애플리케이션을 개발하는 언어로 Dart 언어를 사용하고 있으며 Dart 를 사용해 모바일 앱을 만드는 프로젝트인 <code>Flutter</code> 의 기반이 되는 UI 라이브러리를 통해 GUI 애플리케이션을 작성할 수 있습니다. 여기에는 <code>Mozart</code> 라는 기본 그래픽 라이브러리 프로젝트가 함께 진행되고 있습니다.</p>
+<hr>
+<p>과연 구글이 가지지 못한 것을 가질 수 있을까요? 자신만의 운영체제 그리고 그 운영체제를 사용하는 많은 사용자 그리고 개발자를 기대하며 푸크시아는 오늘도 수 많은 코드가 추가될 것입니다. 윈도우즈, 맥OS, 리눅스를 중심으로 한 UNIX 운영체제 그리고 제 4의 일반 사용자 대상 운영체제가 될 푸크시아, 어떤 모습으로 언제 만나게 될지 기대가 됩니다.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OS/" rel="tag"># OS</a>
+          
+            <a href="/tags/Dart/" rel="tag"># Dart</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/07/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/21/Linux-Ubuntu-Mate/" rel="prev" title="Linux Ubuntu Mate">
+                Linux Ubuntu Mate <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            목차
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            흝어보기
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="soomtong" />
+          <p class="site-author-name" itemprop="name">soomtong</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">포스트</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">카테고리</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">태그</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#구글-다트-언어를-기본으로-탑제한-구글의-새-운영체제"><span class="nav-number">1.</span> <span class="nav-text">구글 다트 언어를 기본으로 탑제한 구글의 새 운영체제</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#개요"><span class="nav-number">1.1.</span> <span class="nav-text">개요</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">soomtong</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
