@@ -1,0 +1,932 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ELK,Savvius," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="우선 등장하는 몇가지 용어에 대해 점검해보고 넘어가자. 일래스틱, 엘라스틱 등으로 불린다. (동료들의 의견에 따라 엘라스틱으로 칭한다.) 최근 뉴스 및 개요 2017년 4월 5.3 버전이 릴리즈 되었습니다. 2017년 5월 5.4 버전이 릴리즈 되었습니다. 2017년 5월 부터 6.0 버전의 알파 테스트가 시작되었습니다.  국내 서적 『시작하세요! 엘라스틱">
+<meta name="keywords" content="ELK,Savvius">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elastic Stack 101">
+<meta property="og:url" content="http://steps-in.github.io/2017/05/10/Elastic-Stack-101/index.html">
+<meta property="og:site_name" content="Steps-in">
+<meta property="og:description" content="우선 등장하는 몇가지 용어에 대해 점검해보고 넘어가자. 일래스틱, 엘라스틱 등으로 불린다. (동료들의 의견에 따라 엘라스틱으로 칭한다.) 최근 뉴스 및 개요 2017년 4월 5.3 버전이 릴리즈 되었습니다. 2017년 5월 5.4 버전이 릴리즈 되었습니다. 2017년 5월 부터 6.0 버전의 알파 테스트가 시작되었습니다.  국내 서적 『시작하세요! 엘라스틱">
+<meta property="og:updated_time" content="2017-06-10T13:54:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elastic Stack 101">
+<meta name="twitter:description" content="우선 등장하는 몇가지 용어에 대해 점검해보고 넘어가자. 일래스틱, 엘라스틱 등으로 불린다. (동료들의 의견에 따라 엘라스틱으로 칭한다.) 최근 뉴스 및 개요 2017년 4월 5.3 버전이 릴리즈 되었습니다. 2017년 5월 5.4 버전이 릴리즈 되었습니다. 2017년 5월 부터 6.0 버전의 알파 테스트가 시작되었습니다.  국내 서적 『시작하세요! 엘라스틱">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '작성자'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://steps-in.github.io/2017/05/10/Elastic-Stack-101/"/>
+
+
+
+
+
+  <title> Elastic Stack 101 | Steps-in </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="ko">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Steps-in</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            홈
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            카테고리
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            아카이브
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            태그
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2017/05/10/Elastic-Stack-101/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="soomtong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Steps-in">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Elastic Stack 101
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">작성일</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-10T22:41:05+09:00">
+                2017-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/엘라스틱서치/" itemprop="url" rel="index">
+                    <span itemprop="name">엘라스틱서치</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>우선 등장하는 몇가지 용어에 대해 점검해보고 넘어가자. 일래스틱, 엘라스틱 등으로 불린다. (동료들의 의견에 따라 <code>엘라스틱</code>으로 칭한다.)</p>
+<h2 id="최근-뉴스-및-개요"><a href="#최근-뉴스-및-개요" class="headerlink" title="최근 뉴스 및 개요"></a>최근 뉴스 및 개요</h2><ul>
+<li>2017년 4월 5.3 버전이 릴리즈 되었습니다.</li>
+<li>2017년 5월 5.4 버전이 릴리즈 되었습니다.</li>
+<li>2017년 5월 부터 6.0 버전의 알파 테스트가 시작되었습니다.</li>
+</ul>
+<p>국내 서적 『시작하세요! 엘라스틱서치』 예제 코드 저장소</p>
+<ul>
+<li><a href="https://github.com/wikibook/elasticsearch" target="_blank" rel="external">https://github.com/wikibook/elasticsearch</a></li>
+</ul>
+<h3 id="엘라스틱-서치"><a href="#엘라스틱-서치" class="headerlink" title="엘라스틱 서치"></a>엘라스틱 서치</h3><p>엘라스틱 서치는 아파치 루신으로 개발된 분산 검색엔진</p>
+<ul>
+<li>JSON 기반</li>
+<li>RESTFul API 지원</li>
+<li>국내에서는 KTH, 위메프 등에서 사용 중</li>
+</ul>
+<p>검색 뿐 아니라 집계 기능이 유명해 실시간 분석 엔진으로도 자주 사용된다.</p>
+<h3 id="루신"><a href="#루신" class="headerlink" title="루신"></a>루신</h3><blockquote>
+<p>Apache Lucene</p>
+</blockquote>
+<p>자바로 작성된 풀 텍스트 검색엔진. 아파치 솔라, 인덱스탱크, 엘라스틱서치 같은 솔루션들의 기반 라이브러리.</p>
+<h3 id="로그스태시"><a href="#로그스태시" class="headerlink" title="로그스태시"></a>로그스태시</h3><p>데이터 로그 파이프라인</p>
+<h3 id="키바나"><a href="#키바나" class="headerlink" title="키바나"></a>키바나</h3><p>시각화 처리 애플리케이션</p>
+<h2 id="엘라스틱-스택"><a href="#엘라스틱-스택" class="headerlink" title="엘라스틱 스택"></a>엘라스틱 스택</h2><p><strong>Elastic Stack</strong> (초기에는 <strong>ELK STACK</strong> 으로 불렸다.)</p>
+<p>엘라스틱서치 + 로그스태시 + 키바나의 조합</p>
+<blockquote>
+<p>로그스태시에서 수집된 데이터로그를 인덱싱하고 엘라스틱서치에서 필터링 한 후 키바나에서 비주얼라이즈 한다.</p>
+</blockquote>
+<p>가 기본 컨셉</p>
+<h3 id="국내-사례"><a href="#국내-사례" class="headerlink" title="국내 사례"></a>국내 사례</h3><p>NHN 엔터 두레이</p>
+<ul>
+<li><a href="https://dooray.com/join" target="_blank" rel="external">https://dooray.com/join</a></li>
+</ul>
+<p>그리고 인하우스 웨어로 간간히 사용되고 있는 분위기</p>
+<h3 id="튜토리얼"><a href="#튜토리얼" class="headerlink" title="튜토리얼"></a>튜토리얼</h3><p>5.0 버전을 기준으로 작성되었고 한글 영상으로 볼만 할 것 같다.</p>
+<ul>
+<li><a href="https://www.inflearn.com/course/elk-스택-데이터-분석/" target="_blank" rel="external">https://www.inflearn.com/course/elk-스택-데이터-분석/</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLVNY1HnUlO24LCsgOxR_eK2Yi4sOgH9Pg" target="_blank" rel="external">https://www.youtube.com/playlist?list=PLVNY1HnUlO24LCsgOxR_eK2Yi4sOgH9Pg</a></li>
+</ul>
+<h3 id="라이선스-및-개발-언어"><a href="#라이선스-및-개발-언어" class="headerlink" title="라이선스 및 개발 언어"></a>라이선스 및 개발 언어</h3><p>모두 공히 아파치2 라이센스를 따르고 있다.<br>안전한 빌드를 위해서는 JDK 8 과 JRuby 1.7 이상을 필요로 한다.</p>
+<p>엘라스틱서치는 자바, 로그스태시는 루비(jRuby), 키바나는 앵귤러1 을 기반으로 하고 있다.</p>
+<h2 id="설치-및-구동"><a href="#설치-및-구동" class="headerlink" title="설치 및 구동"></a>설치 및 구동</h2><h3 id="도커를-사용해-쉽게-가보자"><a href="#도커를-사용해-쉽게-가보자" class="headerlink" title="도커를 사용해 쉽게 가보자"></a>도커를 사용해 쉽게 가보자</h3><p>우선 도커 세팅이 끝나면 호스트 환경에서 손봐야 할 것이 있다.</p>
+<blockquote>
+<p>VM.MAX_MAP_COUNT 를 늘려주세요</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ grep vm.max_map_count /etc/sysctl.conf</div><div class="line">vm.max_map_count=262144</div></pre></td></tr></table></figure>
+<p>그리고 반드시 시스템 리부팅 해야 반영 된다. (당연하지)</p>
+<h4 id="도커-컨테이너-관련-명령"><a href="#도커-컨테이너-관련-명령" class="headerlink" title="도커 컨테이너 관련 명령"></a>도커 컨테이너 관련 명령</h4><blockquote>
+<p>docker ps<br>docker ps -a</p>
+<p>docker rm [container_id]<br>docker rm <code>docker ps -a -q</code></p>
+</blockquote>
+<h4 id="도커-이미지-관련-명령"><a href="#도커-이미지-관련-명령" class="headerlink" title="도커 이미지 관련 명령"></a>도커 이미지 관련 명령</h4><blockquote>
+<p>docker images<br>docker rmi [image_id]<br>docker rmi -f [image_id]</p>
+</blockquote>
+<h4 id="도커-컴포저-관련-명령"><a href="#도커-컴포저-관련-명령" class="headerlink" title="도커 컴포저 관련 명령"></a>도커 컴포저 관련 명령</h4><blockquote>
+<p>docker-compose up<br>docker-compose up —build</p>
+</blockquote>
+<h4 id="ELK-스택-도커-컴포즈-파일-클론"><a href="#ELK-스택-도커-컴포즈-파일-클론" class="headerlink" title="ELK 스택 도커 컴포즈 파일 클론"></a>ELK 스택 도커 컴포즈 파일 클론</h4><ul>
+<li><a href="https://github.com/deviantony/docker-elk" target="_blank" rel="external">https://github.com/deviantony/docker-elk</a></li>
+</ul>
+<h4 id="다운로드-하면서-빌드"><a href="#다운로드-하면서-빌드" class="headerlink" title="다운로드 하면서 빌드"></a>다운로드 하면서 빌드</h4><p>그냥 UP 하면 중간에 WARNING 이 나온다. —BUILD 옵션을 붙이자.</p>
+<blockquote>
+<p>sudo docker-compose up —build</p>
+</blockquote>
+<p>필요한 이미지 다운로드가 끝나면 자동으로 도커 컨테이너가 등록된다. </p>
+<ul>
+<li><a href="http://localhost:9200" target="_blank" rel="external">http://localhost:9200</a></li>
+<li><a href="http://localhost:5601" target="_blank" rel="external">http://localhost:5601</a></li>
+</ul>
+<p>을 통해 정상 작동을 확인한다.</p>
+<h3 id="로컬-피시에-패키지를-통해-인스톨을-해보자"><a href="#로컬-피시에-패키지를-통해-인스톨을-해보자" class="headerlink" title="로컬 피시에 패키지를 통해 인스톨을 해보자"></a>로컬 피시에 패키지를 통해 인스톨을 해보자</h3><p>엘라스틱 스택은 현재 5.2.2 (2/28/2017) 버전이 최신 버전인 상태로 이 시점의 가이드에 따라 설치해 본다.</p>
+<p><del>환경은 우분투 1604 환경에서 이루어지고 데비안 패키지를 따라감.</del><br>(데비안 패키지 매니저는 문제가 있는지 systemd 스크립트가 upstart 스크립트를 변환해 작성된 듯 하고 세팅이 깔끔하게 마무리 되지 않아 그냥 바이너리 설치를 추천함.)</p>
+<h4 id="본격-설치-전-수행-사항"><a href="#본격-설치-전-수행-사항" class="headerlink" title="본격 설치 전 수행 사항"></a>본격 설치 전 수행 사항</h4><p>패키지 설치를 위한 퍼블릭 키를 추가합니다. 가급적 bash 나 zsh 환경에서 진행하는 편이 스크립트 실행에 알수 없는 오류를 줄 일 수 있다.</p>
+<blockquote>
+<p>wget -qO - <a href="https://artifacts.elastic.co/GPG-KEY-elasticsearch" target="_blank" rel="external">https://artifacts.elastic.co/GPG-KEY-elasticsearch</a> | sudo apt-key add -</p>
+<p>sudo apt-get install apt-transport-https</p>
+<p>echo “deb <a href="https://artifacts.elastic.co/packages/5.x/apt" target="_blank" rel="external">https://artifacts.elastic.co/packages/5.x/apt</a> stable main” | sudo tee -a /etc/apt/sources.list.d/elastic-5.x.list</p>
+</blockquote>
+<p>데비안 배포본에 따라 <code>add-apt-repository</code> 를 통해 추가되는 소스 레포지토리의 설치 경로가 다른 경우가 있어서 위 방법을 선호한다고 한다.</p>
+<blockquote>
+<p>sudo apt update</p>
+</blockquote>
+<h4 id="엘라스틱-서치-설치"><a href="#엘라스틱-서치-설치" class="headerlink" title="엘라스틱 서치 설치"></a>엘라스틱 서치 설치</h4><blockquote>
+<p>sudo apt install elasticsearch</p>
+</blockquote>
+<p>설치를 마치고 systemd 등록도 자동으로 처리 된다. 설치 시간은 SSD 가 설치된 인텔 Core I5 16G Ram 환경에서 6~7 초 정도 걸렸다.</p>
+<blockquote>
+<p>sudo systemctl status elasticsearch.service</p>
+</blockquote>
+<p>명령을 통해 서비스 데몬이 잘 등록되었는지 확인한다. 잘 동작한 것처럼 보이지만 데몬은 실행되지 않았고 리부팅 등의 기본 과정을 거친 후에도 작동이 되지 않았다.</p>
+<p>설치된 경로의 실행파일을 통해서는 정상적으로 실행이 된다. 스크립트의 퍼미션 같은 것들이 문제일 것 같은데 조금 더 살펴 보다 포기했다.</p>
+<h3 id="로컬-피시에-바이너리-파일-설치로-진행해보자"><a href="#로컬-피시에-바이너리-파일-설치로-진행해보자" class="headerlink" title="로컬 피시에 바이너리 파일 설치로 진행해보자"></a>로컬 피시에 바이너리 파일 설치로 진행해보자</h3><p>압축되어 제공되는 실행파일을 별도의 경로에 풀어 실행하기로 계획을 변경했다. 어짜피 소스코드를 수정해야 하는 일이 주어질 확률이 높기 때문에 이 경우가 오히려 더 나은 방법이 될 수 있다.</p>
+<p>우선 JDK 를 설치한다. (사실 JRE 만 있어도 작동한다.)</p>
+<blockquote>
+<p>sudo apt install openjdk-8-jdk-headless</p>
+</blockquote>
+<h4 id="엘라스틱-서치-설치-1"><a href="#엘라스틱-서치-설치-1" class="headerlink" title="엘라스틱 서치 설치"></a>엘라스틱 서치 설치</h4><p>다운로드한 파일을 작업 폴더에 풀고 해당 경로로 이동한다. fish 쉘 사용자는 아래와 같이 실행한다.</p>
+<blockquote>
+<p>bin/elasticsearch -Epath.conf={$pwd}/config/</p>
+</blockquote>
+<p>bash 나 zsh 라면</p>
+<blockquote>
+<p>bin/elasticsearch -Epath.conf=$(pwd)/config/</p>
+</blockquote>
+<p>정상 작동의 느낌이 팍 난다.</p>
+<blockquote>
+<p>curl -XGET ‘localhost:9200/?pretty’</p>
+</blockquote>
+<p>정상 구동된 것을 확인할 수 있다.</p>
+<h4 id="키바나-설치"><a href="#키바나-설치" class="headerlink" title="키바나 설치"></a>키바나 설치</h4><p>마찬가지로 파일을 풀고 이동하고 설정파일을 걸고 실행한다.</p>
+<p>설정 파일은 <code>loging.dest: stdout</code> 정도만 풀어주고 실행해도 좋다.</p>
+<blockquote>
+<p>bin/kibana -c config/kibana.yml</p>
+</blockquote>
+<p>디폴트 5601 포트로 실행된다. 이 부분은 나중에 엔진엑스를 통해 reverse-proxy 처리한다.</p>
+<p>브라우저를 열어 5601 포트로 접속해 웹 애플리케이션을 구경할 수 있다.</p>
+<h5 id="프로덕션-세팅"><a href="#프로덕션-세팅" class="headerlink" title="프로덕션 세팅"></a>프로덕션 세팅</h5><p>SSL 이나 로드밸런싱 등의 내용이 설명되고 있다.</p>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/kibana/5.2/production.html" target="_blank" rel="external">https://www.elastic.co/guide/en/kibana/5.2/production.html</a></li>
+</ul>
+<h4 id="로그스태시-설치"><a href="#로그스태시-설치" class="headerlink" title="로그스태시 설치"></a>로그스태시 설치</h4><p>마찬가지로 파일을 풀고 이동하고 설정파일을 걸고 실행한다.</p>
+<blockquote>
+<p>bin/logstash -f ../docker-elk/logstash/pipeline/logstash.conf</p>
+</blockquote>
+<p>로그스태시의 경우 특정한 .conf 파일이 함께 포함되어 있지 않다. 특정 로그 형태를 파싱하는 역할을 하기 때문인데 이에 대한 예제들이 문서 페이지에 제공되고 있다.</p>
+<ul>
+<li><a href="https://www.elastic.co/guide/en/logstash/current/config-examples.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/current/config-examples.html</a></li>
+<li><a href="https://www.digitalocean.com/community/tutorials/adding-logstash-filters-to-improve-centralized-logging-logstash-forwarder" target="_blank" rel="external">https://www.digitalocean.com/community/tutorials/adding-logstash-filters-to-improve-centralized-logging-logstash-forwarder</a></li>
+</ul>
+<p>또는 위 경우처럼 도커에서 사용한 설정 파일을 지정해 임시로 실행시킬 수 있다.</p>
+<h2 id="샘플-데이터-사용"><a href="#샘플-데이터-사용" class="headerlink" title="샘플 데이터 사용"></a>샘플 데이터 사용</h2><p>깃헙 엘라스틱 레포지토리에는 데모에 사용할 로그 데이터들이 잔뜩 있다. 이걸로 테스트를 조금 더 진행할 수 있다.</p>
+<ul>
+<li><a href="https://github.com/elastic/examples" target="_blank" rel="external">https://github.com/elastic/examples</a></li>
+</ul>
+<h3 id="도커-환경에서-적용해보기"><a href="#도커-환경에서-적용해보기" class="headerlink" title="도커 환경에서 적용해보기"></a>도커 환경에서 적용해보기</h3><p>디폴트 세팅의 로그 스태시에는 몇 줄의 세팅 내용 뿐이다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">input &#123;</div><div class="line">    tcp &#123;</div><div class="line">        port =&gt; 5000</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">## Add your filters / logstash plugins configuration here</div><div class="line"></div><div class="line">output &#123;</div><div class="line">    elasticsearch &#123;</div><div class="line">        hosts =&gt; &quot;elasticsearch:9200&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>그런데 샘플 폴더의 <code>logstash.conf</code> 는 디테일한 내용이 더 들어가 있다.</p>
+<p>이 파일을 수정해 사용할 수도 있지만 우선 도커 프로세스를 사용해 처리해보자.</p>
+<p>우선 도커엘크 리드미에 있는 내용부터 해보자.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ElasticStack_NGINX-json $ nc localhost 5000 &lt; nginx_json_logs</div></pre></td></tr></table></figure>
+<p>로그가 보내지긴 했겠지만 정상 처리되지 않을 것이다. 필터가 정의되어 있지 않기 때문이다.</p>
+<h4 id="컨피규레이션"><a href="#컨피규레이션" class="headerlink" title="컨피규레이션"></a>컨피규레이션</h4><p><code>nginx_json_logstash.conf</code>, <code>ngix_json_template.json</code> 파일을 참조해 <code>pipeline</code> 에 있는 <code>logstash.conf</code> 파일에 필터 내용을 추가하고 템플릿 파일 참조를 위해 <code>docker-compose.yml</code> 파일도 수정한 후 도커-컴포즈를 다시 구동한다.</p>
+<p>이 경우 <code>logstash: volunmes: [template]</code> 매핑이 추가되었다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">version: &apos;2&apos;</div><div class="line"></div><div class="line">services:</div><div class="line"></div><div class="line">  elasticsearch:</div><div class="line">    build: elasticsearch/</div><div class="line">    ports:</div><div class="line">      - &quot;9200:9200&quot;</div><div class="line">      - &quot;9300:9300&quot;</div><div class="line">    environment:</div><div class="line">      ES_JAVA_OPTS: &quot;-Xmx256m -Xms256m&quot;</div><div class="line">      xpack.security.enabled: &quot;false&quot;</div><div class="line">      xpack.monitoring.enabled: &quot;false&quot;</div><div class="line">      xpack.graph.enabled: &quot;false&quot;</div><div class="line">      xpack.watcher.enabled: &quot;false&quot;</div><div class="line">    networks:</div><div class="line">      - elk</div><div class="line"></div><div class="line">  logstash:</div><div class="line">    build: logstash/</div><div class="line">    volumes:</div><div class="line">      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml</div><div class="line">      - ./logstash/pipeline:/usr/share/logstash/pipeline</div><div class="line">      - ./logstash/template:/usr/share/logstash/template</div><div class="line">    ports:</div><div class="line">      - &quot;5000:5000&quot;</div><div class="line">    environment:</div><div class="line">      LS_JAVA_OPTS: &quot;-Xmx256m -Xms256m&quot;</div><div class="line">    networks:</div><div class="line">      - elk</div><div class="line">    depends_on:</div><div class="line">      - elasticsearch</div><div class="line"></div><div class="line">  kibana:</div><div class="line">    build: kibana/</div><div class="line">    volumes:</div><div class="line">      - ./kibana/config/:/usr/share/kibana/config</div><div class="line">    ports:</div><div class="line">      - &quot;5601:5601&quot;</div><div class="line">    networks:</div><div class="line">      - elk</div><div class="line">    depends_on:</div><div class="line">      - elasticsearch</div><div class="line"></div><div class="line">networks:</div><div class="line"></div><div class="line">  elk:</div><div class="line">    driver: bridge</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">input &#123;</div><div class="line">    tcp &#123;</div><div class="line">        port =&gt; 5000</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">## Add your filters / logstash plugins configuration here</div><div class="line">filter &#123;</div><div class="line">  date &#123;</div><div class="line">    match =&gt; [&quot;time&quot;, &quot;dd/MMM/YYYY:HH:mm:ss Z&quot; ]</div><div class="line">    locale =&gt; en</div><div class="line">  &#125;</div><div class="line">  geoip &#123;</div><div class="line">    source =&gt; &quot;remote_ip&quot;</div><div class="line">    target =&gt; &quot;geoip&quot;</div><div class="line">  &#125;</div><div class="line">  useragent &#123;</div><div class="line">    source =&gt; &quot;agent&quot;</div><div class="line">    target =&gt; &quot;user_agent&quot;</div><div class="line">  &#125;</div><div class="line">  grok &#123;</div><div class="line">    match =&gt; [ &quot;request&quot; , &quot;%&#123;WORD:request_action&#125; %&#123;DATA:request1&#125; HTTP/%&#123;NUMBER:http_version&#125;&quot; ]</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">output &#123;</div><div class="line">    elasticsearch &#123;</div><div class="line">        hosts =&gt; &quot;elasticsearch:9200&quot;</div><div class="line">        index =&gt; &quot;nginx_json_elastic_stack_example&quot;</div><div class="line">        document_type =&gt; &quot;logs&quot;</div><div class="line">        template =&gt; &quot;/usr/share/logstash/template/nginx_json_template.json&quot;</div><div class="line">        template_name =&gt; &quot;nginx_json_elastic_stack_example&quot;</div><div class="line">        template_overwrite =&gt; true</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="로그-데이터-추가하기"><a href="#로그-데이터-추가하기" class="headerlink" title="로그 데이터 추가하기"></a>로그 데이터 추가하기</h4><p>로그스태시를 포함한 서비스가 정상적으로 올라오는지 확인한다.</p>
+<p>그리고 다시 로그를 nc 를 통해 추가한다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nc localhost 5000 &lt; nginx_json_logs</div></pre></td></tr></table></figure>
+<p>브라우저에서 데이터가 잘 들어갔는지 확인한다.</p>
+<ul>
+<li><a href="http://localhost:9200/nginx_json_elastic_stack_example/_count" target="_blank" rel="external">http://localhost:9200/nginx_json_elastic_stack_example/_count</a></li>
+</ul>
+<h4 id="인덱스-정의"><a href="#인덱스-정의" class="headerlink" title="인덱스 정의"></a>인덱스 정의</h4><p>브라우저를 열어 키바나에 접속한다.</p>
+<p>매니지먼트 탭에서 인덱스 패턴을 등록한다.</p>
+<p><code>index name or pattern</code> 필드에 <code>nginx_json_elastic_stack_example</code> 라고 입력한다.</p>
+<p>타임필드 네임은 <code>@timestamp</code> 가 지정된 것을 확인 한 후 Create 버튼을 누른다.</p>
+<h4 id="대시보드-프로파일-로드"><a href="#대시보드-프로파일-로드" class="headerlink" title="대시보드 프로파일 로드"></a>대시보드 프로파일 로드</h4><p>미리 세팅된 대시보드 프로파일을 로드해보자.</p>
+<p><code>Saved Object</code> 탭우측에 있는 <code>Import</code> 버튼으로 정의된 프로파일을 불러들인다. 대시보드 정의 파일에 문제가 있는지 5.2.2 버전에서 정상적으로 처리되지 않는다. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Error: Could not locate that index-pattern-field (id: response)</div></pre></td></tr></table></figure>
+<p>이란 메시지가 나옴. 대시보드는 다시 정의하면 되는 문제니까 이 정도 확인하고 실제 데이터를 리뷰해 보자.</p>
+<h4 id="디스커버리"><a href="#디스커버리" class="headerlink" title="디스커버리"></a>디스커버리</h4><p>디스커버 메뉴 인풋 필드에서<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">host:172.19.0.1</div></pre></td></tr></table></figure></p>
+<p>라고 입력하면 해당 로그가 쿼리된다.</p>
+<h3 id="일반-환경에서-샘플-데이터-사용해보기"><a href="#일반-환경에서-샘플-데이터-사용해보기" class="headerlink" title="일반 환경에서 샘플 데이터 사용해보기"></a>일반 환경에서 샘플 데이터 사용해보기</h3><p>샘플 데이터가 제시하는 가이드를 도커 환경에서 따라하기엔 아직 도커 사용 능력이 부족하기 때문에 별도 실행과정을 통해 로그스태시 데이터를 추가하고 대시보드를 구경해보자.</p>
+<h4 id="서비스-구동"><a href="#서비스-구동" class="headerlink" title="서비스 구동"></a>서비스 구동</h4><p>엘라스틱, 키바나(얘는 대충 실행해도 된다)를 올려두고, 샘플 데이터 폴더에 들어가 설정 파일들을 한 번 살펴 본다. 인풋, 필터, 아웃풋 형태에 익숙해지도록 해 보자.</p>
+<p>템플릿 경로를 확인하고 시작해보자.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat nginx_logs | ../../logstash-5.2.2/bin/logstash -f nginx_logstash.conf</div></pre></td></tr></table></figure>
+<p>로그가 콘솔에서 정상적으로 입력되는 화면을 본다면 성공적으로 처리된 것이다.</p>
+<p>마찬가지로 브라우저에서 레코드가 정상적으로 추가되었는지 확인한다.</p>
+<ul>
+<li><a href="http://localhost:9200/nginx_elastic_stack_example/_count" target="_blank" rel="external">http://localhost:9200/nginx_elastic_stack_example/_count</a></li>
+</ul>
+<h4 id="키바나-인덱스와-대시보드"><a href="#키바나-인덱스와-대시보드" class="headerlink" title="키바나 인덱스와 대시보드"></a>키바나 인덱스와 대시보드</h4><p>매니지먼트 메뉴에서 인덱스 패턴 탭으로 이동한 후 <code>Index name or pattern</code> 항목에 <code>nginx_elastic_stack_example</code> 를 입력한다. 이 내용은 해당 로그 컨피규레이션 파일에 기록된 ID 스트링이다.</p>
+<p>이어서 대쉬보드 레이아웃이 담긴 Saved Objects 탭에서 외부 파일을 임포트 한다.</p>
+<h2 id="새비어스-옴니픽-연동"><a href="#새비어스-옴니픽-연동" class="headerlink" title="새비어스 옴니픽 연동"></a>새비어스 옴니픽 연동</h2><blockquote>
+<p>네트워크 장비 업체인 징코스에서 새피어스 옴니픽이라는 패킷 캡쳐 및 패킷 분석 소프트웨어를 사용하고 있다. 옴니픽 장비는 패킷 분석 데이터를 파일로 저장하고 있는데 이 실시간 분석 데이터를 엘라스틱 스택과 연동하여 키바나의 대시보드로 표시하는 작업을 진행하려 한다.</p>
+</blockquote>
+<h3 id="옴니픽-설치-및-구동"><a href="#옴니픽-설치-및-구동" class="headerlink" title="옴니픽 설치 및 구동"></a>옴니픽 설치 및 구동</h3><p>트라이얼 버전은 윈도우즈 환경에만 제공된다.</p>
+<p>호스트 머신에 버추얼박스를 설치하고 윈도우즈 10 을 설치한다. (윈도우즈 라이센스가 없을 경우 3개월 짜리 Edge 브라우저 개발자용 버전으로 대충 진행할 수 있다.) 새비어스 홈페이지에서 트라이얼 라이센스 버전을 다운로드 해 설치하고 분석 데이터를 저장할 폴더를 호스트의 저장소로 지정한다.</p>
+<p>옴니픽은 패킷 캡처를 위한 서비스 데몬과 캡쳐 컨트롤과 통계 분석을 위한 애플리케이션으로 구성된다. (둘 다 설치해야한다.)</p>
+<p>버추얼 박스의 폴더 공유 기능을 사용해 로그스태시가 참조할 수 있는 위치로 분석 데이터가 저장되도록 준비해 두고 패킷 캡쳐를 시작한다.</p>
+<p>리눅스 호스트 머신에서 wireshark 를 통해 캡쳐된 데이터를 옴니픽에서 사용할 수 있도록 테스트 했지만 알 수 없는 이유로 단 한 번 파일이 정상적으로 불러 들여졌으나 이후 다양한 방법을 통해 wireshark 캡쳐 데이터를 사용하려 했지만 실패했다.</p>
+<h4 id="옴니픽-분석-데이터-저장-옵션"><a href="#옴니픽-분석-데이터-저장-옵션" class="headerlink" title="옴니픽 분석 데이터 저장 옵션"></a>옴니픽 분석 데이터 저장 옵션</h4><p>이 테스트의 경우 <code>Capture Options</code> 패널에서 <code>General</code> 항목의 <code>Capture to disk</code> 는 필요하지 않다. (이 파일을 wireshark 에서 사용할 수 있는지는 아직 확인하지 않았다.)</p>
+<p><code>Statistics Output</code> 패널에서 1분 단위로 통계 파일을 저장하고 <code>Report folder</code> 부분을 공유된 호스트 폴더로 지정한다.</p>
+<h3 id="옴니픽용-로그스태시-컨피규레이션"><a href="#옴니픽용-로그스태시-컨피규레이션" class="headerlink" title="옴니픽용 로그스태시 컨피규레이션"></a>옴니픽용 로그스태시 컨피규레이션</h3><p>디폴트로 제공되는 세팅 파일은 다음과 같다.</p>
+<ul>
+<li><a href="https://gist.github.com/soomtong/71b304afbe505b11c46574f0188883ac" target="_blank" rel="external">https://gist.github.com/soomtong/71b304afbe505b11c46574f0188883ac</a></li>
+</ul>
+<p>각 항목에서 중요한 부분은 <code>file</code> 항목에 있는 <code>path</code> 의 폴더 참조, 파일 참조와 <code>type</code> 의 항목이 <code>filter</code> 에 사용되는 식별값이다.</p>
+<p>필터 영역에서 사용되는 식들은 쭉 살펴보면 무리가 없고 간혹 참조되는 필터 파일과 위치 정보 매핑용 파일만 주의해서 변경해주면 된다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">input &#123;</div><div class="line">    file &#123;</div><div class="line">        path =&gt; &quot;/home/soomtong/Repository/elastic-stack/omnipeek/**/Summary Statistics.csv&quot;</div><div class="line"></div><div class="line">        ...</div><div class="line"></div><div class="line">filter &#123;</div><div class="line">    if [type] == &quot;sv_urls&quot; &#123;</div><div class="line">      </div><div class="line">        ...</div><div class="line">        </div><div class="line">        grok &#123;</div><div class="line">                patterns_dir =&gt; [&quot;/home/soomtong/Repository/elastic-stack/logstash-conf&quot;]</div><div class="line">                patterns_files_glob =&gt; [&quot;savvius_patterns.txt&quot;]</div><div class="line">                match =&gt; [ &quot;Message&quot;, &quot;^%&#123;MY_URI:url&#125;?(?:%&#123;URIPARAM&#125;)? from %&#123;IP:ip_address&#125;&quot; ]</div><div class="line">        &#125;</div><div class="line">       </div><div class="line">        ...</div></pre></td></tr></table></figure>
+<h3 id="로컬-호스트의-엘라스틱-스택-실행-스크립트"><a href="#로컬-호스트의-엘라스틱-스택-실행-스크립트" class="headerlink" title="로컬 호스트의 엘라스틱 스택 실행 스크립트"></a>로컬 호스트의 엘라스틱 스택 실행 스크립트</h3><p>로컬에 깔린 엘라스틱 스택의 구성 환경은 다음과 같다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">soomtong@Gurum-H87N-WIFI~/R/elastic-stack&gt; ll</div><div class="line">drwxr-xr-x  9 soomtong soomtong 4.0K Apr  4 09:04 elasticsearch-5.3.0/</div><div class="line">drwxrwxr-x 12 soomtong soomtong 4.0K Mar 23 12:46 kibana-5.3.0/</div><div class="line">drwxr-xr-x 12 soomtong soomtong 4.0K Apr  4 11:08 logstash-5.3.0/</div><div class="line">drwxr-xr-x  2 soomtong soomtong 4.0K Apr  5 16:27 logstash-conf/</div><div class="line">drwxr-xr-x 78 soomtong soomtong 4.0K Apr  6 17:30 omnipeek/</div><div class="line">-rwxr-xr-x  1 soomtong soomtong   79 Apr  4 17:21 run-elasticsearch.sh*</div><div class="line">-rwxr-xr-x  1 soomtong soomtong   60 Apr  4 17:22 run-kibana.sh*</div><div class="line">-rwxr-xr-x  1 soomtong soomtong   71 Apr  5 16:28 run-logstash.sh*</div></pre></td></tr></table></figure>
+<p>각각의 실행 파일은 별도의 스크립트로 빼 두었다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ cat &#123;run-elasticsearch.sh,run-kibana.sh,run-logstash.sh&#125;</div><div class="line">./elasticsearch-5.3.0/bin/elasticsearch -Epath.conf=elasticsearch-5.3.0/config</div><div class="line">./kibana-5.3.0/bin/kibana -c kibana-5.3.0/config/kibana.yml</div><div class="line">./logstash-5.3.0/bin/logstash -f logstash-conf/savvius-gingkos.conf -r</div></pre></td></tr></table></figure>
+<p>로그스태시의 컨피규레이션 파일 뒤의 <code>-r</code> 옵션은 <code>--config.reload.automatic</code> 과 같은 역할을 한다. 그 기능은 문자 그대로 컨피규레이션 파일이 변경되면 로그스태시가 다시 구동된다.</p>
+<p>옴니픽의 통계 데이터와 로그스태시 필터 설정 파일이 정상적이라면 데이터가 추가될 때마다 JSON 형태의 콘솔 로그를 뿌릴 것이다.</p>
+<h3 id="키바나에서-확인하기"><a href="#키바나에서-확인하기" class="headerlink" title="키바나에서 확인하기"></a>키바나에서 확인하기</h3><p>로그스태시에서 작업된 데이터는 키바나에서 확인할 수 있다.</p>
+<p>키바나의 데브툴즈 메뉴에서 콘솔에 REST + Graph Object 스타일의 명령을 입력하면 엘라스틱서치에 저장된 데이터를 쿼리할 수 있다.</p>
+<p>녹색 화살표를 클릭해도 되지만 컨트롤+엔터키(맥에서는 이와 동등한 역할을 하는)를 눌러 데이터를 확인할 수 있다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">GET _search</div><div class="line">&#123;</div><div class="line">  &quot;query&quot;: &#123;</div><div class="line">    &quot;match_all&quot;: &#123;&#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">GET _cat/indices</div><div class="line"></div><div class="line">DELETE _all</div></pre></td></tr></table></figure>
+<p>두 번째와 세 번째 명령 정도면 데이터가 정상적으로 스택되고 있는지 확인할 수 있다. 어시스트 기능이 있어 어떤 명령을 수행할 수 있는지 개략적으로 파악할 수 있다.</p>
+<h4 id="대시보드-리프레시-관련"><a href="#대시보드-리프레시-관련" class="headerlink" title="대시보드 리프레시 관련"></a>대시보드 리프레시 관련</h4><p>대시보드를 구성하다가 미처 확인하지 못하고 당황했던 부분이 있다.</p>
+<p>리얼타임으로 추가되는 데이터인데 키바나에서는 리얼타임으로 피드백을 반영하지 못한다는 점이었다. </p>
+<p>우선 매니지먼트 메뉴에서 <code>Saved Object</code> 탭에서 저장된 대시보드 템플릿에 대해 ‘refreshInterval’ 을 지정하는 부분이 있어 변경하였으나 정상 반영되지 않았다.</p>
+<p>다음으로 <code>Advenced Settings</code> 에서 ‘refreshInterval’ 에 대한 항목을 찾을 수 있었다. 이 역시 즉시 반응하지 않았다. 웹 페이지를 다시 로딩을 해도  마찬가지.</p>
+<p>어처구니 없게도 해당 항목을 조절하는 부분은 화면 상단 우측에 있었다.</p>
+<p>대시보드 템플릿 추가/저장/공유 등의 옵션과 함께 리프레시 인터벌과 리프레시 On/Off 토글 컨트롤이 있다. 그리고 그 옆에는 흔히 보는 타임 레인지 컨트롤이 있다.</p>
+<h3 id="첫-번째-대시보드-구성"><a href="#첫-번째-대시보드-구성" class="headerlink" title="첫 번째 대시보드 구성"></a>첫 번째 대시보드 구성</h3><p>필터 처리된 파라메터들을 쿼리해 그래프를 그리는 작업을 반복하다보면 뭔가 나올 것이다.</p>
+<blockquote>
+<p>으쌰! 만들어보자! 음, 잘 안되네… (하지만 나는 여기까지만 하기로)</p>
+</blockquote>
+<h2 id="사용-소감"><a href="#사용-소감" class="headerlink" title="사용 소감"></a>사용 소감</h2><p>하루 정도 사용해 본 후 소감을 정리하자면 엘라스틱스택은 로그를 분석하는 분야에 매우 매력적인 솔루션임에 분명하다는 것이다.</p>
+<ul>
+<li>실시간 패턴 분석은 유의미하다.</li>
+<li>로그를 시각화 하는 것은 중요한 기능이다.</li>
+<li>제품 자체로 이슈메이커가 된다.</li>
+<li>패킷엔진에 패키징되면 좋겠다.</li>
+</ul>
+<p>개발 부분에서는 로그스태시를 잘 활용하는 것이 포인트가 될 것이다. 로그스태시를 잘 활용하려면 필터를 잘 활용하는 것이 될 것이고 필터를 잘 활용하려면 GROK 패턴에 익숙해야 한다.</p>
+<blockquote>
+<p>엘라스틱스택 -&gt; 로그스태시 -&gt; 필터 -&gt; GROK 패턴 매칭</p>
+</blockquote>
+<p>대시보드를 잘 활용하는 부분은 개발 부분이 아니라 운영이나 관리자 레벨에서 담당해야 하는 부분이다. 적절히 익히고 교육할 정도만 되면 충분하다.</p>
+<h3 id="참고"><a href="#참고" class="headerlink" title="참고"></a>참고</h3><ul>
+<li><a href="https://www.elastic.co/guide/en/elastic-stack/current/installing-elastic-stack.html" target="_blank" rel="external">https://www.elastic.co/guide/en/elastic-stack/current/installing-elastic-stack.html</a></li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/master/index.html" target="_blank" rel="external">https://www.elastic.co/guide/en/elasticsearch/reference/master/index.html</a></li>
+<li><a href="https://www.elastic.co/guide/en/kibana/master/index.html" target="_blank" rel="external">https://www.elastic.co/guide/en/kibana/master/index.html</a></li>
+<li><a href="https://www.elastic.co/guide/en/logstash/master/index.html" target="_blank" rel="external">https://www.elastic.co/guide/en/logstash/master/index.html</a></li>
+<li><a href="https://www.elastic.co/guide/en/x-pack/current/index.html" target="_blank" rel="external">https://www.elastic.co/guide/en/x-pack/current/index.html</a></li>
+<li><a href="http://grokconstructor.appspot.com/do/match" target="_blank" rel="external">http://grokconstructor.appspot.com/do/match</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ELK/" rel="tag"># ELK</a>
+          
+            <a href="/tags/Savvius/" rel="tag"># Savvius</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/21/Linux-Ubuntu-Mate/" rel="next" title="Linux Ubuntu Mate">
+                <i class="fa fa-chevron-left"></i> Linux Ubuntu Mate
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            목차
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            흝어보기
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="soomtong" />
+          <p class="site-author-name" itemprop="name">soomtong</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">포스트</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">카테고리</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">태그</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#최근-뉴스-및-개요"><span class="nav-number">1.</span> <span class="nav-text">최근 뉴스 및 개요</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#엘라스틱-서치"><span class="nav-number">1.1.</span> <span class="nav-text">엘라스틱 서치</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#루신"><span class="nav-number">1.2.</span> <span class="nav-text">루신</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#로그스태시"><span class="nav-number">1.3.</span> <span class="nav-text">로그스태시</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#키바나"><span class="nav-number">1.4.</span> <span class="nav-text">키바나</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#엘라스틱-스택"><span class="nav-number">2.</span> <span class="nav-text">엘라스틱 스택</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#국내-사례"><span class="nav-number">2.1.</span> <span class="nav-text">국내 사례</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#튜토리얼"><span class="nav-number">2.2.</span> <span class="nav-text">튜토리얼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#라이선스-및-개발-언어"><span class="nav-number">2.3.</span> <span class="nav-text">라이선스 및 개발 언어</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#설치-및-구동"><span class="nav-number">3.</span> <span class="nav-text">설치 및 구동</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#도커를-사용해-쉽게-가보자"><span class="nav-number">3.1.</span> <span class="nav-text">도커를 사용해 쉽게 가보자</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#도커-컨테이너-관련-명령"><span class="nav-number">3.1.1.</span> <span class="nav-text">도커 컨테이너 관련 명령</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#도커-이미지-관련-명령"><span class="nav-number">3.1.2.</span> <span class="nav-text">도커 이미지 관련 명령</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#도커-컴포저-관련-명령"><span class="nav-number">3.1.3.</span> <span class="nav-text">도커 컴포저 관련 명령</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ELK-스택-도커-컴포즈-파일-클론"><span class="nav-number">3.1.4.</span> <span class="nav-text">ELK 스택 도커 컴포즈 파일 클론</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#다운로드-하면서-빌드"><span class="nav-number">3.1.5.</span> <span class="nav-text">다운로드 하면서 빌드</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#로컬-피시에-패키지를-통해-인스톨을-해보자"><span class="nav-number">3.2.</span> <span class="nav-text">로컬 피시에 패키지를 통해 인스톨을 해보자</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#본격-설치-전-수행-사항"><span class="nav-number">3.2.1.</span> <span class="nav-text">본격 설치 전 수행 사항</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#엘라스틱-서치-설치"><span class="nav-number">3.2.2.</span> <span class="nav-text">엘라스틱 서치 설치</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#로컬-피시에-바이너리-파일-설치로-진행해보자"><span class="nav-number">3.3.</span> <span class="nav-text">로컬 피시에 바이너리 파일 설치로 진행해보자</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#엘라스틱-서치-설치-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">엘라스틱 서치 설치</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#키바나-설치"><span class="nav-number">3.3.2.</span> <span class="nav-text">키바나 설치</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#프로덕션-세팅"><span class="nav-number">3.3.2.1.</span> <span class="nav-text">프로덕션 세팅</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#로그스태시-설치"><span class="nav-number">3.3.3.</span> <span class="nav-text">로그스태시 설치</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#샘플-데이터-사용"><span class="nav-number">4.</span> <span class="nav-text">샘플 데이터 사용</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#도커-환경에서-적용해보기"><span class="nav-number">4.1.</span> <span class="nav-text">도커 환경에서 적용해보기</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#컨피규레이션"><span class="nav-number">4.1.1.</span> <span class="nav-text">컨피규레이션</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#로그-데이터-추가하기"><span class="nav-number">4.1.2.</span> <span class="nav-text">로그 데이터 추가하기</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#인덱스-정의"><span class="nav-number">4.1.3.</span> <span class="nav-text">인덱스 정의</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#대시보드-프로파일-로드"><span class="nav-number">4.1.4.</span> <span class="nav-text">대시보드 프로파일 로드</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#디스커버리"><span class="nav-number">4.1.5.</span> <span class="nav-text">디스커버리</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#일반-환경에서-샘플-데이터-사용해보기"><span class="nav-number">4.2.</span> <span class="nav-text">일반 환경에서 샘플 데이터 사용해보기</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#서비스-구동"><span class="nav-number">4.2.1.</span> <span class="nav-text">서비스 구동</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#키바나-인덱스와-대시보드"><span class="nav-number">4.2.2.</span> <span class="nav-text">키바나 인덱스와 대시보드</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#새비어스-옴니픽-연동"><span class="nav-number">5.</span> <span class="nav-text">새비어스 옴니픽 연동</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#옴니픽-설치-및-구동"><span class="nav-number">5.1.</span> <span class="nav-text">옴니픽 설치 및 구동</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#옴니픽-분석-데이터-저장-옵션"><span class="nav-number">5.1.1.</span> <span class="nav-text">옴니픽 분석 데이터 저장 옵션</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#옴니픽용-로그스태시-컨피규레이션"><span class="nav-number">5.2.</span> <span class="nav-text">옴니픽용 로그스태시 컨피규레이션</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#로컬-호스트의-엘라스틱-스택-실행-스크립트"><span class="nav-number">5.3.</span> <span class="nav-text">로컬 호스트의 엘라스틱 스택 실행 스크립트</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#키바나에서-확인하기"><span class="nav-number">5.4.</span> <span class="nav-text">키바나에서 확인하기</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#대시보드-리프레시-관련"><span class="nav-number">5.4.1.</span> <span class="nav-text">대시보드 리프레시 관련</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#첫-번째-대시보드-구성"><span class="nav-number">5.5.</span> <span class="nav-text">첫 번째 대시보드 구성</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#사용-소감"><span class="nav-number">6.</span> <span class="nav-text">사용 소감</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#참고"><span class="nav-number">6.1.</span> <span class="nav-text">참고</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">soomtong</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
