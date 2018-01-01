@@ -1,0 +1,983 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="ko">
+<head>
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Markdown,Editor,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="마크다운을 알게된 후 거의 모든 문서를 마크다운으로 작성하고 있는 나는 다른 많은 개발자가 그러하듯 마크다운 에디터에 관심이 높다. 물론 Vim 으로 사용해도 무관하고 서브라임 텍스트나 마이크로소프트 코드를 사용해도 좋다. 하지만 마크다운 전용 에디터는 마크다운 전용 에디터 만의 특성이 있고 편리함이 있다. 그동안 사용해보거나 직·간접적으로 경험해본 내용들">
+<meta name="keywords" content="Markdown,Editor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Markdown Based Editors">
+<meta property="og:url" content="http://steps-in.github.io/2017/12/31/Markdown-based-Editors/index.html">
+<meta property="og:site_name" content="Steps-in">
+<meta property="og:description" content="마크다운을 알게된 후 거의 모든 문서를 마크다운으로 작성하고 있는 나는 다른 많은 개발자가 그러하듯 마크다운 에디터에 관심이 높다. 물론 Vim 으로 사용해도 무관하고 서브라임 텍스트나 마이크로소프트 코드를 사용해도 좋다. 하지만 마크다운 전용 에디터는 마크다운 전용 에디터 만의 특성이 있고 편리함이 있다. 그동안 사용해보거나 직·간접적으로 경험해본 내용들">
+<meta property="og:updated_time" content="2018-01-01T05:36:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Markdown Based Editors">
+<meta name="twitter:description" content="마크다운을 알게된 후 거의 모든 문서를 마크다운으로 작성하고 있는 나는 다른 많은 개발자가 그러하듯 마크다운 에디터에 관심이 높다. 물론 Vim 으로 사용해도 무관하고 서브라임 텍스트나 마이크로소프트 코드를 사용해도 좋다. 하지만 마크다운 전용 에디터는 마크다운 전용 에디터 만의 특성이 있고 편리함이 있다. 그동안 사용해보거나 직·간접적으로 경험해본 내용들">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '작성자'
+    },
+    algolia: {
+      applicationID: '8HUCTR0V34',
+      apiKey: '009e3650ce9c69527d25808576513ab7',
+      indexName: 'steps-in',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://steps-in.github.io/2017/12/31/Markdown-based-Editors/">
+
+
+
+
+
+  <title> Markdown Based Editors | Steps-in </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="ko">
+
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-39125043-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Steps-in</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            홈
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            카테고리
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            아카이브
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            태그
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            검색
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2017/12/31/Markdown-based-Editors/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="soomtong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Steps-in">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Markdown Based Editors
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">작성일</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-31T00:00:00+09:00">
+                2017-12-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>마크다운을 알게된 후 거의 모든 문서를 마크다운으로 작성하고 있는 나는 다른 많은 개발자가 그러하듯 마크다운 에디터에 관심이 높다.</p>
+<p>물론 Vim 으로 사용해도 무관하고 서브라임 텍스트나 마이크로소프트 코드를 사용해도 좋다. 하지만 마크다운 전용 에디터는 마크다운 전용 에디터 만의 특성이 있고 편리함이 있다.</p>
+<p>그동안 사용해보거나 직·간접적으로 경험해본 내용들을 정리해두었다. <strong>(시간이 지나 변경된 내용이 있을 수 있습니다.)</strong></p>
+<h2 id="베스트-초이스"><a href="#베스트-초이스" class="headerlink" title="베스트 초이스"></a>베스트 초이스</h2><p>(2017-12-31: Typora 의 멀티 플랫폼 완벽 지원으로 베스트 초이스가 변경되었다. )</p>
+<h3 id="타이포라"><a href="#타이포라" class="headerlink" title="타이포라"></a>타이포라</h3><p>맥앱으로 몇 몇 에디터들이 일렉트론을 기반으로 작성되었지만 맥OS 버전의 타이포라는 iA Write 와 함께 네이티브(스위프트) 바이너리를 제공하고 있다.</p>
+<p>계속된 업데이트로 대부분 좋은 마크다운 에디터의 기능들을 섭렵하고 있다.</p>
+<p>윈도우즈와 리눅스 버전도 제공하고 있어 이만한 제품이 없어 보인다.</p>
+<h2 id="근래-각종-에디터-경험"><a href="#근래-각종-에디터-경험" class="headerlink" title="근래 각종 에디터 경험"></a>근래 각종 에디터 경험</h2><h3 id="캐럿Caret"><a href="#캐럿Caret" class="headerlink" title="캐럿Caret"></a>캐럿Caret</h3><p>한동안 메인으로 사용했던 마크다운 에디터. 개발자가 아닌 마크다운 초심자들에게 추천하고 있기도 하다.</p>
+<p>윈도 환경에서 쓸만한 에디터가 별로 없는데 그나마 좋다. 서브라임 에디터 수준으로 가끔 등록하라고 나오는데 그냥 써도 될 정도!</p>
+<ul>
+<li>3 가지 플랫폼 모두 지원</li>
+<li>비교적 나쁘지 않은 퍼포먼스</li>
+<li>꾸준히 개발되고 있는 중</li>
+<li>상식적이고 미니멀한 단축키</li>
+<li>단순한 환경 설정</li>
+<li>프리뷰 및 최근 편집 리스트 목록 지원</li>
+</ul>
+<p>초창기 때의 문제는 모두 사라진 상태. 자주 오래 사용한다면 구입하는 것도 나쁘지 않아 보인다.</p>
+<h3 id="iA-Writer"><a href="#iA-Writer" class="headerlink" title="iA Writer"></a>iA Writer</h3><p>맥 앱 중 상당히 잘 만든 프로그램 중 하나. 그런데 80KB (4만 글자 이상)가 넘는 문서를 편집하게 될 때 눈에 띄게 버벅댄다. 반면 캐럿은 그렇지는 않다. 아마도 랜더링 엔진에 차이가 있는 듯 하다.</p>
+<p>캐럿 최근 업데이트로 마크다운 컨텍스트에 따라 스타일이 반영된다. 형태는 거의 iA Writer 와 유사하다. 기존에는 일반 텍스트 에디터에 <code>#</code> 이나 <code>-</code> 같은 것만 컬러 하이라이트되었었다.</p>
+<h3 id="texts-io"><a href="#texts-io" class="headerlink" title="texts.io"></a>texts.io</h3><p>윈도우즈 스토어에서 만난 이 에디터도 괜찮아 보인다. </p>
+<p>모든 기능을 사용하기 위해서는 <code>pandoc</code> 을 설치해야하는 불편이 있다. 그리고 리눅스 버전이 없다.</p>
+<h3 id="버새틀"><a href="#버새틀" class="headerlink" title="버새틀"></a>버새틀</h3><p>버새틀을 구입하고 한동안 매우 열심히 사용했다.</p>
+<p>상대적으로 쓸만한 성능과 다양한 기능. 특히 부트스트랩을 내장해서 지원하는 건 특정 사용자들의 기호를 매우 만족시키는 역할을 했다.</p>
+<p>루비 바인딩을 통해 제작된 탓인지 몇가지 문제가 있었다. 그리고 결정적으로 드랍박스나 아이클라우드 등을 통해 파일을 공유해 사용할 수 없는 건 큰 문제였다. (데스크탑에서 드랍박스로 파일 저장소를 지정하고 랩탑에서 그 파일을 읽고 수정하는 것이 불가능했다. 파일 목록을 관리하는 별도의 레지스트리 같은 것이 있어 상호 호환되지 않았다. 매우 치명적인 문제)</p>
+<h4 id="버새틸-동기화-문제"><a href="#버새틸-동기화-문제" class="headerlink" title="버새틸 동기화 문제"></a>버새틸 동기화 문제</h4><p>버새틸을 메인으로 사용하기 해보려고 동기화 테스트를 진행했다. 클라우드 드라이브를 사용하긴 하지만 기기간 동기화는 작동하지 않고 있다. 일단 개발자에게 메일 보냄!</p>
+<p>어쩌다 미싱링크라도 생기면 처리하기 매우 복잡하다.</p>
+<ul>
+<li>AppDelete 라는 앱을 사용하여 깨끗이 지울 수 있으며 </li>
+<li><code>/private/</code> 아래의 파일을 건드려야 한다.</li>
+</ul>
+<p>즉, 다중 기기간 데이터 싱크 부분은 아직 지원하지 않는다. 당분간 각 기기마다 별도의 폴더를 사용해야 함…</p>
+<p>폴더 동기화 기능이 추가되면 진정 메인으로 사용해도 좋겠다.</p>
+<h4 id="기능-추가-요청"><a href="#기능-추가-요청" class="headerlink" title="기능 추가 요청"></a>기능 추가 요청</h4><ul>
+<li>2바이트 문자열 포함된 테이블 클린업 개선</li>
+<li>테이블 폭 100% 옵션</li>
+<li>에디팅 단축키 : 라인 복사, 라인 삭제 등</li>
+<li>타이틀 단축키 : 커멘드+1, 2 등</li>
+<li>구매자는 구입 메뉴에 Registered 정도로 표시</li>
+<li>글로벌 서치</li>
+<li>젠 모드 (백그라운드 뮤직 플레이백)</li>
+<li>포커스 모드 (편집 중인 문단 외 영역 딤드)</li>
+<li>타이핑 모드 (편집 중인 문단이 항상 화면의 중앙)</li>
+<li>클라우드 싱크</li>
+<li>임베딩 트윗, 유툽 영상 등</li>
+</ul>
+<p>버새틸의 안락함과 기타 다른 마크다운 에디터의 상태를 한 번 더 점검하는 기회가 되었다. 여전히 버새틸이 가장 맘에 든다. 그 다음으로 퀴버인데 이건 복잡하다. 마크다운만 지원하는 것으로 구성했으면 어땠을까 생각한다. </p>
+<p>퀴버는 많은 부분 네이티브에 의존한다. 인스탄트 검색 같은 기능은 매우 훌륭하다. (사실 텍스트 저장이면 OS 의 검색에 도움을 받아도 나쁘지 않다고 본다.)</p>
+<p>버새틸의 UI, UX 에 퀴버의 기능을 벤치마크하면 맘에드는 결과를 얻을 수 있겠다고 본다.</p>
+<h3 id="Write-app"><a href="#Write-app" class="headerlink" title="Write app"></a>Write app</h3><p>iOS 앱과 함께 구입, 테스트 해봄. 생각보다 좋지 않다. 다양한 기능들과 옵션들이 있지만 뭔가 번잡한 느낌을 준다.</p>
+<ul>
+<li>iA writer 만큼 깔끔하지도 않고 하루패드 만큼 전문적이지도 못하다. </li>
+<li>다만 하이브리드 모드가 좋긴 하지만 iA Writer 에서도 지원하는 기능이고…</li>
+<li>아이폰용 앱은 크래쉬가 자주 일어나고 iOS9 에 꼭맞는 UI 지원이 아쉽다.</li>
+</ul>
+<p>일단 둘다 환불 신청…</p>
+<p>iA Writer 가 참 잘 만들어진 마크다운 에디터 인 건 맞다. Write app 을 좀 더 높게 생각했는데 막상 사용해보니 iA Writer 가 더 훌륭하다.</p>
+<h3 id="IA-Writer"><a href="#IA-Writer" class="headerlink" title="IA Writer"></a>IA Writer</h3><p>생각 외로 iA 가 마크다운 지원이 충실하다. 게다가 하루패드처럼 타이틀 단축키가 있어 맘에 든다. 우선 스파크 파일을 iA Writer 로 작성해본다. 디자인 깨끗하고 기본적인 글쓰기에 적당한 단축키를 지원하고 있다. 아무래도 여러 사람이 많은 고민과 연구를 통해 나온 작품이라는 생각이 든다.</p>
+<p>하지만 폴더를 생성하고 트리를 네비게이션하는 부분이 약간 불편하다. 의도대로 작동하지 않다가 미싱링크가 생기기도 했지만 어렵지 않게 해결할 수 있었다.</p>
+<p>서브라임 에디터는 그냥 스크래치로 사용하고 글쓰기 용으로는 iA 를 좀 더 사용해보도록 하자.</p>
+<ul>
+<li>4만 글자 이상되는 문서를 편집하게 되면 화면이 상당히 느려진다. 매우 큰 문제.</li>
+</ul>
+<h3 id="율리시스"><a href="#율리시스" class="headerlink" title="율리시스"></a>율리시스</h3><p>율리시스를 좀 사용해 봤다. 특정 마크다운의 제약 <strong>(테이블 같은 확장 마크다운을 지원하지 않기 때문이다)</strong> 만 제외하면 최고의 글쓰기 도구 및 정보 수집 도구라 불릴만 하다.</p>
+<p>iA Writer 를 팽개쳐 버리는 완성도와 애플리케이션 퀄리티를 느낄 수 있다. 율리시스를 사용해보니 iA Writer 의 단점이 보인다. 오히려 하루패드나 iA Writer 의 단축키 시스템이 비효율적이라는 생각도 든다.</p>
+<ul>
+<li>생각을 정리하는 글쓰기 에디터는 율리시스</li>
+<li>문서화를 위한 마크다운 에디터는 버새틸</li>
+</ul>
+<p>이렇게 구분해 사용하면 되겠다.</p>
+<p>네이버 D2 를 바로 사용할 수 있는 편리함도 좋다.</p>
+<h3 id="Manuscript"><a href="#Manuscript" class="headerlink" title="Manuscript"></a>Manuscript</h3><p>스크라이버와 같이 좀 더 전문적으로 글을 쓰는 사람들을 위한 에디터로 최근 무료로 풀렸다.</p>
+<p>문서의 구조에 따른 스타일 지정이 매우 자유롭고 논문 작성 수준의 기능과 다양한 임베딩을 지원한다.</p>
+<p>체계적이고 구조적인 글쓰기에 최적화 된 에디터이다.</p>
+<p>오픈소스 버전으로 개발되는 2.0 이 기대된다.</p>
+<hr>
+<h2 id="이전-마크다운-에디터-비교"><a href="#이전-마크다운-에디터-비교" class="headerlink" title="이전 마크다운 에디터 비교"></a>이전 마크다운 에디터 비교</h2><blockquote>
+<p>OSX 에서 사용할 수 있는 마크다운 에디터들을 알아보고 장단점 및 사용 소감을 정리해본다.</p>
+</blockquote>
+<p><strong>기본 에디팅 기능 점검 목록</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>중요도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>첫 줄 첫 단어</td>
+<td>상</td>
+</tr>
+<tr>
+<td>각 줄 첫 단어</td>
+<td>상</td>
+</tr>
+<tr>
+<td>글자 조합 상태</td>
+<td>상</td>
+</tr>
+<tr>
+<td>글자 수 확인 기능 정상 여부</td>
+<td>중</td>
+</tr>
+<tr>
+<td>영역 선택</td>
+<td>상</td>
+</tr>
+<tr>
+<td>단축키 입력</td>
+<td>중</td>
+</tr>
+<tr>
+<td>복사</td>
+<td>상</td>
+</tr>
+<tr>
+<td>붙여넣기</td>
+<td>상</td>
+</tr>
+<tr>
+<td>지우기</td>
+<td>상</td>
+</tr>
+<tr>
+<td>쉬프트 키 작동 여부</td>
+<td>상</td>
+</tr>
+<tr>
+<td>각 플랫폼, 모바일 포함</td>
+<td>중</td>
+</tr>
+<tr>
+<td>플랫폼 어시스트 기능 사용시 상태</td>
+<td>하</td>
+</tr>
+<tr>
+<td>마우스 스마트 스크롤(드래깅) 기능 가능 여부</td>
+<td>하</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>기능별 지원 여부 확인</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>중요도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>헤딩 숏컷</td>
+<td>중</td>
+</tr>
+<tr>
+<td>체크 박스 지원</td>
+<td>중</td>
+</tr>
+<tr>
+<td>테이블 지원</td>
+<td>상</td>
+</tr>
+<tr>
+<td>정의 문법 지원</td>
+<td>하</td>
+</tr>
+<tr>
+<td>TOC 지원</td>
+<td>중</td>
+</tr>
+<tr>
+<td>파일 트리 또는 리스트 지원</td>
+<td>중</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="iA-Writer-1"><a href="#iA-Writer-1" class="headerlink" title="iA Writer"></a>iA Writer</h3><ul>
+<li>20 달러</li>
+<li>마크다운 기반의 리치 텍스트 에디터</li>
+<li>폴더 구조 지원</li>
+<li>아이클라우드·드랍박스 싱크</li>
+<li>테이블 지원</li>
+<li>체크박스 지원</li>
+<li>데피니션 지원</li>
+</ul>
+<h3 id="Haroopad"><a href="#Haroopad" class="headerlink" title="Haroopad"></a>Haroopad</h3><ul>
+<li>확장 마크다운</li>
+<li>멀티미디어 임베딩</li>
+<li>파일 기반, 클라우드 기반</li>
+<li>컬럼 모드, 커스텀 테마</li>
+</ul>
+<h3 id="Ulysses"><a href="#Ulysses" class="headerlink" title="Ulysses"></a>Ulysses</h3><ul>
+<li>50 달러</li>
+<li>3단 표준 인터페이스, 확장 테마로 다양한 컬러/폰트 셋</li>
+<li>자체 파일 시스템 사용하여 이미지나 파일 임베딩 가능</li>
+<li>추가적인 알람 시스템</li>
+<li>가장 미려한 디자인과 인터페이스</li>
+<li>손쉬운 폰트 변경</li>
+</ul>
+<h3 id="Write"><a href="#Write" class="headerlink" title="Write"></a>Write</h3><ul>
+<li>10 달러</li>
+<li>태그, 검색, 멀티마크다운</li>
+<li>젠 모드, 타이핑 모드</li>
+<li>리치 마크다운, 위지윅 모드</li>
+<li>이미지 관리</li>
+<li>다양한 환경으로 익스포트</li>
+</ul>
+<h3 id="Versatil"><a href="#Versatil" class="headerlink" title="Versatil"></a>Versatil</h3><ul>
+<li>15 달러</li>
+<li>확장 마크다운</li>
+<li>부트스트랩</li>
+<li>글로벌 검색 안됨, 태그 없음</li>
+<li>폴더 구조</li>
+<li>테이블이 Full-Width 가 아니라 아쉬움</li>
+<li>스파크 파일은 매우 유용함: 특정 단축키 (CTRL+S) 를 통해 스파크 파일에 현 시각과 함께 빠른 메모 가능하도록 준비됨</li>
+</ul>
+<h3 id="Typora"><a href="#Typora" class="headerlink" title="Typora"></a>Typora</h3><ul>
+<li>아직 무료, 베타지만 잘 만들어짐</li>
+<li>코드미러 기반의 웹앱인데 네이티브로 Wrap 되어 있다</li>
+<li>파일 기반 (OSX 의 Restore 기능을 지원한다)</li>
+<li>뷰 모드 제외하고 하루패드와 거의 같은 스펙</li>
+<li>Styled HTML 익스포트 가능</li>
+<li>테이블 작성 같은 부분은 매우 뛰어남</li>
+<li>하루패드와 익숙한 단축키 세팅과 더불어</li>
+<li>단어 선택, 라인 선택 같은 단축키 지원해서 좋다</li>
+<li>Full-Width 테이블로 랜더링 됨 (버서틸 대비 강점)</li>
+<li>패러그래프 단위의 인터렉션이 일어나기 때문에 DT/DD 정의는 지원되지 않음</li>
+</ul>
+<h3 id="MWeb"><a href="#MWeb" class="headerlink" title="MWeb"></a>MWeb</h3><ul>
+<li>내 기준에서 거의 완벽하다</li>
+<li>중국산이지만 매우 잘 만듬 개발자가 맥 앱 개발 전문가</li>
+<li>지금 (versatil 1.5 + 구름 1.9.2) ㅌ 글자가 안먹는데 이건 문제 없음</li>
+<li>버새틸의 강점과 율리시스의 강점이 결합된 형태에 하루패드의 확장 기능까지 수용 (커스텀 가능한 환경)</li>
+</ul>
+<h3 id="Caret"><a href="#Caret" class="headerlink" title="Caret"></a>Caret</h3><ul>
+<li>너무 심플한 에디터</li>
+<li>한글 입력 엉망이다</li>
+</ul>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Markdown/" rel="tag"># Markdown</a>
+          
+            <a href="/tags/Editor/" rel="tag"># Editor</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/01/Fault-Note-for-JavaScript/" rel="next" title="Fault Note for JavaScript">
+                <i class="fa fa-chevron-left"></i> Fault Note for JavaScript
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/01/Use-capslock-when-change-input-method/" rel="prev" title="Use Capslock When Change Input Method">
+                Use Capslock When Change Input Method <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            목차
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            흝어보기
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="soomtong">
+          <p class="site-author-name" itemprop="name">soomtong</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">포스트</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">카테고리</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">태그</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#베스트-초이스"><span class="nav-number">1.</span> <span class="nav-text">베스트 초이스</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#타이포라"><span class="nav-number">1.1.</span> <span class="nav-text">타이포라</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#근래-각종-에디터-경험"><span class="nav-number">2.</span> <span class="nav-text">근래 각종 에디터 경험</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#캐럿Caret"><span class="nav-number">2.1.</span> <span class="nav-text">캐럿Caret</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iA-Writer"><span class="nav-number">2.2.</span> <span class="nav-text">iA Writer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#texts-io"><span class="nav-number">2.3.</span> <span class="nav-text">texts.io</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#버새틀"><span class="nav-number">2.4.</span> <span class="nav-text">버새틀</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#버새틸-동기화-문제"><span class="nav-number">2.4.1.</span> <span class="nav-text">버새틸 동기화 문제</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#기능-추가-요청"><span class="nav-number">2.4.2.</span> <span class="nav-text">기능 추가 요청</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Write-app"><span class="nav-number">2.5.</span> <span class="nav-text">Write app</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IA-Writer"><span class="nav-number">2.6.</span> <span class="nav-text">IA Writer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#율리시스"><span class="nav-number">2.7.</span> <span class="nav-text">율리시스</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Manuscript"><span class="nav-number">2.8.</span> <span class="nav-text">Manuscript</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#이전-마크다운-에디터-비교"><span class="nav-number">3.</span> <span class="nav-text">이전 마크다운 에디터 비교</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iA-Writer-1"><span class="nav-number">3.1.</span> <span class="nav-text">iA Writer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Haroopad"><span class="nav-number">3.2.</span> <span class="nav-text">Haroopad</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ulysses"><span class="nav-number">3.3.</span> <span class="nav-text">Ulysses</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Write"><span class="nav-number">3.4.</span> <span class="nav-text">Write</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Versatil"><span class="nav-number">3.5.</span> <span class="nav-text">Versatil</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Typora"><span class="nav-number">3.6.</span> <span class="nav-text">Typora</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MWeb"><span class="nav-number">3.7.</span> <span class="nav-text">MWeb</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Caret"><span class="nav-number">3.8.</span> <span class="nav-text">Caret</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">soomtong</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
+
+
+
+  
+
+</body>
+</html>

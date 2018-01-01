@@ -302,6 +302,264 @@
   
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2018/01/01/Use-capslock-when-change-input-method/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="soomtong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Steps-in">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/01/01/Use-capslock-when-change-input-method/" itemprop="url">
+                  Use Capslock When Change Input Method
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">작성일</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-01T14:51:16+09:00">
+                2018-01-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="캡스락-키로-한영-전환-하기"><a href="#캡스락-키로-한영-전환-하기" class="headerlink" title="캡스락 키로 한영 전환 하기"></a>캡스락 키로 한영 전환 하기</h2><p>내가 사용하는 한글 자판은 세벌식 중에서도 신세벌P2 이라고 불리는 팥알님의 신세벌 최근 자판을 사용하고 있다. 맥에서도 그렇고 리눅스 데스크탑에서도 그렇고 신세벌P2를 사용할 수 있어 매우 행복했다. (팥알님 감사합니다.)</p>
+<p>지난 몇 달간 한/영 변경 키를 캡스락으로 바꾸고 손가락이 더 편해졌는데 (이는 근래 MacOS 의 한글입력기에 한/영 변환을 캡스락을 통해 작동시킬 수 있게 된 후부터 리눅스에서도 캡스락을 통해 변환하는 방법을 찾아 그렇게 하고 있다.) 정작 집에서 사용하는 맥에서는 여전히 쉬프트+스페이스 키를 통해 한영 입력을 변환하고 있었다.</p>
+<p>그래서 나는 나만의 입력기를 만들려고 몇 달간 조금씩 입력기를 만들 계획을 가지고 있는데 캡스락으로 입력기를 전환하는 기능을 어떻게 구현할까 고민하다 보니 앞길이 매우 막막해지는 것을 느꼈다. OSX 개발자가 아니기 때문에 뭘 어떻게 해야 하는지 생각은 있지만 실제 어떻게 구현해야 하는지는 삽질 뿐이었다.</p>
+<h3 id="카라바이너"><a href="#카라바이너" class="headerlink" title="카라바이너"></a>카라바이너</h3><p>그러던 중 카라바이너를 다시 생각하게 되었다. 다행히 최근 버전의 카라바이너-엘리먼트에서는 캡스락을 바인딩하는 기능이 있었고 (이 소스 코드를 참고하면 나중에 진짜 개발할 때 도움이 될 수도 있겠다.) 정말 단순한 방법으로 한/영 변환 키를 캡스락 키에 지정하는게 가능했다.</p>
+<p>세팅하다가 알게된건데 카라바이너의 세팅 값은 시스템 프레퍼런스의 키보드 세팅 값보다 우선하는 것 같다. 변경된 모디파이어 키 조합을 카라바이너 세팅이 오버라이드하고 있었다. 그래서 모디파이어 키 조합은 초기 상태로 복원하고 세팅을 시작했다.</p>
+<p><img src="/images/rollback-modifier.png" alt="rollback-modifier"></p>
+<p>또한 한영 입력 모드 변환의 딜레이를 유발하는 <code>이전 입력기 선택</code> 대신 <code>다음 입력기 선택</code> 만 사용해 한/영 입력을 변환하게 하였다. (요즘도 그런지는 모르겠다만 예전엔 그랬다. 이전 입력으로 변경하는 키는 키 입력이 시작될 때-Key down 변하는 것이 아니라 키 입력이 끝나면-Key up 변하도록 되어 있었다.)</p>
+<p><img src="/images/change-method-key.png" alt="change-method-key"></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/01/Use-capslock-when-change-input-method/#more" rel="contents">
+              더 읽어보기 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2017/12/31/Markdown-based-Editors/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="soomtong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Steps-in">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/12/31/Markdown-based-Editors/" itemprop="url">
+                  Markdown Based Editors
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">작성일</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-31T00:00:00+09:00">
+                2017-12-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>마크다운을 알게된 후 거의 모든 문서를 마크다운으로 작성하고 있는 나는 다른 많은 개발자가 그러하듯 마크다운 에디터에 관심이 높다.</p>
+<p>물론 Vim 으로 사용해도 무관하고 서브라임 텍스트나 마이크로소프트 코드를 사용해도 좋다. 하지만 마크다운 전용 에디터는 마크다운 전용 에디터 만의 특성이 있고 편리함이 있다.</p>
+<p>그동안 사용해보거나 직·간접적으로 경험해본 내용들을 정리해두었다. <strong>(시간이 지나 변경된 내용이 있을 수 있습니다.)</strong></p>
+<h2 id="베스트-초이스"><a href="#베스트-초이스" class="headerlink" title="베스트 초이스"></a>베스트 초이스</h2><p>(2017-12-31: Typora 의 멀티 플랫폼 완벽 지원으로 베스트 초이스가 변경되었다. )</p>
+<h3 id="타이포라"><a href="#타이포라" class="headerlink" title="타이포라"></a>타이포라</h3><p>맥앱으로 몇 몇 에디터들이 일렉트론을 기반으로 작성되었지만 맥OS 버전의 타이포라는 iA Write 와 함께 네이티브(스위프트) 바이너리를 제공하고 있다.</p>
+<p>계속된 업데이트로 대부분 좋은 마크다운 에디터의 기능들을 섭렵하고 있다.</p>
+<p>윈도우즈와 리눅스 버전도 제공하고 있어 이만한 제품이 없어 보인다.</p>
+<h2 id="근래-각종-에디터-경험"><a href="#근래-각종-에디터-경험" class="headerlink" title="근래 각종 에디터 경험"></a>근래 각종 에디터 경험</h2>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/31/Markdown-based-Editors/#more" rel="contents">
+              더 읽어보기 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2017/07/01/Fault-Note-for-JavaScript/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -414,142 +672,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/07/01/Fault-Note-for-JavaScript/#more" rel="contents">
-              더 읽어보기 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2017/06/09/Markdown-based-Editors/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="soomtong">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Steps-in">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/09/Markdown-based-Editors/" itemprop="url">
-                  Markdown Based Editors
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">작성일</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-09T22:46:20+09:00">
-                2017-06-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>마크다운을 알게된 후 거의 모든 문서를 마크다운으로 작성하고 있는 나는 다른 많은 개발자가 그러하듯 마크다운 에디터에 관심이 높다.</p>
-<p>물론 Vim 으로 사용해도 무관하고 서브라임 텍스트나 마이크로소프트 코드를 사용해도 좋다.</p>
-<p>하지만 마크다운 전용 에디터는 마크다운 전용 에디터 만의 특성이 있고 편리함이 있다.<br>요즘 즐겨 듣는 유툽 라디오 채널 하나 띄워 두고 글쓰면 정말 좋다.</p>
-<p><a href="https://www.youtube.com/watch?v=OpIQNxiKJoE" target="_blank" rel="external">Lofi Hip Hop Radio 24/7 🎧 Chill Gaming / Study Beats</a></p>
-<p>그동안 사용해보거나 직·간접적으로 경험해본 내용들을 정리해두었다. <strong>(시간이 지나 변경된 내용이 있을 수 있습니다.)</strong></p>
-<h2 id="베스트-초이스"><a href="#베스트-초이스" class="headerlink" title="베스트 초이스"></a>베스트 초이스</h2><h3 id="캐럿"><a href="#캐럿" class="headerlink" title="캐럿"></a>캐럿</h3><p>요즘 메인으로 사용 중인 마크다운 에디터. 개발자가 아닌 마크다운 초심자들에게 추천하고 있기도 하다.</p>
-<ul>
-<li>3 가지 플랫폼 모두 지원</li>
-<li>비교적 나쁘지 않은 퍼포먼스</li>
-<li>꾸준히 개발되고 있는 중</li>
-<li>상식적이고 미니멀한 단축키</li>
-<li>단순한 환경 설정</li>
-<li>프리뷰 및 최근 편집 리스트 목록 지원</li>
-</ul>
-<p>초창기 때의 문제는 모두 사라진 상태. 자주 오래 사용한다면 구입하는 것도 나쁘지 않아 보인다.</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/09/Markdown-based-Editors/#more" rel="contents">
               더 읽어보기 &raquo;
             </a>
           </div>
@@ -851,15 +973,15 @@
 
       
         
-          <p>작업용 랩탑을 하나 장만했는데 인텔 7 세대 I5 CPU 가 장착된 녀석이고 인텔의 최근 와이파이 칩셋을 탑재한 모델이라 16.04 버전 대의 리눅스 커널에는 해당 장치를 지원하지 못하는 문제가 있어 며칠 전에 나온 17.04 우분투를 설치하게 되었다.</p>
-<p>(업데이트) 2017년 6월 민트 18.2 베타가 시작되었는데 여기에 탑재된 커널 버전이 최신 인텔 무선 칩셋을 인식하는 4.8 버전이었다. 여전히 패키지 베이스는 우분투 16.04 로 적당히 사용할 수 있다.</p>
+          <p>작업용 랩탑을 하나 장만했는데 인텔 7 세대 I5 CPU 가 장착된 녀석이고 인텔의 최근 와이파이 칩셋을 탑재한 모델이라 4.4 커널 버전의 배포본에는 해당 장치를 지원하지 못하는 문제가 있어 며칠 전에 나온 17.04 우분투를 설치하게 되었다.</p>
+<p>(업데이트 1) 사실 4.4 커널로 설치하고 커널 업데이트를 하면 되는데 이때는 그런 생각을 못했다. 그래서 나중에 민트로 다시 설치하게 되었다.<br>(업데이트 2) 2017년 6월 민트 18.2 베타가 시작되었는데 여기에 탑재된 커널 버전이 최신 인텔 무선 칩셋을 인식하는 4.8 버전이었다. 여전히 패키지 베이스는 우분투 16.04 로 적당히 사용할 수 있다.</p>
 <h2 id="한성-TFG13"><a href="#한성-TFG13" class="headerlink" title="한성 TFG13"></a>한성 TFG13</h2><p><img src="http://www.noteforum.co.kr/trash/5ils6jsyxax.jpg" alt="인민에어의 시대는 끝났다"></p>
 <blockquote>
 <p>인민에어의 시대는 끝났다!</p>
 </blockquote>
-<p>사실 이 랩탑을 주문하기 전 13~14인치 대의 다양한 노트북을 살펴보았는데 처음 생각과 다르게 점점 예산이 높아지는 현상을 발견하고 처음 마음 먹은대로 인민에어를 사기로 마음을 굳힌 상태였다.</p>
-<p>하지만 장비 중 가장 중요하게 생각하는 램 스펙에 있어 인민에어의 램 뱅크는 싱글 채널이었고 포트가 조금 부실했고 영문 각인을 고를 수 없다는 몇가지 불만이 있었다. (세벌식 사용자는 한글 각인이 필요 없다. 그 중에도 신세벌 자판을 사용하고 있다.) 그러던 중 노트북MD 역할 비슷하게 하던 댓글 관리자의 추천을 보고 이 랩탑을 알게되었다. (물론 수시로 들락거렸던 한성 몬스터랩 웹사이트에도 이 노트북이 있던건 알고 있었지만 자세히 볼 생각을 못했었다.)</p>
-<p>대부분 저가 랩탑의 생산지는 중국이다. 개중에 이 랩탑을 제조한 회사는 나름의 지명도가 있는 듯한 느낌을 댓글창에서 발견했다. (뭐 그런가보다 했다.) 크기나 무게는 인민에어와 비교해 꿀리지 않았고 신세대 포트를 탑재하고 있었으며 나름 적당한 키보드 레이아웃을 가지고 있던게 맘에 들었다.</p>
+<p>사실 이 랩탑을 주문하기 전 13~14인치 대의 다양한 노트북을 살펴보았는데 처음 생각과 다르게 점점 예산이 높아지는 현상을 발견하고 처음 마음 먹은대로 인민에어를 사기로 마음을 굳혔다.</p>
+<p>하지만 장비 중 가장 중요하게 생각하는 램 스펙에 있어 인민에어의 램 뱅크는 싱글 채널이었고 포트가 조금 부실했고 영문 각인을 고를 수 없다는 몇가지 불만이 있었다. (세벌식 사용자는 두벌식 한글 각인이 필요 없다. 그 중에도 신세벌 자판을 사용하고 있다.) 그러던 중 노트북MD 역할 비슷하게 하던 댓글 관리자의 추천을 보고 이 랩탑을 알게되었다. (물론 수시로 들락거렸던 한성 몬스터랩 웹사이트에도 이 노트북이 있던건 알고 있었지만 자세히 볼 생각을 못했었다.)</p>
+<p>대부분 저가 랩탑의 생산지는 중국이다. 이 랩탑을 제조한 회사는 나름의 지명도가 있는 듯한 느낌을 댓글창에서 발견했다. (뭐 그런가보다 했다.) 크기나 무게는 인민에어와 비교해 꿀리지 않았고 신세대 포트를 탑재하고 있었으며 나름 적당한 키보드 레이아웃을 가지고 있던게 맘에 들었다.</p>
 <p>갈색 계열의 상판으로 구성된 모델도 출시하고 있어 이 갈색 상판 모델을 골랐다. 램 슬롯은 듀얼채널로 확장성에 있어서도 나쁘지 않은 스펙이었다. 홈페이지에는 8기가 단일 모델로 소개하고 있지만 오픈마켓 주문하는 곳에서는 램 확장 옵션이 있었다.</p>
 <p>램만 16 기가로 확장하니 80 여 만원이 결제되었다. 배송은 주말 포함해 4~5일 걸린 듯 하다. (금요일에 주문해 다음 주 화요일에 도착했다.)</p>
           <!--noindex-->
@@ -1364,7 +1486,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">포스트</span>
               </a>
             </div>
@@ -1386,7 +1508,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">태그</span>
               </a>
             </div>
@@ -1428,7 +1550,7 @@
         <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
