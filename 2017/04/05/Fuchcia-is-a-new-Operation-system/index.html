@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="OS,Dart,">
+  <meta name="keywords" content="Dart,OS,">
 
 
 
@@ -88,12 +88,13 @@
 
 
 <meta name="description" content="구글 다트 언어를 기본으로 탑제한 구글의 새 운영체제작년(2016년) 구글 Dart 언어를 공부하면서 듣게 된 소식 중 가장 흥미로웠던 것은 바로 구글이 새 운영체제를 만들고 있다는 소식이었습니다. 인터넷 세상을 장악하고 있는 구글이 동종 업계 비슷한 레벨의 회사와 비교해 없거나 부족한 것은 자사의 오퍼레이팅 시스템인데 그런 부분을 볼 때 어찌 보면 당연한">
-<meta name="keywords" content="OS,Dart">
+<meta name="keywords" content="Dart,OS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Fuchcia Is a New Operation System">
 <meta property="og:url" content="http://steps-in.github.io/2017/04/05/Fuchcia-is-a-new-Operation-system/index.html">
 <meta property="og:site_name" content="Steps-in">
 <meta property="og:description" content="구글 다트 언어를 기본으로 탑제한 구글의 새 운영체제작년(2016년) 구글 Dart 언어를 공부하면서 듣게 된 소식 중 가장 흥미로웠던 것은 바로 구글이 새 운영체제를 만들고 있다는 소식이었습니다. 인터넷 세상을 장악하고 있는 구글이 동종 업계 비슷한 레벨의 회사와 비교해 없거나 부족한 것은 자사의 오퍼레이팅 시스템인데 그런 부분을 볼 때 어찌 보면 당연한">
+<meta property="og:locale" content="ko">
 <meta property="og:updated_time" content="2017-05-20T10:47:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Fuchcia Is a New Operation System">
@@ -386,12 +387,12 @@
 <h3 id="개요"><a href="#개요" class="headerlink" title="개요"></a>개요</h3><p>한글로는 ‘푸크시아’ 라고 발음되고 꽃의 이름입니다.</p>
 <ul>
 <li>푸크시아: 구글이 주도하고 있는 오픈소스 운영체제</li>
-<li>소스코드 저장소: <a href="https://fuchsia.googlesource.com/" target="_blank" rel="external">https://fuchsia.googlesource.com/</a></li>
+<li>소스코드 저장소: <a href="https://fuchsia.googlesource.com/" target="_blank" rel="noopener">https://fuchsia.googlesource.com/</a></li>
 <li>라이센스: BSD 3</li>
 </ul>
 <p>커널과 유저 스페이스 시스템 모두 개발되고 있으며 GUI 를 함께 제공합니다.</p>
 <p>코어 드라이버와 운영체제의 가장 기본적인 서비스를 담당하고 있는 <code>Magenta</code> 커널이라고 불리는 커널은 <code>Little Kernel</code> 이라고 불리는 MIT 라이센스 기반의 커널에 기반을 두고 있습니다. 마젠타 커널은 마이크로 커널로 분류됩니다. 따라서 드라이버 레이어, 네트워크 스택, 파일 시스템 등은 유저 스페이스에 속합니다.</p>
-<p>네트워크 레이어는 <code>lwIP</code> (<a href="https://savannah.nongnu.org/projects/lwip/" target="_blank" rel="external">https://savannah.nongnu.org/projects/lwip/</a>) 를 기반으로 재작성 되고 있으며 파일 시스템은 <code>minfs</code> 라고 불리는 파일 시스템을 새로 구현해 사용합니다. 그래픽 드라이버는 <code>Magma</code> 라고 불리는 프로젝트로 <code>Escher</code> 라는 GUI 프레임워크와 함께 작성되고 있으며 물리적으로는 <code>Vulkan</code> 라이브러리에 기반을 두고 있습니다.</p>
+<p>네트워크 레이어는 <code>lwIP</code> (<a href="https://savannah.nongnu.org/projects/lwip/" target="_blank" rel="noopener">https://savannah.nongnu.org/projects/lwip/</a>) 를 기반으로 재작성 되고 있으며 파일 시스템은 <code>minfs</code> 라고 불리는 파일 시스템을 새로 구현해 사용합니다. 그래픽 드라이버는 <code>Magma</code> 라고 불리는 프로젝트로 <code>Escher</code> 라는 GUI 프레임워크와 함께 작성되고 있으며 물리적으로는 <code>Vulkan</code> 라이브러리에 기반을 두고 있습니다.</p>
 <p>리눅스와 다르게 POSIX 호환을 염두해 두고 있지는 않습니다. 일반적인 64비트 시스템을 대상으로 설치해 볼 수 있다고 합니다.</p>
 <p>이미 이야기 했드시 푸크시아 운영체제에서 돌아가는 애플리케이션을 개발하는 언어로 Dart 언어를 사용하고 있으며 Dart 를 사용해 모바일 앱을 만드는 프로젝트인 <code>Flutter</code> 의 기반이 되는 UI 라이브러리를 통해 GUI 애플리케이션을 작성할 수 있습니다. 여기에는 <code>Mozart</code> 라는 기본 그래픽 라이브러리 프로젝트가 함께 진행되고 있습니다.</p>
 <hr>
@@ -418,9 +419,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/OS/" rel="tag"># OS</a>
-          
             <a href="/tags/Dart/" rel="tag"># Dart</a>
+          
+            <a href="/tags/OS/" rel="tag"># OS</a>
           
         </div>
       
@@ -515,7 +516,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">포스트</span>
               </a>
             </div>
@@ -537,7 +538,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">태그</span>
               </a>
             </div>
