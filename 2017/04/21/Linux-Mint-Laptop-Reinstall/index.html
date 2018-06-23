@@ -101,7 +101,7 @@
 <meta property="og:image" content="http://steps-in.github.io/images/main-menu-key.png">
 <meta property="og:image" content="http://steps-in.github.io/images/mint-beta.png">
 <meta property="og:image" content="http://steps-in.github.io/images/shortcut-panel.png">
-<meta property="og:updated_time" content="2018-06-23T12:56:59.000Z">
+<meta property="og:updated_time" content="2018-06-23T13:25:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux Ubuntu Mate to Linux Mint Cinnamon">
 <meta name="twitter:description" content="작업용 랩탑을 하나 장만했는데 인텔 7 세대 I5 CPU 가 장착된 녀석이고 인텔의 최근 와이파이 칩셋을 탑재한 모델이라 4.4 커널 버전의 배포본에는 해당 장치를 지원하지 못하는 문제가 있어 며칠 전에 나온 17.04 우분투를 설치하게 되었다. (업데이트 1) 사실 4.4 커널로 설치하고 커널 업데이트를 하면 되는데 이때는 그런 생각을 못했다. 그래서 나">
@@ -598,7 +598,7 @@
 <p><img src="/images/mint-beta.png" alt="데스크탑 맘에 든다."></p>
 <h3 id="백업과-복원"><a href="#백업과-복원" class="headerlink" title="백업과 복원"></a>백업과 복원</h3><p>홈 폴더만 잘 백업해 두고 그대로 복원하면 왠만한 환경들은 복구된다. 그동안 사용하던 앱 목록이나 서비스 정도만 기록해 두면 될 것 같다.</p>
 <h4 id="설치된-패키지-리스트"><a href="#설치된-패키지-리스트" class="headerlink" title="설치된 패키지 리스트"></a>설치된 패키지 리스트</h4><p>가급적 안정된 복원 작업을 위해 전체 파일 리스트를 한 부 가지고 있는 것도 나쁘지 않다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tree / -o ~/tree_list.txt</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ tree -ahv -o ~/tree_list.txt /</span><br></pre></td></tr></table></figure>
 <p>그리고 전체 패키지 목록도 확인해 보는 것이 좋다.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt list --installed &gt; ~/package_list.txt</span><br></pre></td></tr></table></figure>
 <h3 id="단축키-바인딩"><a href="#단축키-바인딩" class="headerlink" title="단축키 바인딩"></a>단축키 바인딩</h3><p>기존에 세팅했던 것과 비슷하다 또한 데스크탑에서 사용하고 있는 세팅을 그대로 적용할 수 있었다.</p>
