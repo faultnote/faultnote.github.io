@@ -303,6 +303,165 @@
   
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2018/06/28/Windows-10-development-setting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="soomtong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Steps-in">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2018/06/28/Windows-10-development-setting/" itemprop="url">
+                  윈도우즈 10 개발 환경 꾸미기
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">작성일</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-28T13:00:47+09:00">
+                2018-06-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/윈도우즈-데스크탑/" itemprop="url" rel="index">
+                    <span itemprop="name">윈도우즈 데스크탑</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>아마 2013년 말까지 윈도우즈 7 과 리눅스 데스크탑이 설치된 피시를 사용했습니다. 그 이후 아이맥을 제공 받아 매킨토시(OSX) 개발 환경을 유지하고 있다가 2017년 리눅스 기반의 소프트웨어 회사에 들어가면서 어쩌다 윈도우즈 10 을 사용하게 되었는데 그 때 처음 윈도우즈 10 을 사용했던 경험이 함께 기록되어 있습니다.</p>
+<p>윈도우즈 10 개발 환경은 아주 잠깐 사용했고 이내 리눅스 기반 환경으로 돌아온 후 윈도우즈 개발 환경을 꾸밀 일은 없었습니다. 물론 액티브엑스를 반드시 필요로 하는 업무를 치루기 위해서 가상 환경을 통해 윈도우즈 7 을 사용하긴 했으나 네이티브 환경에 윈도우즈를 설치하는 일은 없고 그럴일이 없길 바랬었습니다.</p>
+<p>대부분의 비 윈도우즈 환경 개발자가 그렇듯, 가상환경 속에서 윈도우즈 사용은 그럭저럭 훌륭했고 별다른 불만 없이 이어져 왔으나 가상환경에서 작동하지 않는 프로그램을 사용해야 하는 업무가 생긴 후 네이티브 윈도우즈 피시가 필요하게 되었습니다.</p>
+<p>상대적으로 사용 빈도가 떨어지던 랩탑에 윈도우즈 10 을 설치하고 2017 년의 경험과 최근 윈도우즈 빌드에 맞춘 (내 입맛에 맞는) 세팅 과정을 기록해 둡니다.</p>
+</blockquote>
+<h2 id="윈도우즈-10-개발-환경-꾸미기"><a href="#윈도우즈-10-개발-환경-꾸미기" class="headerlink" title="윈도우즈 10 개발 환경 꾸미기"></a>윈도우즈 10 개발 환경 꾸미기</h2><p>설치 대상은 여태 잘 사용하고 있던 리눅스 데스크탑 환경의 랩탑이다. 지금(2018년)은 8세대 인텔 CPU 를 장착해 성능이 더 높아진 TFG13s 모델의 전신으로 2017년 TFG13 이다.</p>
+<p><a href="http://www.monsterlabs.co.kr/src/category/read.html?pn=10778" target="_blank" rel="noopener"><img src="/images/hansung-tfg13s-top100.jpg" alt="리뷰 이미지"></a></p>
+<p><a href="http://www.monsterlabs.co.kr/src/community/read.html?menu=tbl_comm_review&amp;wr_id=315" target="_blank" rel="noopener">해당 업체의 홍보용 리뷰 기사</a></p>
+<p>가격 대비 다 마음에 들지만 상대적으로 품질이 떨어지는 패널을 가지고 있다. 처음에는 몰랐는데 장시간 타이핑시 느껴지는 자판의 압력이 불쾌한 제품이다. 동네 전자제품 매장에서 삼성 제품이나 엘지 제품을 타이핑 했을 때 보다 조금 더 압력이 높다. 상대적으로 쫀득하다고 느낄 분도 계실텐데 요즘 나는 가벼운게 좋다.</p>
+<p>아무튼 이 작고 가볍고 성능은 고만고만한 랩탑의 활용도가 떨어져 고민하고 있던 차 - 램은 많고 CPU 성능은 떨어진다 - 윈도우즈 10 을 설치하게 되었다. 원래 계획은 여기에 간간히 가상 악기를 사용하는 미디 시퀀싱이나 간단한 강의 영상 편집을 할 생각이었다.</p>
+<blockquote>
+<p>전통적으로 영화/영상 제작 분야에서 매우 유명한 AVID 라는 회사가 있는데 이 회사는 최근 경쟁 시대에 살아남기 위해 (예전에는 정말 꿀 빨던 사업이었겠지만) 자사의 핵심 소프트웨어인 오디오/비디오 제작 툴 중 가장 낮은 등급의 버전을 무료로 풀었다. 이미 이 바닥 메이저 툴의 가격이 피튀기는 경쟁으로 각각 몇 십만원 수준으로 내려와 있긴 하지만 무료는 무료 나름대로 큰 의미가 있다. 물론, 아마추어가 쓰기엔 매우 훌륭하고 간단한 작업을 하기엔 충분하다.</p>
+</blockquote>
+<p>그리고 가상 환경에서 작동하지 않는 액티브엑스 기반의 프로그램을 만난 후 이 기회에 본격적인 윈도우즈 환경을 경험해 보자는 결심이 섰다. </p>
+<p>하루 밤을 꼬박 새운 결과 하드웨어는 역시 ‘마이크로소프트’ 라는 말이 거짓이 아니었음을 깨달았다! (뭔소린지…)</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/28/Windows-10-development-setting/#more" rel="contents">
+              더 읽어보기 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2018/03/10/Dart-Conference-Summery/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1646,7 +1805,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">포스트</span>
               </a>
             </div>
@@ -1657,7 +1816,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">카테고리</span>
               </a>
             </div>
@@ -1668,7 +1827,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">태그</span>
               </a>
             </div>
