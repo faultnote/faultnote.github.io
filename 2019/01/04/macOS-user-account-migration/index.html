@@ -146,7 +146,7 @@
 <meta property="og:image" content="http://steps-in.github.io/images/macOS-Migration/image-20190102043440380.png">
 <meta property="og:image" content="http://steps-in.github.io/images/macOS-Migration/image-20190102043529101.png">
 <meta property="og:image" content="http://steps-in.github.io/images/macOS-Migration/image-20190102043611628.png">
-<meta property="og:updated_time" content="2019-01-04T16:21:46.000Z">
+<meta property="og:updated_time" content="2019-01-05T11:07:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="macOS User Account Migration">
 <meta name="twitter:description" content="최근 보안 업데이트 + 사파리 업데이트 (12.02) 후인지 아니면 그 전부터인지 모르겠지만 (왜? 사파리가 메인 브라우저가 아니어서) 사파리의 설정 패널이 뜨지 않는다. 뜨지 않는 것 뿐 아니라 프레퍼런스 메뉴에 들어가면 바람개비 돌고 사파리가 멈춘다. 몇 시간 서핑해도 답이 없다. 단 새 계정으로 들어가 사파리를 실행해 보면 정상적으로 작동한다. 즉,">
@@ -595,8 +595,8 @@
 <p><img src="/images/macOS-Migration/image-20190102043440380.png" alt="image-20190102043440380"></p>
 <p><img src="/images/macOS-Migration/image-20190102043529101.png" alt="image-20190102043529101"></p>
 <p><img src="/images/macOS-Migration/image-20190102043611628.png" alt="image-20190102043611628"></p>
-<h2 id="도큐멘트-및-코드-저장소"><a href="#도큐멘트-및-코드-저장소" class="headerlink" title="도큐멘트 및 코드 저장소"></a>도큐멘트 및 코드 저장소</h2><p>그냥 복사하고 소유권 만 변경해주면 될 것 같다.</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> cp -ra old_folder new_folder</span><br><span class="line"><span class="meta">$</span> chown -R newuser</span><br></pre></td></tr></table></figure>
+<h2 id="도큐멘트-및-코드-저장소"><a href="#도큐멘트-및-코드-저장소" class="headerlink" title="도큐멘트 및 코드 저장소"></a>도큐멘트 및 코드 저장소</h2><p>그냥 복사하고 소유권 만 변경해주면 될 것 같다. 물론 sudo 필요하다. 그리고 상위 폴더의 소유자도 확인해 주도록 한다. 이거 확인 안하고 세션이 저장되지 않는 문제에 엉뚱한 곳에서 삽질했다.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">new_folder $ cp -a /Users/old-account/Library/old_folder .</span><br><span class="line">new_folder $ chown -R newuser new_folder</span><br></pre></td></tr></table></figure>
 <h3 id="정리"><a href="#정리" class="headerlink" title="정리"></a>정리</h3><p>운영체제를 새로 설치하는 것 보다 소소한 노력과 적은 위험으로 시스템을 깨끗하게 유지할 수 있는 방법 같다.</p>
       
     </div>
