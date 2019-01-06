@@ -1,4 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -6,15 +15,11 @@
 
 
 <html class="theme-next mist use-motion" lang="ko">
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2">
+<meta name="theme-color" content="#222">
 
 
 
@@ -30,48 +35,6 @@
 
 
 
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
-
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
-
-
-  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -80,14 +43,53 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
 
 
 
 
 
 
-<meta property="og:type" content="website">
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'ES078JFKAR',
+      apiKey: 'd87b100631de66c5eafd671df002ccae',
+      indexName: 'steps-in-blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+  <meta property="og:type" content="website">
 <meta property="og:title" content="Steps-in">
 <meta property="og:url" content="http://steps-in.github.io/index.html">
 <meta property="og:site_name" content="Steps-in">
@@ -97,27 +99,6 @@
 
 
 
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
-    fancybox: true,
-    motion: true,
-    duoshuo: {
-      userId: 'undefined',
-      author: '작성자'
-    },
-    algolia: {
-      applicationID: '8HUCTR0V34',
-      apiKey: '009e3650ce9c69527d25808576513ab7',
-      indexName: 'steps-in',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
 
 
 
@@ -125,26 +106,18 @@
 
 
 
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
 
-
-  <title> Steps-in </title>
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="ko">
-
+  <title>Steps-in</title>
   
 
 
 
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-39125043-1', 'auto');
-  ga('send', 'pageview');
-</script>
 
 
 
@@ -153,18 +126,43 @@
 
 
 
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
 
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="ko">
 
   
   
     
   
 
-  <div class="container one-collumn sidebar-position-left page-home">
+  <div class="container sidebar-position-right page-home">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta">
     
@@ -176,13 +174,12 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-      
-        <p class="site-subtitle"></p>
-      
+    
+    
   </div>
 
   <div class="site-nav-toggle">
-    <button>
+    <button aria-label="Toggle navigation bar">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -190,66 +187,96 @@
   </div>
 </div>
 
-<nav class="site-nav">
-  
 
+<nav class="site-nav">
   
     <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
-            
-            홈
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
-            
-            카테고리
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
-            
-            아카이브
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
-            
-            태그
-          </a>
-        </li>
-      
+          
+          <li class="menu-item menu-item-home menu-item-active">
 
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>홈</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>카테고리</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>태그</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>아카이브</a>
+
+  </li>
+
+      
       
         <li class="menu-item menu-item-search">
           
             <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
-            
-            검색
-          </a>
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>검색</a>
         </li>
       
     </ul>
+  
+
+  
+    
+
   
 
   
@@ -284,12 +311,19 @@
 
 
 
- </div>
+  
+
+
+
+</div>
     </header>
+
+    
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
@@ -302,16 +336,22 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2019/01/04/macOS-user-account-migration/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="soomtong">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Steps-in">
     </span>
 
@@ -321,13 +361,9 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2019/01/04/macOS-user-account-migration/" itemprop="url">
-                  macOS User Account Migration
-                </a>
+                
+                <a href="/2019/01/04/macOS-user-account-migration/" class="post-title-link" itemprop="url">macOS User Account Migration</a>
               
             
           </h1>
@@ -335,6 +371,11 @@
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -342,13 +383,30 @@
               
                 <span class="post-meta-item-text">작성일</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-01-04T23:07:15+09:00">
-                2019-01-04
-              </time>
+
+              
+                
+              
+
+              <time title="Post created: 2019-01-04 23:07:15" itemprop="dateCreated datePublished" datetime="2019-01-04T23:07:15+09:00">2019-01-04</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2019-01-06 12:10:23" itemprop="dateModified" datetime="2019-01-06T12:10:23+09:00">2019-01-06</time>
+              
             
           </span>
 
@@ -364,11 +422,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/매킨토시-데스크탑/" itemprop="url" rel="index">
-                    <span itemprop="name">매킨토시 데스크탑</span>
-                  </a>
-                </span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/매킨토시-데스크탑/" itemprop="url" rel="index"><span itemprop="name">매킨토시 데스크탑</span></a></span>
 
                 
                 
@@ -393,7 +447,9 @@
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -412,24 +468,32 @@
 <p>마우스 관련해 추가 작업할 부분이 있는데 커서 흔들면 포인터 커지는거 불편한 경우가 있는데 어디에서 찾아야 할 지 기억나지 않는 경우가 있다.</p>
 <p><img src="/images/macOS-Migration/image-20190102031606815.png" alt="image-20190102031606815"></p>
           <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/01/04/macOS-user-account-migration/#more" rel="contents">
-              더 읽어보기 &raquo;
-            </a>
-          </div>
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/01/04/macOS-user-account-migration/#more" rel="contents">
+                더 읽어보기 &raquo;
+              </a>
+            </div>
+          
           <!--/noindex-->
         
       
     </div>
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+    
+    
 
+    
+
+    
+      
+    
+    
+
+    
 
     <footer class="post-footer">
       
@@ -443,6 +507,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -455,16 +523,22 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2018/10/29/Linux-Mint-Virtual-Terminal/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="soomtong">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Steps-in">
     </span>
 
@@ -474,13 +548,9 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2018/10/29/Linux-Mint-Virtual-Terminal/" itemprop="url">
-                  리눅스 민트에서 가상 터미널 사용하지 않기
-                </a>
+                
+                <a href="/2018/10/29/Linux-Mint-Virtual-Terminal/" class="post-title-link" itemprop="url">리눅스 민트에서 가상 터미널 사용하지 않기</a>
               
             
           </h1>
@@ -488,6 +558,11 @@
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -495,13 +570,30 @@
               
                 <span class="post-meta-item-text">작성일</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-29T15:29:21+09:00">
-                2018-10-29
-              </time>
+
+              
+                
+              
+
+              <time title="Post created: 2018-10-29 15:29:21" itemprop="dateCreated datePublished" datetime="2018-10-29T15:29:21+09:00">2018-10-29</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2018-10-30 20:13:48" itemprop="dateModified" datetime="2018-10-30T20:13:48+09:00">2018-10-30</time>
+              
             
           </span>
 
@@ -517,11 +609,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/리눅스-데스크탑/" itemprop="url" rel="index">
-                    <span itemprop="name">리눅스 데스크탑</span>
-                  </a>
-                </span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/리눅스-데스크탑/" itemprop="url" rel="index"><span itemprop="name">리눅스 데스크탑</span></a></span>
 
                 
                 
@@ -546,7 +634,9 @@
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -563,24 +653,32 @@
 <h3 id="disable-vt-conf-를-만들어-보자"><a href="#disable-vt-conf-를-만들어-보자" class="headerlink" title="disable-vt.conf 를 만들어 보자"></a>disable-vt.conf 를 만들어 보자</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ locate xorg.conf</span><br><span class="line">$ pwd</span><br><span class="line">/usr/share/X11/xorg.conf.d</span><br><span class="line">$ sudo vi 100-disable-vt.conf</span><br><span class="line"></span><br><span class="line">Section &quot;ServerFlags&quot;</span><br><span class="line">    Option &quot;DontVTSwitch&quot; &quot;true&quot;</span><br><span class="line">EndSection</span><br><span class="line"></span><br><span class="line">Section &quot;InputClass&quot;</span><br><span class="line">    Identifier &quot;keyboard defaults&quot;</span><br><span class="line">    MatchIsKeyboard &quot;on&quot;</span><br><span class="line">    Option &quot;XKbOptions&quot; &quot;srvrkeys:none&quot;</span><br><span class="line">EndSection</span><br></pre></td></tr></table></figure>
 <h2 id="리눅스-민트-데비안-에디션"><a href="#리눅스-민트-데비안-에디션" class="headerlink" title="리눅스 민트 데비안 에디션"></a>리눅스 민트 데비안 에디션</h2><p>LMDE 3 Cindy 의 경우 리눅스 커널 4.9 를 기반으로 하고 있다. 적절하다. 너무 낮지도 않고 너무 높지도 않다.<br>시나몬 환경은 아주 익숙하고 미려하다. KDE 쪽이나 다른 Gnome 류들 보다 맘에 든다. 아마 새로운 데스크탑을 세팅한다면 LMDE 기반으로 꾸밀 것 같다.</p>
           <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/29/Linux-Mint-Virtual-Terminal/#more" rel="contents">
-              더 읽어보기 &raquo;
-            </a>
-          </div>
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/10/29/Linux-Mint-Virtual-Terminal/#more" rel="contents">
+                더 읽어보기 &raquo;
+              </a>
+            </div>
+          
           <!--/noindex-->
         
       
     </div>
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+    
+    
 
+    
+
+    
+      
+    
+    
+
+    
 
     <footer class="post-footer">
       
@@ -594,6 +692,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -606,16 +708,22 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2018/06/28/Windows-10-development-setting/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="soomtong">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Steps-in">
     </span>
 
@@ -625,13 +733,9 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2018/06/28/Windows-10-development-setting/" itemprop="url">
-                  윈도우즈 10 개발 환경 꾸미기
-                </a>
+                
+                <a href="/2018/06/28/Windows-10-development-setting/" class="post-title-link" itemprop="url">윈도우즈 10 개발 환경 꾸미기</a>
               
             
           </h1>
@@ -639,6 +743,11 @@
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -646,13 +755,30 @@
               
                 <span class="post-meta-item-text">작성일</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-28T13:00:47+09:00">
-                2018-06-28
-              </time>
+
+              
+                
+              
+
+              <time title="Post created: 2018-06-28 13:00:47" itemprop="dateCreated datePublished" datetime="2018-06-28T13:00:47+09:00">2018-06-28</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2018-11-12 11:57:45" itemprop="dateModified" datetime="2018-11-12T11:57:45+09:00">2018-11-12</time>
+              
             
           </span>
 
@@ -668,11 +794,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/윈도우즈-데스크탑/" itemprop="url" rel="index">
-                    <span itemprop="name">윈도우즈 데스크탑</span>
-                  </a>
-                </span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/윈도우즈-데스크탑/" itemprop="url" rel="index"><span itemprop="name">윈도우즈 데스크탑</span></a></span>
 
                 
                 
@@ -697,7 +819,9 @@
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -722,24 +846,32 @@
 <p>그리고 가상 환경에서 작동하지 않는 액티브엑스 기반의 프로그램을 만난 후 이 기회에 본격적인 윈도우즈 환경을 경험해 보자는 결심이 섰다.</p>
 <p>하루 밤을 꼬박 새운 결과 하드웨어는 역시 ‘마이크로소프트’ 라는 말이 거짓이 아니었음을 깨달았다! (뭔소린지…)</p>
           <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/06/28/Windows-10-development-setting/#more" rel="contents">
-              더 읽어보기 &raquo;
-            </a>
-          </div>
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/06/28/Windows-10-development-setting/#more" rel="contents">
+                더 읽어보기 &raquo;
+              </a>
+            </div>
+          
           <!--/noindex-->
         
       
     </div>
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+    
+    
 
+    
+
+    
+      
+    
+    
+
+    
 
     <footer class="post-footer">
       
@@ -753,6 +885,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -765,16 +901,22 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2018/03/10/Dart-Conference-Summery/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="soomtong">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Steps-in">
     </span>
 
@@ -784,13 +926,9 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2018/03/10/Dart-Conference-Summery/" itemprop="url">
-                  Dart Summit Summery
-                </a>
+                
+                <a href="/2018/03/10/Dart-Conference-Summery/" class="post-title-link" itemprop="url">Dart Summit Summery</a>
               
             
           </h1>
@@ -798,6 +936,11 @@
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -805,13 +948,30 @@
               
                 <span class="post-meta-item-text">작성일</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-10T18:45:10+09:00">
-                2018-03-10
-              </time>
+
+              
+                
+              
+
+              <time title="Post created: 2018-03-10 18:45:10" itemprop="dateCreated datePublished" datetime="2018-03-10T18:45:10+09:00">2018-03-10</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2018-03-18 00:03:50" itemprop="dateModified" datetime="2018-03-18T00:03:50+09:00">2018-03-18</time>
+              
             
           </span>
 
@@ -827,11 +987,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/프로그래밍/" itemprop="url" rel="index">
-                    <span itemprop="name">프로그래밍</span>
-                  </a>
-                </span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/프로그래밍/" itemprop="url" rel="index"><span itemprop="name">프로그래밍</span></a></span>
 
                 
                 
@@ -856,7 +1012,9 @@
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -881,24 +1039,32 @@
 </ul>
 <p>모두 각자의 실행 환경을 가지고 있으며 브라우저 대상으로 사용할 수 있습니다. 특히 Reason 과 Dart 는 각자 태생에 영향을 받아 저마다의 잘 만들어진 UI Framework 를 보유하고 있습니다. 그리고 Clojure 는 JVM 환경에서 특별히 중요한 역할을 하고 있습니다.</p>
           <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/10/Dart-Conference-Summery/#more" rel="contents">
-              더 읽어보기 &raquo;
-            </a>
-          </div>
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/03/10/Dart-Conference-Summery/#more" rel="contents">
+                더 읽어보기 &raquo;
+              </a>
+            </div>
+          
           <!--/noindex-->
         
       
     </div>
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+    
+    
 
+    
+
+    
+      
+    
+    
+
+    
 
     <footer class="post-footer">
       
@@ -912,6 +1078,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -924,16 +1094,22 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2018/01/01/Use-capslock-when-change-input-method/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="soomtong">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Steps-in">
     </span>
 
@@ -943,13 +1119,9 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2018/01/01/Use-capslock-when-change-input-method/" itemprop="url">
-                  Use Capslock When Change Input Method
-                </a>
+                
+                <a href="/2018/01/01/Use-capslock-when-change-input-method/" class="post-title-link" itemprop="url">Use Capslock When Change Input Method</a>
               
             
           </h1>
@@ -957,6 +1129,11 @@
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -964,13 +1141,18 @@
               
                 <span class="post-meta-item-text">작성일</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-01T14:51:16+09:00">
-                2018-01-01
-              </time>
+
+              
+                
+              
+
+              <time title="Post created: 2018-01-01 14:51:16 / Updated at: 14:59:48" itemprop="dateCreated datePublished" datetime="2018-01-01T14:51:16+09:00">2018-01-01</time>
             
 
             
+              
 
+              
             
           </span>
 
@@ -993,7 +1175,9 @@
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1010,24 +1194,32 @@
 <p>또한 한영 입력 모드 변환의 딜레이를 유발하는 <code>이전 입력기 선택</code> 대신 <code>다음 입력기 선택</code> 만 사용해 한/영 입력을 변환하게 하였다. (요즘도 그런지는 모르겠다만 예전엔 그랬다. 이전 입력으로 변경하는 키는 키 입력이 시작될 때-Key down 변하는 것이 아니라 키 입력이 끝나면-Key up 변하도록 되어 있었다.)</p>
 <p><img src="/images/change-method-key.png" alt="change-method-key"></p>
           <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/01/Use-capslock-when-change-input-method/#more" rel="contents">
-              더 읽어보기 &raquo;
-            </a>
-          </div>
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/01/01/Use-capslock-when-change-input-method/#more" rel="contents">
+                더 읽어보기 &raquo;
+              </a>
+            </div>
+          
           <!--/noindex-->
         
       
     </div>
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+    
+    
 
+    
+
+    
+      
+    
+    
+
+    
 
     <footer class="post-footer">
       
@@ -1041,6 +1233,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1053,16 +1249,22 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2017/12/31/Markdown-based-Editors/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="soomtong">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Steps-in">
     </span>
 
@@ -1072,13 +1274,9 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2017/12/31/Markdown-based-Editors/" itemprop="url">
-                  Markdown Based Editors
-                </a>
+                
+                <a href="/2017/12/31/Markdown-based-Editors/" class="post-title-link" itemprop="url">Markdown Based Editors</a>
               
             
           </h1>
@@ -1086,6 +1284,11 @@
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -1093,13 +1296,30 @@
               
                 <span class="post-meta-item-text">작성일</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-31T00:00:00+09:00">
-                2017-12-31
-              </time>
+
+              
+                
+              
+
+              <time title="Post created: 2017-12-31 00:00:00" itemprop="dateCreated datePublished" datetime="2017-12-31T00:00:00+09:00">2017-12-31</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2018-01-01 14:36:53" itemprop="dateModified" datetime="2018-01-01T14:36:53+09:00">2018-01-01</time>
+              
             
           </span>
 
@@ -1122,7 +1342,9 @@
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1139,24 +1361,32 @@
 <p>윈도우즈와 리눅스 버전도 제공하고 있어 이만한 제품이 없어 보인다.</p>
 <h2 id="근래-각종-에디터-경험"><a href="#근래-각종-에디터-경험" class="headerlink" title="근래 각종 에디터 경험"></a>근래 각종 에디터 경험</h2>
           <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/31/Markdown-based-Editors/#more" rel="contents">
-              더 읽어보기 &raquo;
-            </a>
-          </div>
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2017/12/31/Markdown-based-Editors/#more" rel="contents">
+                더 읽어보기 &raquo;
+              </a>
+            </div>
+          
           <!--/noindex-->
         
       
     </div>
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+    
+    
 
+    
+
+    
+      
+    
+    
+
+    
 
     <footer class="post-footer">
       
@@ -1170,6 +1400,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1182,16 +1416,22 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2017/07/01/Fault-Note-for-JavaScript/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="soomtong">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Steps-in">
     </span>
 
@@ -1201,13 +1441,9 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2017/07/01/Fault-Note-for-JavaScript/" itemprop="url">
-                  Fault Note for JavaScript
-                </a>
+                
+                <a href="/2017/07/01/Fault-Note-for-JavaScript/" class="post-title-link" itemprop="url">Fault Note for JavaScript</a>
               
             
           </h1>
@@ -1215,6 +1451,11 @@
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -1222,13 +1463,18 @@
               
                 <span class="post-meta-item-text">작성일</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-01T20:06:38+09:00">
-                2017-07-01
-              </time>
+
+              
+                
+              
+
+              <time title="Post created: 2017-07-01 20:06:38 / Updated at: 20:34:51" itemprop="dateCreated datePublished" datetime="2017-07-01T20:06:38+09:00">2017-07-01</time>
             
 
             
+              
 
+              
             
           </span>
 
@@ -1244,11 +1490,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/프로그래밍/" itemprop="url" rel="index">
-                    <span itemprop="name">프로그래밍</span>
-                  </a>
-                </span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/프로그래밍/" itemprop="url" rel="index"><span itemprop="name">프로그래밍</span></a></span>
 
                 
                 
@@ -1273,7 +1515,9 @@
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1293,24 +1537,32 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ &#123; odd: 'element_3', even: 'element_4' &#125;,</span><br><span class="line">  &#123; odd: 'element_3', even: 'element_4' &#125; ]</span><br></pre></td></tr></table></figure>
 <p>분명 루프를 돌고 비교를 해 4 줄의 배열을 2 줄의 배열로 줄이고 각 객체를 구성했지만 참조가 잘못된 결과를 나타낸 것이다. <code>push(info)</code> 메소드로 추가되는 시점에 <code>info</code> 는 레퍼런스이다. 이것이 list 로 들어 갔을 때 값이 들어가는 것이 아닌 것을 기억해야 한다.</p>
           <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/07/01/Fault-Note-for-JavaScript/#more" rel="contents">
-              더 읽어보기 &raquo;
-            </a>
-          </div>
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2017/07/01/Fault-Note-for-JavaScript/#more" rel="contents">
+                더 읽어보기 &raquo;
+              </a>
+            </div>
+          
           <!--/noindex-->
         
       
     </div>
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+    
+    
 
+    
+
+    
+      
+    
+    
+
+    
 
     <footer class="post-footer">
       
@@ -1324,6 +1576,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1336,16 +1592,22 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2017/05/10/Elastic-Stack-101/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="soomtong">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Steps-in">
     </span>
 
@@ -1355,13 +1617,9 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2017/05/10/Elastic-Stack-101/" itemprop="url">
-                  Elastic Stack 101
-                </a>
+                
+                <a href="/2017/05/10/Elastic-Stack-101/" class="post-title-link" itemprop="url">Elastic Stack 101</a>
               
             
           </h1>
@@ -1369,6 +1627,11 @@
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -1376,13 +1639,30 @@
               
                 <span class="post-meta-item-text">작성일</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-10T22:41:05+09:00">
-                2017-05-10
-              </time>
+
+              
+                
+              
+
+              <time title="Post created: 2017-05-10 22:41:05" itemprop="dateCreated datePublished" datetime="2017-05-10T22:41:05+09:00">2017-05-10</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2017-06-10 22:54:25" itemprop="dateModified" datetime="2017-06-10T22:54:25+09:00">2017-06-10</time>
+              
             
           </span>
 
@@ -1398,11 +1678,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/엘라스틱서치/" itemprop="url" rel="index">
-                    <span itemprop="name">엘라스틱서치</span>
-                  </a>
-                </span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/엘라스틱서치/" itemprop="url" rel="index"><span itemprop="name">엘라스틱서치</span></a></span>
 
                 
                 
@@ -1427,7 +1703,9 @@
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1454,24 +1732,32 @@
 <p>검색 뿐 아니라 집계 기능이 유명해 실시간 분석 엔진으로도 자주 사용된다.</p>
 <h3 id="루신"><a href="#루신" class="headerlink" title="루신"></a>루신</h3>
           <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/10/Elastic-Stack-101/#more" rel="contents">
-              더 읽어보기 &raquo;
-            </a>
-          </div>
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2017/05/10/Elastic-Stack-101/#more" rel="contents">
+                더 읽어보기 &raquo;
+              </a>
+            </div>
+          
           <!--/noindex-->
         
       
     </div>
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+    
+    
 
+    
+
+    
+      
+    
+    
+
+    
 
     <footer class="post-footer">
       
@@ -1485,6 +1771,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1497,16 +1787,22 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2017/04/21/Linux-Mint-Laptop-Reinstall/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="soomtong">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Steps-in">
     </span>
 
@@ -1516,13 +1812,9 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2017/04/21/Linux-Mint-Laptop-Reinstall/" itemprop="url">
-                  Linux Ubuntu Mate to Linux Mint Cinnamon
-                </a>
+                
+                <a href="/2017/04/21/Linux-Mint-Laptop-Reinstall/" class="post-title-link" itemprop="url">Linux Ubuntu Mate to Linux Mint Cinnamon</a>
               
             
           </h1>
@@ -1530,6 +1822,11 @@
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -1537,13 +1834,30 @@
               
                 <span class="post-meta-item-text">작성일</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-21T23:58:01+09:00">
-                2017-04-21
-              </time>
+
+              
+                
+              
+
+              <time title="Post created: 2017-04-21 23:58:01" itemprop="dateCreated datePublished" datetime="2017-04-21T23:58:01+09:00">2017-04-21</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2018-06-23 22:25:42" itemprop="dateModified" datetime="2018-06-23T22:25:42+09:00">2018-06-23</time>
+              
             
           </span>
 
@@ -1559,11 +1873,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/리눅스-데스크탑/" itemprop="url" rel="index">
-                    <span itemprop="name">리눅스 데스크탑</span>
-                  </a>
-                </span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/리눅스-데스크탑/" itemprop="url" rel="index"><span itemprop="name">리눅스 데스크탑</span></a></span>
 
                 
                 
@@ -1588,7 +1898,9 @@
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1608,24 +1920,32 @@
 <p>갈색 계열의 상판으로 구성된 모델도 출시하고 있어 이 갈색 상판 모델을 골랐다. 램 슬롯은 듀얼채널로 확장성에 있어서도 나쁘지 않은 스펙이었다. 홈페이지에는 8기가 단일 모델로 소개하고 있지만 오픈마켓 주문하는 곳에서는 램 확장 옵션이 있었다.</p>
 <p>램만 16 기가로 확장하니 80 여 만원이 결제되었다. 배송은 주말 포함해 4~5일 걸린 듯 하다. (금요일에 주문해 다음 주 화요일에 도착했다.)</p>
           <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/21/Linux-Mint-Laptop-Reinstall/#more" rel="contents">
-              더 읽어보기 &raquo;
-            </a>
-          </div>
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2017/04/21/Linux-Mint-Laptop-Reinstall/#more" rel="contents">
+                더 읽어보기 &raquo;
+              </a>
+            </div>
+          
           <!--/noindex-->
         
       
     </div>
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+    
+    
 
+    
+
+    
+      
+    
+    
+
+    
 
     <footer class="post-footer">
       
@@ -1639,6 +1959,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1651,16 +1975,22 @@
   
   
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2017/04/05/Fuchcia-is-a-new-Operation-system/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="soomtong">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Steps-in">
     </span>
 
@@ -1670,13 +2000,9 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-            
-            
-              
                 
-                <a class="post-title-link" href="/2017/04/05/Fuchcia-is-a-new-Operation-system/" itemprop="url">
-                  Fuchcia Is a New Operation System
-                </a>
+                
+                <a href="/2017/04/05/Fuchcia-is-a-new-Operation-system/" class="post-title-link" itemprop="url">Fuchcia Is a New Operation System</a>
               
             
           </h1>
@@ -1684,6 +2010,11 @@
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -1691,13 +2022,30 @@
               
                 <span class="post-meta-item-text">작성일</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-05T08:50:11+09:00">
-                2017-04-05
-              </time>
+
+              
+                
+              
+
+              <time title="Post created: 2017-04-05 08:50:11" itemprop="dateCreated datePublished" datetime="2017-04-05T08:50:11+09:00">2017-04-05</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2017-05-20 19:47:32" itemprop="dateModified" datetime="2017-05-20T19:47:32+09:00">2017-05-20</time>
+              
             
           </span>
 
@@ -1720,7 +2068,9 @@
       </header>
     
 
-
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1741,24 +2091,32 @@
 <p>커널과 유저 스페이스 시스템 모두 개발되고 있으며 GUI 를 함께 제공합니다.</p>
 <p>코어 드라이버와 운영체제의 가장 기본적인 서비스를 담당하고 있는 <code>Magenta</code> 커널이라고 불리는 커널은 <code>Little Kernel</code> 이라고 불리는 MIT 라이센스 기반의 커널에 기반을 두고 있습니다. 마젠타 커널은 마이크로 커널로 분류됩니다. 따라서 드라이버 레이어, 네트워크 스택, 파일 시스템 등은 유저 스페이스에 속합니다.</p>
           <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/05/Fuchcia-is-a-new-Operation-system/#more" rel="contents">
-              더 읽어보기 &raquo;
-            </a>
-          </div>
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2017/04/05/Fuchcia-is-a-new-Operation-system/#more" rel="contents">
+                더 읽어보기 &raquo;
+              </a>
+            </div>
+          
           <!--/noindex-->
         
       
     </div>
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
+    
+    
 
+    
+
+    
+      
+    
+    
+
+    
 
     <footer class="post-footer">
       
@@ -1772,6 +2130,10 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
@@ -1780,15 +2142,12 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
-          
+
           </div>
-          
-
-
           
 
         </div>
@@ -1804,71 +2163,128 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
     <div class="sidebar-inner">
 
       
 
       
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="soomtong">
-          <p class="site-author-name" itemprop="name">soomtong</p>
-           
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="soomtong">
+            
+              <p class="site-author-name" itemprop="name">soomtong</p>
               <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
           
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">12</span>
+                    <span class="site-state-item-name">포스트</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">카테고리</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">태그</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
         </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">12</span>
-                <span class="site-state-item-name">포스트</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">5</span>
-                <span class="site-state-item-name">카테고리</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
-                <span class="site-state-item-name">태그</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-        </div>
-
-        
-        
-
-        
-        
-
-        
-
-
-      </section>
+      </div>
 
       
 
@@ -1884,30 +2300,35 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2019</span>
-  <span class="with-love">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">soomtong</span>
+  <span class="author" itemprop="copyrightHolder">soomtong@gmail.com</span>
+
+  
+
+  
 </div>
 
 
-<div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
-</div>
-
-<div class="theme-info">
-  Theme -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Mist
-  </a>
-</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
         
+
+
+
+
+
+
+
 
         
       </div>
@@ -1919,12 +2340,17 @@
         
       </div>
     
+
+    
+
+    
+
     
   </div>
 
   
 
-<script type="text/javascript">
+<script>
   if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
   }
@@ -1938,73 +2364,16 @@
 
 
 
-  
-
-
-
-
-  
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
-
-
-
-  
-  
-
-  
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
-
-
-
-  
-
-
-
-  
-
-
-
-
-	
 
 
 
 
 
-  
 
 
 
 
 
-  
 
 
 
@@ -2015,6 +2384,72 @@
 
 
   
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-reading-progress@1.1/reading_progress.min.js"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+
+
+
+  
+  
+  
+    
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/instantsearch.js@2.4.1/dist/instantsearch.min.css">
+
+  
+  
+    
+  
+  <script src="//cdn.jsdelivr.net/npm/instantsearch.js@2.4.1/dist/instantsearch.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
   
 
   
@@ -2026,18 +2461,10 @@
   
 
   
-  
-  
-  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
 
   
+
   
-  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
-  
-
-  <script src="/js/src/algolia-search.js?v=5.1.0"></script>
-
-
 
   
 
