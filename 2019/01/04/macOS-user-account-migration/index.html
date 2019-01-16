@@ -148,7 +148,7 @@
 <meta property="og:image" content="http://steps-in.github.io/images/macOS-Migration/image-20190102043440380.png">
 <meta property="og:image" content="http://steps-in.github.io/images/macOS-Migration/image-20190102043529101.png">
 <meta property="og:image" content="http://steps-in.github.io/images/macOS-Migration/image-20190102043611628.png">
-<meta property="og:updated_time" content="2019-01-16T14:30:34.000Z">
+<meta property="og:updated_time" content="2019-01-16T14:33:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="macOS User Account Migration">
 <meta name="twitter:description" content="최근 보안 업데이트 + 사파리 업데이트 (12.02) 후인지 아니면 그 전부터인지 모르겠지만 (왜? 사파리가 메인 브라우저가 아니어서) 사파리의 설정 패널이 뜨지 않는다. 뜨지 않는 것 뿐 아니라 프레퍼런스 메뉴에 들어가면 바람개비 돌고 사파리가 멈춘다. 몇 시간 서핑해도 답이 없다. 단 새 계정으로 들어가 사파리를 실행해 보면 정상적으로 작동한다. 즉,">
@@ -462,7 +462,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Updated at: 2019-01-16 23:30:34" itemprop="dateModified" datetime="2019-01-16T23:30:34+09:00">2019-01-16</time>
+                <time title="Updated at: 2019-01-16 23:33:30" itemprop="dateModified" datetime="2019-01-16T23:33:30+09:00">2019-01-16</time>
               
             
           </span>
@@ -635,7 +635,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Application Support $ rg Users/old-account | xargs sed -i &apos;s/Users\/sven/Users\/ck/g&apos;</span><br></pre></td></tr></table></figure>
 <p>이 정도도 괜찮을 것 같지만 잘 안되더라.</p>
 <p>최종적으로 <code>rg</code> 로 변경 대상 파일 명단을 뽑아서 다음 명령으로 파일 내용을 변경했다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Application Support $ rg -l Users/oldaccount</span><br><span class="line">perl -i -pe &apos;s/Users\/oldaccount/Users\/newaccount/g&apos; filePath...</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ rg -l Users/oldaccount</span><br><span class="line">$ perl -i -pe &apos;s/Users\/oldaccount/Users\/newaccount/g&apos; filePath...</span><br></pre></td></tr></table></figure>
 <h3 id="윈도우-매니저-세팅"><a href="#윈도우-매니저-세팅" class="headerlink" title="윈도우 매니저 세팅"></a>윈도우 매니저 세팅</h3><p>여러가지 윈도우 배열 매니저들이 있는데 윈도우타이디를 오랜동안 사용해왔다. 그냥 익숙해서 다른 것으로 바꾸기도 귀찮다.</p>
 <p><img src="/images/macOS-Migration/image-20190102040033827.png" alt="image-20190102040033827"></p>
 <p><img src="/images/macOS-Migration/image-20190102040141903.png" alt="image-20190102040141903"></p>
