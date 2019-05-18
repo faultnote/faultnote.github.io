@@ -148,7 +148,7 @@
 <meta property="og:image" content="http://steps-in.github.io/images/macOS-Migration/image-20190102043440380.png">
 <meta property="og:image" content="http://steps-in.github.io/images/macOS-Migration/image-20190102043529101.png">
 <meta property="og:image" content="http://steps-in.github.io/images/macOS-Migration/image-20190102043611628.png">
-<meta property="og:updated_time" content="2019-01-17T12:03:48.000Z">
+<meta property="og:updated_time" content="2019-05-18T01:11:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="macOS User Account Migration">
 <meta name="twitter:description" content="최근 보안 업데이트 + 사파리 업데이트 (12.02) 후인지 아니면 그 전부터인지 모르겠지만 (왜? 사파리가 메인 브라우저가 아니어서) 사파리의 설정 패널이 뜨지 않는다. 뜨지 않는 것 뿐 아니라 프레퍼런스 메뉴에 들어가면 바람개비 돌고 사파리가 멈춘다. 몇 시간 서핑해도 답이 없다. 단 새 계정으로 들어가 사파리를 실행해 보면 정상적으로 작동한다. 즉,">
@@ -462,7 +462,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Updated at: 2019-01-17 21:03:48" itemprop="dateModified" datetime="2019-01-17T21:03:48+09:00">2019-01-17</time>
+                <time title="Updated at: 2019-05-18 10:11:25" itemprop="dateModified" datetime="2019-05-18T10:11:25+09:00">2019-05-18</time>
               
             
           </span>
@@ -648,6 +648,8 @@
 <h3 id="카라바이너-세팅"><a href="#카라바이너-세팅" class="headerlink" title="카라바이너 세팅"></a>카라바이너 세팅</h3><p>구름입력기와 함께 한글 전환 키 바인딩에 탭을 사용하고 있는데 카라바이너가 그 역할을 해 준다.</p>
 <p><img src="/images/macOS-Migration/image-20190102040627299.png" alt="image-20190102040627299"></p>
 <p>프로파일만 잘 복사해 사용하면 될 것 같다.</p>
+<p>최근 카라바이너의 Complex Modifications 를 활용해 한/영 전환을 좀 더 깔끔하게 수행하는 세팅을 추가했다.<br>이 방법을 사용하면 위 캡쳐 이미지의 caps_lock 부분을 제거해도 된다. 캡스락 기능을 별도의 키에 세팅해 주지 않아도 되는 점도 좋고 네이티브 한글 입력기 처럼 캡스락을 오래 눌러 영문자 케이스를 변경하는 것도 가능하다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;title&quot;: &quot;한/영 전환 with Caps Lock&quot;,</span><br><span class="line">    &quot;rules&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;description&quot;: &quot;Caps_Lock to inputMethod toggle with short press but toggle capsLock with long press&quot;,</span><br><span class="line">            &quot;manipulators&quot;: [</span><br><span class="line">                &#123;</span><br><span class="line">                    &quot;type&quot;: &quot;basic&quot;,</span><br><span class="line">                    &quot;parameters&quot;: &#123;</span><br><span class="line">                        &quot;basic.to_if_alone_timeout_milliseconds&quot;: 200,</span><br><span class="line">                        &quot;basic.to_if_held_down_threshold_milliseconds&quot;: 200</span><br><span class="line">                    &#125;,</span><br><span class="line">                    &quot;from&quot;: &#123;</span><br><span class="line">                        &quot;key_code&quot;: &quot;caps_lock&quot;</span><br><span class="line">                    &#125;,</span><br><span class="line">                    &quot;to&quot;: [</span><br><span class="line">                        &#123; &quot;key_code&quot;: &quot;vk_none&quot; &#125;</span><br><span class="line">                    ],</span><br><span class="line">                    &quot;to_if_alone&quot;: [</span><br><span class="line">                        &#123; &quot;key_code&quot;: &quot;f16&quot; &#125;</span><br><span class="line">                    ],</span><br><span class="line">                    &quot;to_if_held_down&quot; : [</span><br><span class="line">                        &#123; &quot;key_code&quot;: &quot;caps_lock&quot; &#125;</span><br><span class="line">                    ]</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="임시-복사-유틸리티"><a href="#임시-복사-유틸리티" class="headerlink" title="임시 복사 유틸리티"></a>임시 복사 유틸리티</h3><p>카피&amp;패이스트 유틸리티로 <code>Clippy</code> 를 사용하고 있다.</p>
 <p><img src="/images/macOS-Migration/image-20190102041011046.png" alt="image-20190102041011046"></p>
 <p>메인 단축키 하나만 쓴다.</p>
