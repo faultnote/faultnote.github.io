@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="ko">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '6.7.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: 'ES078JFKAR',
+      apiKey: 'd87b100631de66c5eafd671df002ccae',
+      indexName: 'steps-in-blog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+  <meta name="description" content="20071216-루비ruby 설치 라는 제목으로 시작한 첫 포스트네요. 레일즈와 몽그렐 서버를 구동하는 과정을 공부했나 봅니다. 지금은 너무 먼 얘기네요.  123soomtong | 2007-12-16 일요일 오후 6: 6 | Development/Coding | [원본](http://faultnote.tistory.com/1)soomtong | 20">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Install Ruby and Webdev Friends">
+<meta property="og:url" content="http://steps-in.github.io/2007/12/16/Install-Ruby-Webdev/index.html">
+<meta property="og:site_name" content="FaultNote">
+<meta property="og:description" content="20071216-루비ruby 설치 라는 제목으로 시작한 첫 포스트네요. 레일즈와 몽그렐 서버를 구동하는 과정을 공부했나 봅니다. 지금은 너무 먼 얘기네요.  123soomtong | 2007-12-16 일요일 오후 6: 6 | Development/Coding | [원본](http://faultnote.tistory.com/1)soomtong | 20">
+<meta property="og:locale" content="ko">
+<meta property="og:image" content="http://steps-in.github.io/images/ruby-webdev/ruby_install.jpg">
+<meta property="og:image" content="http://steps-in.github.io/images/ruby-webdev/ruby_win_installer.jpg">
+<meta property="og:image" content="http://steps-in.github.io/images/ruby-webdev/ruby_win_installer_download.jpg">
+<meta property="og:image" content="http://steps-in.github.io/images/ruby-webdev/ruby_win_install-check.jpg">
+<meta property="og:image" content="http://steps-in.github.io/images/ruby-webdev/rails_install_command.jpg">
+<meta property="og:image" content="http://steps-in.github.io/images/ruby-webdev/rails_install.jpg">
+<meta property="og:image" content="http://steps-in.github.io/images/ruby-webdev/rails_install_ing.jpg">
+<meta property="og:image" content="http://steps-in.github.io/images/ruby-webdev/mongrel_install.jpg">
+<meta property="og:image" content="http://steps-in.github.io/images/ruby-webdev/mongrel_install_select.jpg">
+<meta property="og:image" content="http://steps-in.github.io/images/ruby-webdev/mongrel_install_ing.jpg">
+<meta property="og:updated_time" content="2019-06-16T02:42:57.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Install Ruby and Webdev Friends">
+<meta name="twitter:description" content="20071216-루비ruby 설치 라는 제목으로 시작한 첫 포스트네요. 레일즈와 몽그렐 서버를 구동하는 과정을 공부했나 봅니다. 지금은 너무 먼 얘기네요.  123soomtong | 2007-12-16 일요일 오후 6: 6 | Development/Coding | [원본](http://faultnote.tistory.com/1)soomtong | 20">
+<meta name="twitter:image" content="http://steps-in.github.io/images/ruby-webdev/ruby_install.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://steps-in.github.io/2007/12/16/Install-Ruby-Webdev/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Install Ruby and Webdev Friends | FaultNote</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="ko">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FaultNote</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>홈</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>카테고리</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>태그</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>아카이브</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>검색</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://steps-in.github.io/2007/12/16/Install-Ruby-Webdev/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="soomtong">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FaultNote">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Install Ruby and Webdev Friends
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">작성일</span>
+              
+
+              
+                
+              
+
+              <time title="Post created: 2007-12-16 00:00:00" itemprop="dateCreated datePublished" datetime="2007-12-16T00:00:00+09:00">2007-12-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Updated at: 2019-06-16 11:42:57" itemprop="dateModified" datetime="2019-06-16T11:42:57+09:00">2019-06-16</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>20071216-루비ruby 설치 라는 제목으로 시작한 첫 포스트네요. 레일즈와 몽그렐 서버를 구동하는 과정을 공부했나 봅니다. 지금은 너무 먼 얘기네요.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">soomtong | 2007-12-16 일요일 오후 6: 6 | Development/Coding | [원본](http://faultnote.tistory.com/1)</span><br><span class="line">soomtong | 2007-12-16 일요일 오후 6:25 | Development/Coding | [원본](http://faultnote.tistory.com/2)</span><br><span class="line">soomtong | 2007-12-16 일요일 오후 6:43 | Development/Coding | [원본](http://faultnote.tistory.com/3)</span><br></pre></td></tr></table></figure>
+<p>루비온 레일즈ruby on rails 를 사용하기 위해서는 루비ruby 라는 언어를 설치해야합니다.</p>
+<p>Ruby 는 일본인 마츠가 만들어낸 언어입니다. 자세한 설명은 아래의 공식 홈페이지를 참고하세요.<br><a href="http://www.ruby-lang.org/ko/" target="_blank" rel="noopener">http://www.<strong>ruby</strong>-lang.org/ko/</a></p>
+<p><img src="/images/ruby-webdev/ruby_install.jpg" alt="ruby_install.jpg"></p>
+<p>윈도우용을 기준으로<br><a href="http://rubyforge.org/projects/rubyinstaller/" target="_blank" rel="noopener">http://rubyforge.org/projects/rubyinstaller/</a><br>에서 원클릭 인스톨러를 다운로드 합니다.</p>
+<p><img src="/images/ruby-webdev/ruby_win_installer.jpg" alt="ruby_win_installer.jpg"><br><img src="/images/ruby-webdev/ruby_win_installer_download.jpg" alt="ruby_win_installer_download.jpg"></p>
+<p>자주 사용하시는 손에 익은 에디터가 있다면 SCite 라는 항목은 체크 해제 하여 설치하지마세요.</p>
+<p><img src="/images/ruby-webdev/ruby_win_install-check.jpg" alt="ruby_win_install-check.jpg"></p>
+<p>(참고로 루비온레일즈를 위한 에디터를 하나 추천합니다. <a href="http://www.plasmacode.com/" target="_blank" rel="noopener">http://www.plasmacode.com/</a> 에서 배포하는 RoRED 입니다.)</p>
+<p>반드시! Gem 을 설치하셔야 합니다.<br>설치가 완료되면 해당 디렉토리에서 결과를 확인.</p>
+<p>젬이 설치 되어있다면<br>레일즈를 온라인으로 설치할 수 있다.</p>
+<p><img src="/images/ruby-webdev/rails_install_command.jpg" alt="rails_install_command.jpg"></p>
+<p>커멘드라인에서 (Windows+R &gt; cmd ) 아래처럼 입력한다.</p>
+<p><strong>gem install rails —include-dependencies</strong></p>
+<p><img src="/images/ruby-webdev/rails_install.jpg" alt="rails_install.jpg"></p>
+<p>과정은 인터넷을 통해 다운로드 받아서 설치가 된다. 따라서 인터넷에 접속이 가능해야한다.</p>
+<p><img src="/images/ruby-webdev/rails_install_ing.jpg" alt="rails_install_ing.jpg"></p>
+<p>설치후</p>
+<p>테스트용 웹서버를 설치하자. 루비에서 기본으로 제공하는 웹브릭Webrick 서버가 있지만 성능이 매우 낮은 상태라고 한다. 선경험자들의 조언을 참고하여 몽그렐mongrel 을 추천합니다.</p>
+<p>몽그렐mongrel 설치 역시 젬을 통해 이루어진다.</p>
+<p>간단히 <code>gem install mongrel_service</code> 을 입력하자.</p>
+<p><img src="/images/ruby-webdev/mongrel_install.jpg" alt="mongrel_install.jpg"></p>
+<p>플랫폼에 맞는 몽그렐의 최신버전이 나타난다.<br>기본적으로 MSWIN32 포맷의 인스톨을 선택하자.</p>
+<p><img src="/images/ruby-webdev/mongrel_install_select.jpg" alt="mongrel_install_select.jpg"></p>
+<p>위 그림처럼 각 버전을 선택하고 종속 파일을 설치해주면 몽그렐의 설치가 끝난다.</p>
+<p><img src="/images/ruby-webdev/mongrel_install_ing.jpg" alt="mongrel_install_ing.jpg"></p>
+<p>레일즈 프로젝트를 생성한 후 몽그렐을 시작할 수 있다. (이 내용은 다음 포스트에)</p>
+<blockquote>
+<p>다음 포스트에… 는 지켜지지 않았습니다. 노드를 영접했기 때문이죠…</p>
+</blockquote>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/07/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="soomtong">
+            
+              <p class="site-author-name" itemprop="name">soomtong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">포스트</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">카테고리</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">태그</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">soomtong@gmail.com</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v6.7.0</div>
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script src="//cdn.jsdelivr.net/gh/theme-next/theme-next-reading-progress@1.1/reading_progress.min.js"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  
+
+
+
+
+  
+  
+  
+    
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/instantsearch.js@2.4.1/dist/instantsearch.min.css">
+
+  
+  
+    
+  
+  <script src="//cdn.jsdelivr.net/npm/instantsearch.js@2.4.1/dist/instantsearch.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=6.7.0"></script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
