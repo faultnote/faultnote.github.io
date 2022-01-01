@@ -1,3 +1,6 @@
-baseURL = 'http://example.org/'
-languageCode = 'en-us'
-title = 'My New Hugo Site'
+baseURL = 'https://faultnote.github.io/'
+languageCode = 'ko-kr'
+title = 'FaultNote'
+theme = 'terminal'
+googleAnalytics = '297697151'
+hasCJKLanguage = true
