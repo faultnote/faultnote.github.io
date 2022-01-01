@@ -5,8 +5,7 @@
 &lt;/blockquote>
 &lt;h3 id="vi-와-vim">Vi 와 Vim&lt;/h3>
 &lt;p>Vim 은 Vi Improved, 즉, Vi 의 개선판으로 퍼블릭 버전은 1991년에 등장했다.&lt;/p>
-&lt;p>오리지널 vi 는 &lt;a href="https://en.wikipedia.org/wiki/Bill_Joy">빌 조이&lt;/a>가 만들었고 대부분의 UNIX 시스템의 에디터로 채용되었다.
-이후 &lt;a href="https://en.wikipedia.org/wiki/Bram_Moolenaar">브람 뮬러너&lt;/a>가 Vi Imitation 으로 시작해 지금까지 가장 유명한 에디터 중 하나로 추앙 받고 있다.&lt;/p>
+&lt;p>오리지널 vi 는 &lt;a href="https://en.wikipedia.org/wiki/Bill_Joy">빌 조이&lt;/a>가 만들었고 대부분의 UNIX 시스템의 에디터로 채용되었다. 이후 &lt;a href="https://en.wikipedia.org/wiki/Bram_Moolenaar">브람 뮬러너&lt;/a>가 Vi Imitation 으로 시작해 지금까지 가장 유명한 에디터 중 하나로 추앙 받고 있다.&lt;/p>
 &lt;blockquote>
 &lt;p>VI 와 Vim 에 대한 조금 더 자세한 얘기는 다른 포스트에서 다뤄보기로 하자.&lt;/p>
 &lt;/blockquote>
