@@ -1,6 +1,71 @@
 baseURL = 'https://faultnote.github.io/'
+defaultContentLanguage = 'ko'
 languageCode = 'ko-kr'
 title = 'FaultNote'
 theme = 'terminal'
+enableEmoji = true
 googleAnalytics = '297697151'
 hasCJKLanguage = true
+
+[author]
+    name = 'soomtong'
+    email = 'soomtong@gmail.com'
+
+[params]
+  themeColor = "orange"
+  showMenuItems = 3
+  showLanguageSelector = true
+  fullWidthTheme = false
+  centerTheme = false
+  autoCover = true
+
+[languages]
+  [languages.ko]
+    languageName = "한국어"
+    title = "FaultNote"
+    menuMore = "메뉴 더 보기"
+    readMore = "읽기"
+    newerPosts = "새 포스트"
+    olderPosts = "지난 포스트"
+    readOtherPosts = "다른 글 읽기"
+    missingContentMessage = "페이지를 찾을 수 없습니다..."
+    missingBackButtonLabel = "홈으로 이동하기"
+
+    [languages.ko.params.logo]
+      logoText = "FaultNote"
+      logoHomeLink = "/"
+
+    [languages.ko.menu]
+      [[languages.ko.menu.main]]
+        identifier = "about"
+        name = "소개"
+        url = "/about"
+      [[languages.ko.menu.main]]
+        identifier = "series"
+        name = "연재"
+        url = "/series"
+
+  [languages.en]
+    languageName = "English"
+    title = "FaultNote"
+    menuMore = "Show more"
+    readMore = "Read more"
+    readOtherPosts = "Read other posts"
+    newerPosts = "Newer posts"
+    olderPosts = "Older posts"
+    missingContentMessage = "Page not found..."
+    missingBackButtonLabel = "Back to home page"
+
+    [languages.en.params.logo]
+      logoText = "FaultNote"
+      logoHomeLink = "/en"
+
+    [languages.en.menu]
+      [[languages.en.menu.main]]
+        identifier = "about"
+        name = "About"
+        url = "/en/about"
+      [[languages.en.menu.main]]
+        identifier = "series"
+        name = "Series"
+        url = "/en/series"
