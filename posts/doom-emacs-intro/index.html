@@ -1,0 +1,232 @@
+<!doctype html><html lang=ko>
+<head>
+<title>2022년에 Doom Emacs 시작하기 :: FaultNote</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="2022년에 시작하는 이맥스로 글쓰기 환경 구축">
+<meta name=keywords content="doom,emacs">
+<meta name=robots content="noodp">
+<link rel=canonical href=https://faultnote.github.io/posts/doom-emacs-intro/>
+<link rel=stylesheet href=https://faultnote.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://faultnote.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://faultnote.github.io/img/favicon/orange.png>
+<meta name=twitter:card content="summary">
+<meta property="og:locale" content="ko">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2022년에 Doom Emacs 시작하기">
+<meta property="og:description" content="2022년에 시작하는 이맥스로 글쓰기 환경 구축">
+<meta property="og:url" content="https://faultnote.github.io/posts/doom-emacs-intro/">
+<meta property="og:site_name" content="FaultNote">
+<meta property="og:image" content="https://faultnote.github.io/posts/images/cover-silliconvally-vim-over-emacs.jpeg">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-01-01 14:10:21 +0900 +0900">
+</head>
+<body class=orange>
+<div class="container headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+FaultNote
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/about>소개</a></li>
+<li><a href=/series>연재</a></li>
+<div class=spacer></div>
+<ul class=language-selector>
+<ul class=language-selector-current>
+<li>한국어 ▾</li>
+</ul>
+<ul class="language-selector__more hidden">
+<li><a href=https://faultnote.github.io/>한국어</a></li>
+<li><a href=https://faultnote.github.io/en/>English</a></li>
+</ul>
+</ul>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/about>소개</a></li>
+<li><a href=/series>연재</a></li>
+<hr>
+<li>
+<a href=https://faultnote.github.io/>한국어</a>
+</li>
+<li>
+<a href=https://faultnote.github.io/en/>English</a>
+</li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://faultnote.github.io/posts/doom-emacs-intro/>2022년에 Doom Emacs 시작하기</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2022-01-01
+</span>
+<span class=post-author>:: soomtong</span>
+<span class=post-reading-time>:: 6 min read (2688 words)</span>
+</div>
+<span class=post-tags>
+#<a href=https://faultnote.github.io/tags/editor/>editor</a>&nbsp;
+#<a href=https://faultnote.github.io/tags/emacs/>emacs</a>&nbsp;
+</span>
+<img src=https://faultnote.github.io/posts/images/cover-silliconvally-vim-over-emacs.jpeg class=post-cover alt="2022년에 Doom Emacs 시작하기" title="Cover Image">
+<div class=post-content><div>
+<h2 id=이맥스는-뭐냐>이맥스는 뭐냐?<a href=#이맥스는-뭐냐 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>오리지널 Vi 보다는 늦지만 Vim 보다 조금 먼저 개발된 텍스트 편집기로 오래되었고 요즘은 VSCode 가 승리했지만 Emacs vs Vim 의 성전(聖戰, a holy war)은 언제나 핫한 떡밥이었다. (지금 저 <code>vs</code> 는 VSCode 가 되었고 코딩용 편집기의 de facto 가 되었다.)</p>
+<blockquote>
+<p><a href="https://www.youtube.com/watch?v=3r1z5NDXU3s">I do use Vim other Emacs</a> 커버에 있는 이미지의 클립에서도 볼 수 있듯 연애 보다 중요한 문제다.</p>
+</blockquote>
+<h3 id=vi-와-vim>Vi 와 Vim<a href=#vi-와-vim class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>Vim 은 Vi Improved, 즉, Vi 의 개선판으로 퍼블릭 버전은 1991년에 등장했다.</p>
+<p>오리지널 VI 는 <a href=https://en.wikipedia.org/wiki/Bill_Joy>빌 조이</a>가 만들었고 대부분의 UNIX 시스템의 에디터로 채용되었다.
+이후 <a href=https://en.wikipedia.org/wiki/Bram_Moolenaar>브람 뮬러너</a>가 Vi Imitation 으로 시작해 지금까지 가장 유명한 에디터 중 하나로 추앙 받고 있다.</p>
+<blockquote>
+<p>VI 와 Vim 에 대한 조금 더 자세한 얘기는 다른 포스트에서 다뤄보기로 하자.</p>
+</blockquote>
+<p><a href=https://jovicailic.org/2014/06/the-history-of-vim/>The History of Vim</a> 문서에 따르면 이런 히스토리를 가지고 있다.</p>
+<ul>
+<li>1988 Vim 1.0 Vi IMitation on the Amiga</li>
+<li>1991 Vim 1.14 First public release (on Fred Fish disk #591)</li>
+<li>1992 Vim 1.22 Port to Unix, renamed to Vi IMproved</li>
+<li>1994 Vim 3.0 Multiple windows</li>
+<li>1996 Vim 4.0 GUI</li>
+<li>1998 Vim 5.0 Syntax highlighting</li>
+<li>2001 Vim 6.0 Folding, multi-language</li>
+<li>2006 Vim 7.0 On the fly spell checker, support for tabs</li>
+<li>2017 — Mastering Vim Quickly book published.</li>
+</ul>
+<p>현재는 8.x 버전이 사용되고 있고 Vim 의 모던 버전인 <a href=https://neovim.io>Neovim</a> 과 포스트 모던 버전인 <a href=https://helix-editor.com>Helix</a> 에디터가 떠오르고 있다.</p>
+<h3 id=emacs>Emacs<a href=#emacs class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>이맥스는 GNU 의 역사와 괘를 같이 한다. GNU 최초의 프로젝트로 알려져 있기도 하다.</p>
+<blockquote>
+<p>에디터와 컴파일러, 디버거 개발로 시작된 상용 UNIX 시스템을 대체하는 GNU 프로젝트는 커널 개발이 늦어져 그 자리를 Linux 로 채우게 되었다. 오리지널 GNU 명맥을 유지하는 커널은 <a href=https://www.gnu.org/software/hurd/>GNU/Hurd</a> 로 계속되고 있다.</p>
+</blockquote>
+<p>GNU 프로젝트의 구루인 RMS - <a href=https://en.wikipedia.org/wiki/Richard_Stallman title="GNU 의 창시자">리처드 스톨만</a>이 lisp 프로그래밍 언어로 개발했다. Java 를 개발한 <a href=https://en.wikipedia.org/wiki/Gosling_Emacs title="자바의 아버지">제임스 고슬링</a>도 이 에디터의 상용 버전을 개발했던 기록이 있다.</p>
+<blockquote>
+<p><a href="https://www.youtube.com/watch?v=wA7aB-oxjVc">Writing an Emacs implementation in C (Gosling Emacs)</a> 이 영상 재밌다. Latax 보다 worse 한 이맥스의 전신에 대한 얘기도 나온다.</p>
+</blockquote>
+<p>X-윈도우 시스템을 위한 이맥스가 개발되었고 Vi/Vim 와 다르게 자체 GUI 애플리케이션으로 배포되기도 한다. 스크립트를 통한 확장이 용이하여 다양한 기능이 추가되었고 수많은 해커들의 사랑을 받아 이맥스 안에서 모든 것을 해결할 수 있을 수준의 환경을 구성할 수 있다. 반면, 속도의 향상을 위해 C 네이티브로 구성된 부분이 있지만 elisp (Emacs Lisp) 인터프리터 위에서 수행되는 관계로 상대적으로 무겁다.</p>
+<p>긴 역사를 넘어 그 보다 더 많은 개발자들의 공헌으로 다양한 응용프로그램을 구동할 수 있는 환경을 갖추게 되었고 현대의 IDE 에 버금가는 기능과 그 이상의 시스템으로 발전해왔다.</p>
+<p>이맥스의 단축키는 다양한 시스템에 영향을 주게 되었고 대부분의 쉘에서 이 단축키 일부를 지원하고 있다.</p>
+<p>본격적인 문서는 <a href="https://www.emacswiki.org/emacs?interface=ko" title="이맥스 위키">EmacsWiki 한글</a> 사이트를 참고하자.</p>
+<h4 id=evil-모드>Evil 모드<a href=#evil-모드 class=hanchor arialabel=Anchor>&#8983;</a> </h4>
+<p>이맥스의 단축키는 CTRL 키와 META 키 - 윈도우즈의 ALT 나 맥OS 의 Option 키 - 그리고 SUPER 키를 지원하고 이를 응용할 수 있다. 두 단계 이상으로 키 조합을 구성할 수 있어 왠만한 기능은 키보드로 처리가 가능하다.</p>
+<p>하지만 모달 에디팅 환경을 제공하는 Vim 과 다르게 기본적으로 일반적인 에디터가 제공하는 인라인 편집 모드를 제공하고 있다.</p>
+<blockquote>
+<p>모달 에디팅에 대해서는 다음에 심각하게 다뤄보도록 하겠습니다.</p>
+</blockquote>
+<p>모달 에디팅의 장점은 다음에 알아보도록 하고 현재, Vim 에 익숙한 사용자들은 이맥의 기본 편집 모드를 바로 사용하는게 불편했다.</p>
+<p>이런 문제는 이맥스의 다양한 확장 기능 중 Evil 모드 시스템을 통해 Vim 과 동일한 모달 에디팅 환경을 제공 받는다.</p>
+<p>Vim 과 같은 모달 에디팅 환경이 제공되는 Emacs 는 Vim 을 넘어서는 텍스트 편집 환경을 제공하는 장점이 있어 Vim 사용자들을 Emacs 사용자로 만드는 중요한 역할을 했다.</p>
+<h2 id=이맥스에-대한-개인-취향>이맥스에 대한 개인 취향<a href=#이맥스에-대한-개인-취향 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>나의 이맥스 사용은 주로 적당한 분량의 문서 작성에 사용하고 있다.<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup></p>
+<p>밥벌이 코딩은 <code>Jetbrains IDE</code> 에서 하고 짧은 메모나 임시 코드 작성 보관은 아무 에디터에서 진행하고 있는데 대표적으로 <code>Sublime Text</code> 에서 수행한다. 특히 포매팅 작업이 필요한 코드를 잠시 보관할 때는 이만한 도구가 없다.</p>
+<ol>
+<li>매우 빠르고</li>
+<li>스크래치 파일을 잘 관리해주고</li>
+<li>하지만, 빈티지 모드가 영 시원찮고</li>
+<li>구름입력기의 <code>Esc</code> 키로 로마자 전환 기능을 사용하는데 자동 영문 전환이 매끄럽지 않다.</li>
+</ol>
+<p>어쨋든 긴 글은 이맥스에서 작성하려고 시도하고 있고 - 물론 쌩짜 이맥스를 사용하진 않는다 - 스페이스맥스에서 둠 이맥스까지 오게 되었는데 이 오래된 툴은 확실히 묘한 매력이 있다.</p>
+<p>결국 중요한 것은 적당히 굼뜨지 않고 글쓰기를 위한 물리적 감성적 공간을 충분히 제공해주며</p>
+<ol>
+<li>한글 입력에 문제가 없어야 하고</li>
+<li>입력 모드에서 일반 모드로 전환시 로마자 입력 상태로 전환이 잘 되어야 하며</li>
+<li>마크다운 편집이나 스니핏 코드 하이라이트 정도는 되면 좋고</li>
+<li>화살표 키가 없는 키보드를 사용하는 나에겐 적당한 모달 모드를 지원해야 한다.</li>
+</ol>
+<p>여기에 org 모드는 이맥스를 사랑하게 될 것 같은 예상이 든다. (아직 깊이 빠지진 못했다.)</p>
+<h3 id=사용-중인-커스텀>사용 중인 커스텀<a href=#사용-중인-커스텀 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>한동안의 삽질로 몇 가지를 완성했다.</p>
+<ol>
+<li>이전 창 위치와 크기를 기억해 복원하고</li>
+<li>적당히 커스텀 단축키를 정의하고</li>
+<li>입력 모드에서 한글을 사용하다 노멀 모드로 전환되면 영문 모드로 변경되는 기능까지 구성했다.</li>
+</ol>
+<p>이 정도까지 완성하였고 이후 서술할 설치 과정까지 삽질을 마치고 보니 2022년부터는 좀 더 본격적으로 사용할 수 있을 듯 하다.</p>
+<h2 id=이맥스-설치-과정>이맥스 설치 과정<a href=#이맥스-설치-과정 class=hanchor arialabel=Anchor>&#8983;</a> </h2>
+<p>여러 클라이언트를 설치하고 나름 정리해 본 결과 맥용 커스텀이 가장 잘 되어 있는 아래 패키지를 사용하는 걸로 정했다.</p>
+<p>빌드된 패키지 파일은 여기에서도 직접 구할 수 있다.</p>
+<ul>
+<li><a href=https://github.com/railwaycat/homebrew-emacsmacport/releases>https://github.com/railwaycat/homebrew-emacsmacport/releases</a></li>
+</ul>
+<p>brew <code>cask</code> 로 설치하지 않으면 추가 디팬던시를 <code>brew</code> 가 설치하는데 이게 알아서 관리해준다 해도 소스 수정해서 컴파일하는 작업을 하지 않는 이상 필요가 없다고 본다.</p>
+<p>doom emacs 가이드의 첫 번째 추천 클라이언트 자리를 차지할 만 하다.</p>
+<ul>
+<li><a href=https://emacsformacosx.com>https://emacsformacosx.com</a> 의 바이너리 보다 훨씬 빠름</li>
+<li>빌드된 패키지를 제공함(emacs-plus 는 컴파일해야 해서&mldr;)</li>
+</ul>
+<p>아무튼 빌드 하지 말자. 여기 <a href=https://github.com/railwaycat/homebrew-emacsmacport>https://github.com/railwaycat/homebrew-emacsmacport</a> 를 통해 &ndash;cask 로 설치하자.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ brew tap railwaycat/emacsmacport
+$ brew install --cask emacs-mac-spacemacs-icon
+</code></pre></div><blockquote>
+<p>스페이스맥스의 아이콘은 정말 멋지다.</p>
+</blockquote>
+<p>설치가 완료되면 <code>/usr/local/bin</code> 에 <code>emacs</code> 실행 스크립트도 추가해 준다. <a href=https://emacsformacosx.com/tips>https://emacsformacosx.com/tips</a> 에 있는 내용과 같다.</p>
+<p>필요에 따라 <code>alias em='emacs &'</code> 으로 사용하자.</p>
+<h3 id=doom-커스텀>Doom 커스텀<a href=#doom-커스텀 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>이런 이맥스 편집 환경은 <code>Spacemacs</code> 같은 통합 세팅 배포 시스템을 선보이게 되었고 조금 더 마이너한 <code>Doom Emacs</code> 구성이 등장하게 되었다.</p>
+<ul>
+<li><a href=https://www.spacemacs.org/>Spacemacs: Emacs advanced Kit focused on Evil</a></li>
+<li><a href=https://github.com/hlissner/doom-emacs>An Emacs framework for the stubborn martian hacker</a></li>
+</ul>
+<p>처음에는 스페이스맥스를 사용했었다. 그러다 한동안 흥미를 잃었다. 글쓰기를 다시 시작하고 있는데 입맛에 맞는 타이핑 환경을 찾아 헤매다 둠 이맥스를 다시 보면서 재미를 느껴고 있다.</p>
+<p><img src=https://raw.githubusercontent.com/hlissner/doom-emacs/screenshots/main.png alt="Doom Emacs"></p>
+<p>주 사용처는 취미 코딩 용 <code>Go</code> 개발 환경 구성과 블로그 글 쓸 때와 메인 에디터로 선택했다. 어설프지만 ORG 모드 연습도 하고 있는데 업무일지 작성할 때 사용 중이다.</p>
+<p>어느 정도 구성을 마치고 본격 사용을 시작했다.</p>
+<p>여유 있을 때 여길 보는게 제일 좋다.</p>
+<ul>
+<li><a href="https://www.youtube.com/playlist?list=PLhXZp00uXBk4np17N39WvB80zgxlZfVwj">DoomCasts: Emacs Doom Screencasts - Zaiste Programming Youtube channel</a></li>
+</ul>
+<blockquote>
+<p>28개의 클립이 있다. 둠 이맥스의 매력을 느껴 볼 수 있다.</p>
+</blockquote>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/rCMh7srOqvw style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<h3 id=설치-과정>설치 과정<a href=#설치-과정 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>둠 이맥스의 설치 과정은 공식 문서를 따라하는게 가장 좋다. 위에서 추천한 이맥스 패키지 고르는 과정만 주의하자.</p>
+<p><code>fd</code>,<code>ripgrep</code> 을 필요로 한다. 미리 설치해 두자.</p>
+<h3 id=재설치>재설치<a href=#재설치 class=hanchor arialabel=Anchor>&#8983;</a> </h3>
+<p>뭔가 세팅이 꼬였을 경우 쉽게 다시 설치할 수 있다.</p>
+<p>둠 이맥스의 구성은 <code>~/.doom.d/</code> 에 저장되어 있다. 이 코드만 잘 백업해 두도록 하자.</p>
+<blockquote>
+<p>나는 dot file 관리를 위해 <code>chezmoi</code> 를 사용 중이다.</p>
+</blockquote>
+<p>이맥스 애플리케이션을 다시 설치할 필요는 없다. 이맥스의 로컬 세팅을 제거하고 둠 환경을 다시 설치하면 초기 세팅을 복원할 수 있다.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ rm -rf ~/.emacs.d/.local
+$ ~/.emacs.d/bin/doom install
+</code></pre></div><section class=footnotes role=doc-endnotes>
+<hr>
+<ol>
+<li id=fn:1 role=doc-endnote>
+<p>새해 첫 글에 이맥스를 소개하기 위해 부랴 부랴 작성 중이다.&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+</div></div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class=copyright>
+<span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://faultnote.github.io/assets/main.js></script>
+<script src=https://faultnote.github.io/assets/prism.js></script>
+<script src=https://faultnote.github.io/assets/languageSelector.js></script>
+</div>
+</body>
+</html>
