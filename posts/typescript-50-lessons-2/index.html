@@ -1,0 +1,493 @@
+<!doctype html><html lang=ko>
+<head>
+<title>TypeScript 50 Lessons Part 2 :: FaultNote</title>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=description content="스매싱매거진의 타입스크립트 50 레슨 정리 2편">
+<meta name=keywords content="typescript,Stefan Baumgartner">
+<meta name=robots content="noodp">
+<link rel=canonical href=https://faultnote.github.io/posts/typescript-50-lessons-2/>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6J40Z181KC"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-6J40Z181KC',{anonymize_ip:!1})}</script>
+<link rel=stylesheet href=https://faultnote.github.io/assets/style.css>
+<link rel=apple-touch-icon href=https://faultnote.github.io/img/apple-touch-icon-192x192.png>
+<link rel="shortcut icon" href=https://faultnote.github.io/img/favicon/orange.png>
+<meta name=twitter:card content="summary">
+<meta property="og:locale" content="ko">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TypeScript 50 Lessons Part 2">
+<meta property="og:description" content="스매싱매거진의 타입스크립트 50 레슨 정리 2편">
+<meta property="og:url" content="https://faultnote.github.io/posts/typescript-50-lessons-2/">
+<meta property="og:site_name" content="FaultNote">
+<meta property="og:image" content="https://faultnote.github.io/posts/images/cover-typescript-50-lessons.png">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+<meta property="article:published_time" content="2022-01-22 12:40:51 +0900 +0900">
+</head>
+<body class=orange>
+<div class="container headings--one-size">
+<header class=header>
+<div class=header__inner>
+<div class=header__logo>
+<a href=/>
+<div class=logo>
+FaultNote
+</div>
+</a>
+</div>
+<div class=menu-trigger>menu</div>
+</div>
+<nav class=menu>
+<ul class="menu__inner menu__inner--desktop">
+<li><a href=/about>소개</a></li>
+<li><a href=/series>연재</a></li>
+<div class=spacer></div>
+<ul class=language-selector>
+<ul class=language-selector-current>
+<li>한국어 ▾</li>
+</ul>
+<ul class="language-selector__more hidden">
+<li><a href=https://faultnote.github.io/>한국어</a></li>
+<li><a href=https://faultnote.github.io/en/>English</a></li>
+</ul>
+</ul>
+</ul>
+<ul class="menu__inner menu__inner--mobile">
+<li><a href=/about>소개</a></li>
+<li><a href=/series>연재</a></li>
+<hr>
+<li>
+<a href=https://faultnote.github.io/>한국어</a>
+</li>
+<li>
+<a href=https://faultnote.github.io/en/>English</a>
+</li>
+</ul>
+</nav>
+</header>
+<div class=content>
+<div class=post>
+<h1 class=post-title>
+<a href=https://faultnote.github.io/posts/typescript-50-lessons-2/>TypeScript 50 Lessons Part 2</a></h1>
+<div class=post-meta>
+<span class=post-date>
+2022-01-22
+</span>
+<span class=post-author>:: soomtong</span>
+<span class=post-reading-time>:: 6 min read (2687 words)</span>
+</div>
+<span class=post-tags>
+#<a href=https://faultnote.github.io/tags/typescript/>typescript</a>&nbsp;
+#<a href=https://faultnote.github.io/tags/javascript/>javascript</a>&nbsp;
+</span>
+<img src=https://faultnote.github.io/posts/images/cover-typescript-50-lessons.png class=post-cover alt="TypeScript 50 Lessons Part 2" title="Cover Image">
+<div class=post-content><div>
+<div id=outline-container-headline-1 class=outline-2>
+<h2 id=headline-1>
+타입스크립트 in 50 레슨
+</h2>
+<div id=outline-text-headline-1 class=outline-text-2>
+<p>
+<a href=https://fettblog.eu/>스테판 바움가트너</a>가 스매싱 매거진에서 출판한 서적으로 타입스크립트 주요 주제들에 대해 잘 짚어주고 있다.</p>
+<div id=outline-container-headline-2 class=outline-3>
+<h3 id=headline-2>
+Lesson 9
+</h3>
+<div id=outline-text-headline-2 class=outline-text-3>
+<pre class=example>
+any 괜찮은가? 아니, 안괜찮음
+</pre>
+<p>
+타입스크립트에서 `:` 을 통해 정의되는 타이핑 기법을 레프트핸드 타이핑이라고 한다.</p>
+<ul>
+<li>Left-Hand Typing: 식별자에 선언되는 타입 정보를 통해 타입을 정의한다.</li>
+<li>Right-Hand Typing: 식별자에 대입되는 값 정보를 통해 타입이 추론된다.</li>
+</ul>
+<p>라이트핸드 타이핑은 조금 더 자바스크립티 하다.</p>
+<p>
+`any` 타입은 가능하면 사용하지 말자.</p>
+</div>
+</div>
+<div id=outline-container-headline-3 class=outline-3>
+<h3 id=headline-3>
+Lesson 10
+</h3>
+<div id=outline-text-headline-3 class=outline-text-3>
+<pre class=example>
+조건문을 추가하여 타입을 제한을 우회하기
+</pre>
+<p>
+타입 좁히기 기법은 비교/조건문을 통해 any 나 unknown 이 주는 위험을 보완할 수 있다.</p>
+<ol>
+<li>타입 가드: typeof 같은 연산을 통해 타입 정보를 추론할 수 있다.</li>
+<li>타입 비교 구문: 타입 가드를 통해 추론된 타입 정보로 이어지는 코드의 식별자에 대해 타입을 추론한다.</li>
+<li>타입 좁히기: any 타입이 적용된 식별자라 하더라도 타입을 제한할 수 있게 된다.</li>
+</ol>
+<p>`any` 는 모든 타입의 수퍼 타입이다. 예를 들면, DOM 에서 `HTMLElement` 는 모든 HTML 엘리먼트의 수퍼 타입이다. 그래도 `any` 가 필요한 경우에는 `unknown` 으로 타협하자.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>selectDeliveryAddress</span>(<span style=color:#a6e22e>addressOrIndex</span>: <span style=color:#66d9ef>unknown</span>)<span style=color:#f92672>:</span> <span style=color:#66d9ef>string</span> {
+    <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>addressOrIndex</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;number&#39;</span>) {
+        <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>deliveryAddresses</span>[<span style=color:#a6e22e>addressOrIndex</span>]
+    }
+    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>addressOrIndex</span>
+}</code></pre></div>
+</div>
+<p>이 경우 unknown 타입은 number 타입으로 추론되어 string 을 반환하는 함수에 적합하지 않은 타입을 반환하게 된다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>addressOrIndex</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;number&#39;</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#a6e22e>addressOrIndex</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>deliveryAddresses</span>.<span style=color:#a6e22e>length</span>) {
+    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>deliveryAddresses</span>[<span style=color:#a6e22e>addressOrIndex</span>]
+} <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>addressOrIndex</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;string&#39;</span>) {
+    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>addressOrIndex</span>
+}
+<span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#39;&#39;</span></code></pre></div>
+</div>
+<p>이렇게 조건문을 추가하여 타입 가드를 완성한다.</p>
+</div>
+</div>
+<div id=outline-container-headline-4 class=outline-3>
+<h3 id=headline-4>
+Lesson 11
+</h3>
+<div id=outline-text-headline-4 class=outline-text-3>
+<pre class=example>
+객체에 타입 정보를 추가하면서 구조적 타입 시스템과 과잉 속성 점검 기능을 이해하기
+</pre>
+<p>
+두 개의 최상위 타입 any 와 unknown 도 타입스크립트 전용의 원시 타입이다.
+객체는 컴포지트 타입에 속한다. Shape 이 다른 경우 타입 오류를 유발한다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Article</span> <span style=color:#f92672>=</span> {
+    <span style=color:#a6e22e>title</span>: <span style=color:#66d9ef>string</span>,
+    <span style=color:#a6e22e>price</span>: <span style=color:#66d9ef>number</span>,
+    <span style=color:#a6e22e>vat</span>: <span style=color:#66d9ef>number</span>,
+    <span style=color:#a6e22e>stock</span>: <span style=color:#66d9ef>number</span>,
+    <span style=color:#a6e22e>description</span>: <span style=color:#66d9ef>string</span>
+}
+
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>movie</span>: <span style=color:#66d9ef>Article</span> <span style=color:#f92672>=</span> {
+    <span style=color:#a6e22e>title</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;Helvetica&#39;</span>,
+    <span style=color:#a6e22e>price</span>: <span style=color:#66d9ef>6.66</span>,
+    <span style=color:#a6e22e>vat</span>: <span style=color:#66d9ef>0.19</span>,
+    <span style=color:#a6e22e>stock</span>: <span style=color:#66d9ef>1000</span>,
+}</code></pre></div>
+</div>
+<p>description 이 누락되어 타입 에러이다. 만약 타입에 정의된 프로퍼티 이외의 프로퍼티를 추가해도 타입 에러를 낸다. 그런데 이런 경우는 에러를 찾아내지 못한다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>movieRated</span> <span style=color:#f92672>=</span> {
+    <span style=color:#a6e22e>title</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;Helvetica&#39;</span>,
+    <span style=color:#a6e22e>price</span>: <span style=color:#66d9ef>6.66</span>,
+    <span style=color:#a6e22e>vat</span>: <span style=color:#66d9ef>0.19</span>,
+    <span style=color:#a6e22e>stock</span>: <span style=color:#66d9ef>1000</span>,
+    <span style=color:#a6e22e>description</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;90 minutes of gushing about Helvetica&#39;</span>,
+    <span style=color:#a6e22e>rating</span>: <span style=color:#66d9ef>5</span>,
+}
+
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>movie</span>: <span style=color:#66d9ef>Article</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>movieRated</span></code></pre></div>
+</div>
+<p>타입스크립트의 구조적 타입 시스템에 따라 구조적 계약을 이행하는 조건이라면 타입 체크를 통과한다.</p>
+<p>
+조금 깊게 본다면 대입문을 통해 새로운 식별자에 객체를 지정하는 과정(객체 할당)에 객체 주소의 복사가 일어나기 때문이다. 즉, 대입문을 통한 객체 할당 과정에서 계약 조건을 만족하면 타입 체크를 통과하는 것으로 이해할 수 있다.</p>
+<p>
+그리고, 타입이 정의된 식별자 이름과 무관하게 모양이 같으면 같은 타입으로 혼용할 수 있다.</p>
+<blockquote>
+<p>타입스크립트의 타입 시스템은 친절하다고 소개하고 있지만 노미널 타입을 선호하는 사용자에게는 조금 부실하다.</p>
+</blockquote>
+<p>
+레프트핸드 타이핑이 동작 가능한 경우 과잉 속성 점검 기능을 통해 식별자에 대입시 초과되는 속성을 검사하여 오류를 제공한다. 물론 부족한 속성이 있어도 오류다.</p>
+<p>
+함수의 인자로 객체를 전달할 때 타입 정의를 포함할 수 있다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>createArticleElement</span>(<span style=color:#a6e22e>article</span>: <span style=color:#66d9ef>Article</span>)<span style=color:#f92672>:</span> <span style=color:#66d9ef>string</span> {
+    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#39;&#39;</span>
+}
+
+<span style=color:#66d9ef>function</span> <span style=color:#a6e22e>createArticleElement</span>(<span style=color:#a6e22e>article</span><span style=color:#f92672>:</span> { <span style=color:#a6e22e>title</span>: <span style=color:#66d9ef>string</span>, <span style=color:#a6e22e>price</span>: <span style=color:#66d9ef>number</span>, <span style=color:#a6e22e>vat</span>: <span style=color:#66d9ef>number</span> })<span style=color:#f92672>:</span> <span style=color:#66d9ef>string</span> {
+    <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#39;&#39;</span>
+}</code></pre></div>
+</div>
+<p>명시적으로 풀어 사용해도 모양만 맞으면 된다. 당연히 과잉 속성 점검 기능도 동작한다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#a6e22e>createArticleElement</span>({
+    <span style=color:#a6e22e>title</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;Design Systems by Alla Kholmatova&#39;</span>,
+    <span style=color:#a6e22e>price</span>: <span style=color:#66d9ef>20</span>,
+    <span style=color:#a6e22e>vat</span>: <span style=color:#66d9ef>0.19</span>,
+    <span style=color:#a6e22e>rating</span>: <span style=color:#66d9ef>5</span>,
+})</code></pre></div>
+</div>
+</div>
+</div>
+<div id=outline-container-headline-5 class=outline-3>
+<h3 id=headline-5>
+Lesson 12
+</h3>
+<div id=outline-text-headline-5 class=outline-text-3>
+<pre class=example>
+객체 타입을 구분하기
+</pre>
+<p>
+복잡한 객체 구조가 있을 경우 객체 타입을 나눠서 새 객체 타입을 구성하는 방법을 소개하고 있다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>OrderComplex</span> <span style=color:#f92672>=</span> {
+    <span style=color:#a6e22e>articles</span><span style=color:#f92672>:</span> {
+        <span style=color:#a6e22e>price</span>: <span style=color:#66d9ef>number</span>
+        <span style=color:#a6e22e>vat</span>: <span style=color:#66d9ef>number</span>
+        <span style=color:#a6e22e>title</span>: <span style=color:#66d9ef>number</span>
+    }[]
+    <span style=color:#a6e22e>customer</span><span style=color:#f92672>:</span> {
+        <span style=color:#a6e22e>name</span>: <span style=color:#66d9ef>string</span>
+        <span style=color:#a6e22e>address</span><span style=color:#f92672>:</span> {
+            <span style=color:#a6e22e>city</span>: <span style=color:#66d9ef>string</span>
+            <span style=color:#a6e22e>zip</span>: <span style=color:#66d9ef>string</span>
+            <span style=color:#a6e22e>street</span>: <span style=color:#66d9ef>string</span>
+            <span style=color:#66d9ef>number</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>string</span>
+        }
+        <span style=color:#a6e22e>dateOfBirth</span>: <span style=color:#66d9ef>Date</span>
+    }
+}</code></pre></div>
+</div>
+<p>이런 구성의 객체 타입은 풀어 쓰면 이렇게 된다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>ArticleStub</span> <span style=color:#f92672>=</span> {
+    <span style=color:#a6e22e>price</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>vat</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>title</span>: <span style=color:#66d9ef>string</span>
+}
+
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Address</span> <span style=color:#f92672>=</span> {
+    <span style=color:#a6e22e>city</span>: <span style=color:#66d9ef>string</span>
+    <span style=color:#a6e22e>zip</span>: <span style=color:#66d9ef>string</span>
+    <span style=color:#a6e22e>street</span>: <span style=color:#66d9ef>string</span>
+    <span style=color:#66d9ef>number</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>string</span>
+}
+
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Customer</span> <span style=color:#f92672>=</span> {
+    <span style=color:#a6e22e>name</span>: <span style=color:#66d9ef>string</span>
+    <span style=color:#a6e22e>address</span>: <span style=color:#66d9ef>Address</span>
+    <span style=color:#a6e22e>dateOfBirth</span>: <span style=color:#66d9ef>Date</span>
+}
+
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Order</span> <span style=color:#f92672>=</span> {
+    <span style=color:#a6e22e>articles</span>: <span style=color:#66d9ef>ArticleStub</span>[]
+    <span style=color:#a6e22e>customer</span>: <span style=color:#66d9ef>Customer</span>
+}</code></pre></div>
+</div>
+<p>
+다양한 기능으로 무장한 타입스크립트의 `typeof` 연산자를 통해 실제 객체 변수에 저장된 값을 추론해 새로운 타입으로 등록할 수 있다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Order</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>typeof</span> <span style=color:#a6e22e>someOrder1</span></code></pre></div>
+</div>
+<p>
+옵셔널 프로퍼티 선언을 통해 유연한 타입 시스템을 구성할 수 있다. 강타입을 구현하면서 Null safety 를 실현하는 모던 프로그래밍 언어의 특징 중 하나이다.</p>
+<p>
+이렇게 정의된 타입만 공유하기 위해 `import type` `export type` 구문을 사용할 수 있다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#75715e>// some-example.ts file
+</span><span style=color:#75715e></span><span style=color:#66d9ef>export</span> <span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Article</span> <span style=color:#f92672>=</span> {
+    <span style=color:#a6e22e>title</span>: <span style=color:#66d9ef>string</span>
+    <span style=color:#a6e22e>price</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>vat</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>stock?</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>description?</span>: <span style=color:#66d9ef>string</span>
+}</code></pre></div>
+</div>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>import</span> <span style=color:#66d9ef>type</span> { <span style=color:#a6e22e>Article</span> } <span style=color:#66d9ef>from</span> <span style=color:#e6db74>&#39;./some-example&#39;</span>
+
+<span style=color:#66d9ef>const</span> <span style=color:#a6e22e>book</span>: <span style=color:#66d9ef>Article</span> <span style=color:#f92672>=</span> {
+    <span style=color:#a6e22e>price</span>: <span style=color:#66d9ef>29</span>,
+    <span style=color:#a6e22e>vat</span>: <span style=color:#66d9ef>0.2</span>,
+    <span style=color:#a6e22e>title</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;Another book by Smashing Books&#39;</span>,
+}</code></pre></div>
+</div>
+</div>
+</div>
+<div id=outline-container-headline-6 class=outline-3>
+<h3 id=headline-6>
+Lesson 13
+</h3>
+<div id=outline-text-headline-6 class=outline-text-3>
+<pre class=example>
+객체 타이핑
+</pre>
+<p>
+타입스크립트가 자바스크립트로 컴파일 되는 동안 값 정보만 남고 우리가 추가한 타입 정보는 사라지게 된다. 하지만 클래스는 그 자체로 타입 정보와 값 정보를 가지고 있는 특징이 있다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Discount</span> {
+    <span style=color:#a6e22e>isPercentage</span>: <span style=color:#66d9ef>boolean</span>
+    <span style=color:#a6e22e>amount</span>: <span style=color:#66d9ef>number</span>
+
+    <span style=color:#66d9ef>constructor</span>(<span style=color:#a6e22e>isPercentage</span>: <span style=color:#66d9ef>boolean</span>, <span style=color:#a6e22e>amount</span>: <span style=color:#66d9ef>number</span>) {
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>isPercentage</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>isPercentage</span>
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>amount</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>amount</span>
+    }
+
+    <span style=color:#a6e22e>apply</span>(<span style=color:#a6e22e>article</span>: <span style=color:#66d9ef>Article</span>) {
+        <span style=color:#66d9ef>if</span> (<span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>isPercentage</span>) {
+            <span style=color:#a6e22e>article</span>.<span style=color:#a6e22e>price</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>article</span>.<span style=color:#a6e22e>price</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>article</span>.<span style=color:#a6e22e>price</span> <span style=color:#f92672>*</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>amount</span>
+        } <span style=color:#66d9ef>else</span> {
+            <span style=color:#a6e22e>article</span>.<span style=color:#a6e22e>price</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>article</span>.<span style=color:#a6e22e>price</span> <span style=color:#f92672>-</span> <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>amount</span>
+        }
+    }
+}</code></pre></div>
+</div>
+<p>클래스는 두 파트로 구성되는데 생성자와 프로토타입으로 나뉜다. 프로토타입은 객체의 모양을 정의하고 생성자에 의해 실체화 된다. 타입스크립트의 구조적 타이핑 기법에 따라 아래는 `Discount` 객체를 생성해 낼 수 있게 된다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>DiscountType</span> <span style=color:#f92672>=</span> {
+    <span style=color:#a6e22e>isPercentage</span>: <span style=color:#66d9ef>boolean</span>
+    <span style=color:#a6e22e>amount</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>apply</span>(<span style=color:#a6e22e>article</span>: <span style=color:#66d9ef>Article</span>)<span style=color:#f92672>:</span> <span style=color:#66d9ef>void</span>
+}
+
+<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>disco</span>: <span style=color:#66d9ef>DiscountType</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Discount</span>(<span style=color:#66d9ef>true</span>, <span style=color:#ae81ff>0.2</span>)</code></pre></div>
+</div>
+<p>구조적 타입 시스템에서 중요한 것은 오직 모양이다. 그 이름은 무의미하다.</p>
+<p>
+클래스는 상속을 통해 확장할 수 있다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>TwentyPercentDiscount</span> <span style=color:#66d9ef>extends</span> <span style=color:#a6e22e>Discount</span> {
+    <span style=color:#66d9ef>constructor</span>() {
+        <span style=color:#66d9ef>super</span>(<span style=color:#66d9ef>true</span>, <span style=color:#ae81ff>0.2</span>)
+    }
+
+    <span style=color:#a6e22e>apply</span>(<span style=color:#a6e22e>article</span>: <span style=color:#66d9ef>Article</span>) {
+        <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>article</span>.<span style=color:#a6e22e>price</span> <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>40</span>) {
+            <span style=color:#66d9ef>super</span>.<span style=color:#a6e22e>apply</span>(<span style=color:#a6e22e>article</span>)
+        }
+    }
+
+    <span style=color:#a6e22e>isValidForDiscount</span>(<span style=color:#a6e22e>article</span>: <span style=color:#66d9ef>Article</span>) {
+        <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>article</span>.<span style=color:#a6e22e>price</span> <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>40</span>
+    }
+}</code></pre></div>
+</div>
+<div id=outline-container-headline-7 class=outline-4>
+<h4 id=headline-7>
+구조적 타입 시스템과 명명형 타입 시스템
+</h4>
+<div id=outline-text-headline-7 class=outline-text-4>
+<p>최근 프로그래밍 언어의 타입 시스템은 두 종류로 구분할 수 있다.</p>
+<ul>
+<li>Nominal Typing 을 가지는 언어: C++, Java 등; 클래스의 이름이 다르면 다른 타입이다.</li>
+<li>Structural Typing 을 가지는 언어: Ocaml, Haskell, TypeScript, Go 등; 클래스의 모양이 같으면 같은 타입이다. 덕 타이핑 등의 용어가 이 사상에서 나온다.</li>
+</ul>
+<p>각각의 장단점이 있고 혼용되기도 한다. 타입스크립트를 명명형 타입 시스템처럼 사용하기 위한 기법도 많이 있다.</p>
+<ul>
+<li><a href=https://michalzalecki.com/nominal-typing-in-typescript/>Nominal typing techniques in TypeScript</a> 를 참고하자.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id=outline-container-headline-8 class=outline-3>
+<h3 id=headline-8>
+Lesson 14
+</h3>
+<div id=outline-text-headline-8 class=outline-text-3>
+<pre class=example>
+인터페이스는 객체를 특정하는 제약
+</pre>
+<p>
+타입 시스템에는 인터페이스가 항상 따라오는데 타입스크립트에서도 마찬가지다. 객체지향 프로그래밍에서 인터페이스는 클래스를 기술하는 명세라고 볼 수 있다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Article</span> <span style=color:#f92672>=</span> {
+    <span style=color:#a6e22e>title</span>: <span style=color:#66d9ef>string</span>
+    <span style=color:#a6e22e>price</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>vat</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>stock?</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>description?</span>: <span style=color:#66d9ef>string</span>
+}
+
+<span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>ShopItem</span> {
+    <span style=color:#a6e22e>title</span>: <span style=color:#66d9ef>string</span>
+    <span style=color:#a6e22e>price</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>vat</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>stock?</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>description?</span>: <span style=color:#66d9ef>string</span>
+}</code></pre></div>
+</div>
+<p>구조적 타입 시스템에서 위 둘은 같은 모양을 가지고 있고 혼용이 가능하다.
+클래스에 인터페이스를 구현하기 위해 아래와 같이 사용한다. 명세를 구현하는 것이다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>DVD</span> <span style=color:#66d9ef>implements</span> <span style=color:#a6e22e>ShopItem</span> {
+    <span style=color:#a6e22e>title</span>: <span style=color:#66d9ef>string</span>
+    <span style=color:#a6e22e>price</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>vat</span>: <span style=color:#66d9ef>number</span>
+
+    <span style=color:#66d9ef>constructor</span>(<span style=color:#a6e22e>title</span>: <span style=color:#66d9ef>string</span>) {
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>title</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>title</span>
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>price</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>9.99</span>
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>vat</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.2</span>
+    }
+}
+
+<span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Book</span> <span style=color:#66d9ef>implements</span> <span style=color:#a6e22e>Article</span> {
+    <span style=color:#a6e22e>title</span>: <span style=color:#66d9ef>string</span>
+    <span style=color:#a6e22e>price</span>: <span style=color:#66d9ef>number</span>
+    <span style=color:#a6e22e>vat</span>: <span style=color:#66d9ef>number</span>
+
+    <span style=color:#66d9ef>constructor</span>(<span style=color:#a6e22e>title</span>: <span style=color:#66d9ef>string</span>) {
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>title</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>title</span>
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>price</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>39</span>
+        <span style=color:#66d9ef>this</span>.<span style=color:#a6e22e>vat</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.2</span>
+    }
+}</code></pre></div>
+</div>
+<p>
+인터페이스와 타입은 같은 목적으로 사용되는 듯 해 보인다. 타입스크립트 코딩을 오래할수록 타입을 사용하기 위해 인터페이스를 사용하게 될 것이라고 조언하고 있다. 그 첫 이유는 선언을 병합하여 사용할 수 있는 점 때문이다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>declare</span> <span style=color:#66d9ef>global</span> {
+    <span style=color:#66d9ef>interface</span> <span style=color:#a6e22e>Window</span> {
+        <span style=color:#a6e22e>isDevelopment</span>: <span style=color:#66d9ef>boolean</span>
+    }
+}</code></pre></div>
+</div>
+<p>Window 타입에 인터페이스를 추가하여 안전한 코드를 작성하는 예를 보여준다.</p>
+<div class="src src-typescript">
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-typescript data-lang=typescript><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Discount</span> {
+    <span style=color:#75715e>//...
+</span><span style=color:#75715e></span>    <span style=color:#a6e22e>apply</span>(<span style=color:#a6e22e>article</span>: <span style=color:#66d9ef>Article</span>) {
+        <span style=color:#66d9ef>if</span> (window.<span style=color:#a6e22e>isDevelopment</span>) {
+            <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#39;Another discount applied&#39;</span>)
+        }
+    }
+}</code></pre></div>
+</div>
+<p>점진적으로 자바스크립트를 확장해가며 빨간 줄을 만나지 않기 위한 노력을 하고 있다.</p>
+<ol>
+<li>타입스크립트 컴파일러는 자바스크립트로 변환하면서 타입 어노테이션을 잃어버린다.</li>
+<li>타입스크립트의 `any` 는 어느 타입에도 대응 가능한 고유한 원시 타입이다.</li>
+<li>이 `any` 는 타입스크립트의 점진적 타입 개선 과정에 도움이 된다.</li>
+<li>타입 가드 기법을 통해 타입을 추론이 동작하는 과정을 알아보았고 `typeof` 연산자는 타입 정보를 반환하는 기능도 가지고 있다.</li>
+<li>구조적 타입 시스템에 대해 살펴보았다.</li>
+<li>타입을 구성하는 다양한 방법을 알았다.</li>
+<li>객체지향 프로그래밍의 클래스는 값으로도 동작하고 타입으로도 동작하는 것을 알았다.</li>
+<li>인터페이스를 통해 타입 선언을 병합하는 방법이 있음을 알았다.</li>
+</ol>
+<p>타입스크립트는 자바스크립트에 영향을 주고 있다.</p>
+<ol>
+<li>접근 제어자가 있다. (최근 자바스크립트에 도입되었다.)</li>
+<li>추상 클래스 개념이 있다.</li>
+<li>열거형을 선언할 수 있다.</li>
+</ol>
+<p><a href=/posts/typescript-50-lessons-3/>작성 중</a></p>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</div>
+<footer class=footer>
+<div class=footer__inner>
+<div class=copyright>
+<span>© 2022 Powered by <a href=http://gohugo.io>Hugo</a></span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span>
+</div>
+</div>
+</footer>
+<script src=https://faultnote.github.io/assets/main.js></script>
+<script src=https://faultnote.github.io/assets/prism.js></script>
+<script src=https://faultnote.github.io/assets/languageSelector.js></script>
+</div>
+</body>
+</html>
