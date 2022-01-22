@@ -1,0 +1,342 @@
++++
+title = "TypeScript 50 Lessons Part 2"
+slug = "typescript-50-lessons-2"
+date = "2022-01-22T12:40:51+09:00"
+author = "soomtong"
+cover = "/posts/images/cover-typescript-50-lessons.png"
+tags = ["typescript", "javascript"]
+keywords = ["typescript", "Stefan Baumgartner"]
+description = "스매싱매거진의 타입스크립트 50 레슨 정리 2편"
+showFullContent = false
+readingTime = true
++++
+
+* 타입스크립트 in 50 레슨
+
+[[https://fettblog.eu/][스테판 바움가트너]]가 스매싱 매거진에서 출판한 서적으로 타입스크립트 주요 주제들에 대해 잘 짚어주고 있다.
+
+** Lesson 9
+: any 괜찮은가? 아니, 안괜찮음
+
+타입스크립트에서 `:` 을 통해 정의되는 타이핑 기법을 레프트핸드 타이핑이라고 한다.
+- Left-Hand Typing: 식별자에 선언되는 타입 정보를 통해 타입을 정의한다.
+- Right-Hand Typing: 식별자에 대입되는 값 정보를 통해 타입이 추론된다.
+라이트핸드 타이핑은 조금 더 자바스크립티 하다.
+
+`any` 타입은 가능하면 사용하지 말자.
+
+** Lesson 10
+: 조건문을 추가하여 타입을 제한을 우회하기
+
+타입 좁히기 기법은 비교/조건문을 통해 any 나 unknown 이 주는 위험을 보완할 수 있다.
+1. 타입 가드: typeof 같은 연산을 통해 타입 정보를 추론할 수 있다.
+2. 타입 비교 구문: 타입 가드를 통해 추론된 타입 정보로 이어지는 코드의 식별자에 대해 타입을 추론한다.
+3. 타입 좁히기: any 타입이 적용된 식별자라 하더라도 타입을 제한할 수 있게 된다.
+
+`any` 는 모든 타입의 수퍼 타입이다. 예를 들면, DOM 에서 `HTMLElement` 는 모든 HTML 엘리먼트의 수퍼 타입이다. 그래도 `any` 가 필요한 경우에는 `unknown` 으로 타협하자.
+#+begin_src typescript
+function selectDeliveryAddress(addressOrIndex: unknown): string {
+    if (typeof addressOrIndex === 'number') {
+        return deliveryAddresses[addressOrIndex]
+    }
+    return addressOrIndex
+}
+#+end_src
+이 경우 unknown 타입은 number 타입으로 추론되어 string 을 반환하는 함수에 적합하지 않은 타입을 반환하게 된다.
+#+begin_src typescript
+if (typeof addressOrIndex === 'number' && addressOrIndex < deliveryAddresses.length) {
+    return deliveryAddresses[addressOrIndex]
+} else if (typeof addressOrIndex === 'string') {
+    return addressOrIndex
+}
+return ''
+#+end_src
+이렇게 조건문을 추가하여 타입 가드를 완성한다.
+
+** Lesson 11
+: 객체에 타입 정보를 추가하면서 구조적 타입 시스템과 과잉 속성 점검 기능을 이해하기
+
+두 개의 최상위 타입 any 와 unknown 도 타입스크립트 전용의 원시 타입이다.
+객체는 컴포지트 타입에 속한다. Shape 이 다른 경우 타입 오류를 유발한다.
+#+begin_src typescript
+type Article = {
+    title: string,
+    price: number,
+    vat: number,
+    stock: number,
+    description: string
+}
+
+const movie: Article = {
+    title: 'Helvetica',
+    price: 6.66,
+    vat: 0.19,
+    stock: 1000,
+}
+#+end_src
+description 이 누락되어 타입 에러이다. 만약 타입에 정의된 프로퍼티 이외의 프로퍼티를 추가해도 타입 에러를 낸다. 그런데 이런 경우는 에러를 찾아내지 못한다.
+#+begin_src typescript
+const movieRated = {
+    title: 'Helvetica',
+    price: 6.66,
+    vat: 0.19,
+    stock: 1000,
+    description: '90 minutes of gushing about Helvetica',
+    rating: 5,
+}
+
+const movie: Article = movieRated
+#+end_src
+타입스크립트의 구조적 타입 시스템에 따라 구조적 계약을 이행하는 조건이라면 타입 체크를 통과한다.
+
+조금 깊게 본다면 대입문을 통해 새로운 식별자에 객체를 지정하는 과정(객체 할당)에 객체 주소의 복사가 일어나기 때문이다. 즉, 대입문을 통한 객체 할당 과정에서 계약 조건을 만족하면 타입 체크를 통과하는 것으로 이해할 수 있다.
+
+그리고, 타입이 정의된 식별자 이름과 무관하게 모양이 같으면 같은 타입으로 혼용할 수 있다.
+#+begin_quote
+타입스크립트의 타입 시스템은 친절하다고 소개하고 있지만 노미널 타입을 선호하는 사용자에게는 조금 부실하다.
+#+end_quote
+
+레프트핸드 타이핑이 동작 가능한 경우 과잉 속성 점검 기능을 통해 식별자에 대입시 초과되는 속성을 검사하여 오류를 제공한다. 물론 부족한 속성이 있어도 오류다.
+
+함수의 인자로 객체를 전달할 때 타입 정의를 포함할 수 있다.
+#+begin_src typescript
+function createArticleElement(article: Article): string {
+    return ''
+}
+
+function createArticleElement(article: { title: string, price: number, vat: number }): string {
+    return ''
+}
+#+end_src
+명시적으로 풀어 사용해도 모양만 맞으면 된다. 당연히 과잉 속성 점검 기능도 동작한다.
+#+begin_src typescript
+createArticleElement({
+    title: 'Design Systems by Alla Kholmatova',
+    price: 20,
+    vat: 0.19,
+    rating: 5,
+})
+#+end_src
+
+** Lesson 12
+: 객체 타입을 구분하기
+
+복잡한 객체 구조가 있을 경우 객체 타입을 나눠서 새 객체 타입을 구성하는 방법을 소개하고 있다.
+#+begin_src typescript
+type OrderComplex = {
+    articles: {
+        price: number
+        vat: number
+        title: number
+    }[]
+    customer: {
+        name: string
+        address: {
+            city: string
+            zip: string
+            street: string
+            number: string
+        }
+        dateOfBirth: Date
+    }
+}
+#+end_src
+이런 구성의 객체 타입은 풀어 쓰면 이렇게 된다.
+#+begin_src typescript
+type ArticleStub = {
+    price: number
+    vat: number
+    title: string
+}
+
+type Address = {
+    city: string
+    zip: string
+    street: string
+    number: string
+}
+
+type Customer = {
+    name: string
+    address: Address
+    dateOfBirth: Date
+}
+
+type Order = {
+    articles: ArticleStub[]
+    customer: Customer
+}
+#+end_src
+
+다양한 기능으로 무장한 타입스크립트의 `typeof` 연산자를 통해 실제 객체 변수에 저장된 값을 추론해 새로운 타입으로 등록할 수 있다.
+#+begin_src typescript
+type Order = typeof someOrder1
+#+end_src
+
+옵셔널 프로퍼티 선언을 통해 유연한 타입 시스템을 구성할 수 있다. 강타입을 구현하면서 Null safety 를 실현하는 모던 프로그래밍 언어의 특징 중 하나이다.
+
+이렇게 정의된 타입만 공유하기 위해 `import type` `export type` 구문을 사용할 수 있다.
+#+begin_src typescript
+// some-example.ts file
+export type Article = {
+    title: string
+    price: number
+    vat: number
+    stock?: number
+    description?: string
+}
+#+end_src
+#+begin_src typescript
+import type { Article } from './some-example'
+
+const book: Article = {
+    price: 29,
+    vat: 0.2,
+    title: 'Another book by Smashing Books',
+}
+#+end_src
+
+** Lesson 13
+: 객체 타이핑
+
+타입스크립트가 자바스크립트로 컴파일 되는 동안 값 정보만 남고 우리가 추가한 타입 정보는 사라지게 된다. 하지만 클래스는 그 자체로 타입 정보와 값 정보를 가지고 있는 특징이 있다.
+#+begin_src typescript
+class Discount {
+    isPercentage: boolean
+    amount: number
+
+    constructor(isPercentage: boolean, amount: number) {
+        this.isPercentage = isPercentage
+        this.amount = amount
+    }
+
+    apply(article: Article) {
+        if (this.isPercentage) {
+            article.price = article.price - article.price * this.amount
+        } else {
+            article.price = article.price - this.amount
+        }
+    }
+}
+#+end_src
+클래스는 두 파트로 구성되는데 생성자와 프로토타입으로 나뉜다. 프로토타입은 객체의 모양을 정의하고 생성자에 의해 실체화 된다. 타입스크립트의 구조적 타이핑 기법에 따라 아래는 `Discount` 객체를 생성해 낼 수 있게 된다.
+#+begin_src typescript
+type DiscountType = {
+    isPercentage: boolean
+    amount: number
+    apply(article: Article): void
+}
+
+let disco: DiscountType = new Discount(true, 0.2)
+#+end_src
+구조적 타입 시스템에서 중요한 것은 오직 모양이다. 그 이름은 무의미하다.
+
+클래스는 상속을 통해 확장할 수 있다.
+#+begin_src typescript
+class TwentyPercentDiscount extends Discount {
+    constructor() {
+        super(true, 0.2)
+    }
+
+    apply(article: Article) {
+        if (article.price <= 40) {
+            super.apply(article)
+        }
+    }
+
+    isValidForDiscount(article: Article) {
+        return article.price <= 40
+    }
+}
+#+end_src
+
+*** 구조적 타입 시스템과 명명형 타입 시스템
+최근 프로그래밍 언어의 타입 시스템은 두 종류로 구분할 수 있다.
+- Nominal Typing 을 가지는 언어: C++, Java 등; 클래스의 이름이 다르면 다른 타입이다.
+- Structural Typing 을 가지는 언어: Ocaml, Haskell, TypeScript, Go 등; 클래스의 모양이 같으면 같은 타입이다. 덕 타이핑 등의 용어가 이 사상에서 나온다.
+각각의 장단점이 있고 혼용되기도 한다. 타입스크립트를 명명형 타입 시스템처럼 사용하기 위한 기법도 많이 있다.
+- [[https://michalzalecki.com/nominal-typing-in-typescript/][Nominal typing techniques in TypeScript]] 를 참고하자.
+
+** Lesson 14
+: 인터페이스는 객체를 특정하는 제약
+
+타입 시스템에는 인터페이스가 항상 따라오는데 타입스크립트에서도 마찬가지다. 객체지향 프로그래밍에서 인터페이스는 클래스를 기술하는 명세라고 볼 수 있다.
+#+begin_src typescript
+type Article = {
+    title: string
+    price: number
+    vat: number
+    stock?: number
+    description?: string
+}
+
+interface ShopItem {
+    title: string
+    price: number
+    vat: number
+    stock?: number
+    description?: string
+}
+#+end_src
+구조적 타입 시스템에서 위 둘은 같은 모양을 가지고 있고 혼용이 가능하다.
+클래스에 인터페이스를 구현하기 위해 아래와 같이 사용한다. 명세를 구현하는 것이다.
+#+begin_src typescript
+class DVD implements ShopItem {
+    title: string
+    price: number
+    vat: number
+
+    constructor(title: string) {
+        this.title = title
+        this.price = 9.99
+        this.vat = 0.2
+    }
+}
+
+class Book implements Article {
+    title: string
+    price: number
+    vat: number
+
+    constructor(title: string) {
+        this.title = title
+        this.price = 39
+        this.vat = 0.2
+    }
+}
+#+end_src
+
+인터페이스와 타입은 같은 목적으로 사용되는 듯 해 보인다. 타입스크립트 코딩을 오래할수록 타입을 사용하기 위해 인터페이스를 사용하게 될 것이라고 조언하고 있다. 그 첫 이유는 선언을 병합하여 사용할 수 있는 점 때문이다.
+#+begin_src typescript
+declare global {
+    interface Window {
+        isDevelopment: boolean
+    }
+}
+#+end_src
+Window 타입에 인터페이스를 추가하여 안전한 코드를 작성하는 예를 보여준다.
+#+begin_src typescript
+class Discount {
+    //...
+    apply(article: Article) {
+        if (window.isDevelopment) {
+            console.log('Another discount applied')
+        }
+    }
+}
+#+end_src
+점진적으로 자바스크립트를 확장해가며 빨간 줄을 만나지 않기 위한 노력을 하고 있다.
+
+1. 타입스크립트 컴파일러는 자바스크립트로 변환하면서 타입 어노테이션을 잃어버린다.
+2. 타입스크립트의 `any` 는 어느 타입에도 대응 가능한 고유한 원시 타입이다.
+3. 이 `any` 는 타입스크립트의 점진적 타입 개선 과정에 도움이 된다.
+4. 타입 가드 기법을 통해 타입을 추론이 동작하는 과정을 알아보았고 `typeof` 연산자는 타입 정보를 반환하는 기능도 가지고 있다.
+5. 구조적 타입 시스템에 대해 살펴보았다.
+6. 타입을 구성하는 다양한 방법을 알았다.
+7. 객체지향 프로그래밍의 클래스는 값으로도 동작하고 타입으로도 동작하는 것을 알았다.
+8. 인터페이스를 통해 타입 선언을 병합하는 방법이 있음을 알았다.
+타입스크립트는 자바스크립트에 영향을 주고 있다.
+1. 접근 제어자가 있다. (최근 자바스크립트에 도입되었다.)
+2. 추상 클래스 개념이 있다.
+3. 열거형을 선언할 수 있다.
+
