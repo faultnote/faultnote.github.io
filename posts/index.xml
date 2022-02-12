@@ -69,7 +69,7 @@
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>이 과정은 다음 내용을 포함하고 있다.&lt;/p>
 &lt;ol>
 &lt;li>루트 인증기관을 위한 개인 키를 만들고 → &lt;code>.key&lt;/code> 파일&lt;/li>
-&lt;li>인증 서명 요청서을 만들고 → &lt;code>.csr&lt;/code> 파일&lt;/li>
+&lt;li>인증 서명 요청서를 만들고 → &lt;code>.csr&lt;/code> 파일&lt;/li>
 &lt;li>x509 서명까지 완성한다 → &lt;code>.crt&lt;/code> 파일&lt;/li>
 &lt;/ol>
 &lt;p>만들어진 루트 인증서 내용은 easyrsa 를 통해 확인할 수 있다. 기본적으로 10년 짜리 서명을 제공해 준다.&lt;/p>
