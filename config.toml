@@ -25,7 +25,7 @@ hasCJKLanguage = true
     title = "FaultNote"
     menuMore = "메뉴 더 보기"
     readMore = "읽기"
-    newerPosts = "새 포스트"
+    newerPosts = "최근 포스트"
     olderPosts = "지난 포스트"
     readOtherPosts = "다른 글 읽기"
     missingContentMessage = "페이지를 찾을 수 없습니다..."
@@ -40,10 +40,17 @@ hasCJKLanguage = true
         identifier = "about"
         name = "소개"
         url = "/about"
+		weight = 1
       [[languages.ko.menu.main]]
         identifier = "series"
         name = "연재"
         url = "/series"
+		weight = 2
+      [[languages.ko.menu.main]]
+        identifier = "blog"
+        name = "블로그"
+        url = "/blog"
+		weight = 3
 
   [languages.en]
     languageName = "English"
@@ -65,7 +72,9 @@ hasCJKLanguage = true
         identifier = "about"
         name = "About"
         url = "/en/about"
+		weight = 2
       [[languages.en.menu.main]]
         identifier = "series"
         name = "Series"
         url = "/en/series"
+		weight = 1
