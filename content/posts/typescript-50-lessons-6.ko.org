@@ -1,0 +1,443 @@
++++
+title = "TypeScript 50 Lessons Part 6"
+slug = "typescript-50-lessons-6"
+date = "2022-08-13T20:00:00+09:00"
+author = "soomtong"
+cover = "/posts/images/cover-typescript-50-lessons.png"
+tags = ["typescript", "javascript"]
+keywords = ["typescript", "Stefan Baumgartner"]
+description = "스매싱매거진의 타입스크립트 50 레슨 정리 6편"
+showFullContent = false
+readingTime = true
++++
+
+* 타입스크립트 in 50 레슨
+
+[[https://fettblog.eu/][스테판 바움가트너]]가 스매싱 매거진에서 출판한 서적으로 타입스크립트 주요 주제들에 대해 잘 짚어주고 있다.
+
+** Lesson 36
+: 조건부 타입
+4장에서 union 과 intersection 을 통해 타입 공간을 확장하고 축소하는 방법과 임의의 데이터 구성에 대해 적당한 집합을 생성하는 법을 알아보았다. 5장에서는 generic 기법을 통해 타입을 공용화하고 데이터가 사용되는 시점에 함수와 클래스의 타입을 적용해 타입을 제약했다. 만약 타입이 애매하면 어떻게 할까? 제너릭하게 하나의 타입으로 묶지 못할 때는? 결과에 따라 타입을 선택해야 할 경우 등을 위해 조건부 타입이 필요하다.
+if-else 를 사용하는 것과 같은 방식으로 타입에 조건을 사용하는 것이다. CD 나 LP 들을 파는 커머스 앱을 구성하면서 조건부 타입을 사용하는 방법을 알아보자.
+#+begin_src typescript
+type Customer = {
+   customerId: number
+   firstName: string
+   lastName: string
+}
+
+type Product = {
+   productId: number
+   title: string
+   price: number
+}
+
+type Order = {
+   orderId: number
+   customer: Customer
+   products: Product[]
+   date: Date
+}
+#+end_src
+전달되는 데이터에 따라 customer 인 경우 고객의 주문 목록을 제공하고, product 를 전달하는 경우 이 상품을 포함하는 주문서를 제공하고, orderId 를 전달하는 경우 해당 주문서를 제공하도록 fetchOrder 라는 함수를 구성해 보자.
+함수 시그니처는 아래와 유사할 것이다.
+#+begin_src typescript
+function fetchOrder(customer: Customer): Order[]
+
+function fetchOrder(product: Product): Order[]
+
+function fetchOrder(orderId: number): Order
+
+function fetchOrder(param: any): any {
+    // Implementation to follow
+}
+#+end_src
+하지만 아래처럼 구성한다 하더라도 번잡해 보인다.
+#+begin_src typescript
+function fetchOrder(param: Customer | Product | number): Order[] | Order {
+    // Implementation to follow
+}
+#+end_src
+조건부 타입 선언은 아래와 같은 형식을 가진다.
+#+begin_src typescript
+type Conditional<T> = T extends U ? A : B
+#+end_src
+이전에 배운 extends 를 사용한다. 조건부 타입 정의는 3항 연산자 사용과 같다.
+#+begin_src typescript
+type FetchParams = number | Customer | Product
+
+type FetchReturn<T> = T extends Customer
+   ? Order[] : T extends Product
+   ? Order[] : T extends number
+   ? Order : never
+#+end_src
+이제 함수 선언을 다시 보자.
+#+begin_src typescript
+function fetchOrder<Param extends FetchParams>(param: Param): FetchReturn<Param> {
+    // Well, the implementation
+}
+#+end_src
+전달되는 타입에 대해 반환되는 타입도 강제된다.
+
+** Lesson 37
+: 함수 오버로딩과 조건부 타입을 결합하기
+조건부 타입은 옵셔널 인자에 대해도 동작한다. fetchOrder 를 비동기 함수로 변경하고 두 번째 인자에 콜백할 수 있는 옵셔널 함수를 추가해 보자.
+#+begin_src typescript
+type Callback<Res> = (result: Res) => void
+
+function fetchOrder<T extends FetchParams>(param: T): Promise<FetchReturn<T>>
+function fetchOrder<T extends FetchParams>(param: T, callback: Callback<FetchReturn<T>>): void
+function fetchOrder<T extends FetchParams>(param: T, callback?: Callback<FetchReturn<T>>): Promise<FetchReturn<T>> | void {
+  const data = fetch('url').then(res => res.json())
+  if(callback) {
+    data.then(result => { callback(result) })
+  } else {
+    return data
+  }
+}
+#+end_src
+이제 저 복잡한 함수 선언을 정리해보자. 두 번째 인자가 선택적으로 제공되기 때문에 가변 인자를 사용할 수 있는 점을 활용해 보자.
+#+begin_src typescript
+function fetchOrder<P extends FetchParams>(...args: [P]): Promise<FetchReturn<P>>
+function fetchOrder<P extends FetchParams>(...args: [P, Callback<FetchReturn<P>>]): void
+#+end_src
+함수 인자의 타입을 정리해 보자. FetchParams 와 FetchCallback 을 FetchHead 로 묶어 본다.
+#+begin_src typescript
+type FetchCallback<T extends FetchParams> = Callback<FetchReturn<T>>
+
+type AsyncResult<FetchHead, Param extends FetchParams> = FetchHead extends [Param, FetchCallback<Param>]
+    ? void : FetchHead extends [Param]
+    ? Promise<FetchReturn<Param>> : never
+#+end_src
+정의된 타입을 활용하는 함수 선언은 이렇게 될 것이다.
+#+begin_src typescript
+function fetchOrder<T extends FetchParam, U>(...args: U) : AsyncResult<U, T>
+#+end_src
+함수 인자의 길이를 판단하여 조건부 타입으로 반환하는 연산을 통해 함수의 인자 타입과 반환 타입을 단순하게 정리하였다.
+이 과정은 가독성과 정확성을 기준으로 적용을 고려하면 된다. 이해하기 위운 함수 오버로드 버전도 나쁘지 않음을 기억하자.
+#+begin_src typescript
+// Version 1
+function fetchOrder<Par extends FetchParams>(inp: Par): Promise<FetchReturn<Par>>
+// Version 2
+function fetchOrder<Par extends FetchParams>(inp: Par, fun: Callback<FetchReturn<Par>>): void
+// The implementation!
+function fetchOrder<Par extends FetchParams>(inp: Par, fun?: Callback<FetchReturn<Par>>): Promise<FetchReturn<Par>> | void {
+    // Fetch the result
+    const res = fetch(`/backend?inp=${JSON.stringify(inp)}`).then((res) => res.json())
+    // If there’s a callback, call it
+    if (fun) {
+        res.then((result) => {
+            fun(result)
+        })
+    } else {
+        // Otherwise return the result promise
+        return res
+    }
+}
+#+end_src
+
+** Lesson 38
+: 체크된 타입이 네이키드 타입의 매개변수인 조건 타입을 분배 조건 타입이라고 한다.
+지난 시간에 인자를 가지고 조건에 맞는 타입을 반환하는 함수처럼 동작하는 제너릭 타입을 살펴 보았다. 조건부 타입을 더 들여다보기 전에 이전 예제로 사용한 조건부 타입을 한 번 더 보자.
+#+begin_src typescript
+type FetchParams = number | Customer | Product
+
+type FetchReturn<Param extends FetchParams> = Param extends Customer ? Order[] : Param extends Product ? Order[] : Order
+#+end_src
+FetchReturn 타입에 Customer 를 적용해 보자.
+#+begin_src typescript
+type FetchByCustomer = FetchReturn<Customer>
+// transalated
+type FetchByCustomer = Customer extends Customer ? Order[] : Customer extends Product ? Order[] : Order
+// finally
+type FetchByCustomer = Order[]
+#+end_src
+분산된 유니언 타입을 살펴 보자. 대부분의 경우 조건부 타입은 실행시기에 유니언 타입으로 배분된다. FetchReturn 은 Product 와 number 타입으로 생성된다.
+#+begin_src typescript
+type FetchByProductOrId = FetchReturn<Product | number>
+#+end_src
+FetchReturn 은 배분되는 조건부 타입이다. 뭔 말이냐면, 이는 제네릭 유형 매개변수의 각 구성요소가 동일한 조건부 유형으로 인스턴스화됨을 의미한다. 간단히 말해서, Union 유형의 조건부 유형은 조건부 유형의 Union 타입과 같다. 코드를 보자.
+#+begin_src typescript
+type FetchByProductOrId =
+    | (Product extends Customer ? Order[] : Product extends Product ? Order[] : Order)
+    | (number extends Customer ? Order[] : number extends Product ? Order[] : Order)
+// transalated
+type FetchByProductOrId = Order[] | Order
+#+end_src
+타입스크립트의 조건부 타입의 동작이 분산을 통해 동작한다는 것을 아는 것은 매우 중요하다.
+1. 각각의 입력되는 타입이 하나의 출력 타입이 되는 것을 추적할 수 있다.
+2. 각각 다른 타입 입력은 다른 출력 타입을 가져야 한다.
+다양한 조건이 있더라도 반환되는 타입은 중복되고 불가능한 조합은 제거된다. 아래 코드의 출력 타입은 같다는 것이다.
+#+begin_src typescript
+type FetchByProductOrId = FetchReturn<Product | Customer | number>
+// Equal to
+type FetchByProductOrId = (Product extends Customer ? Order[] : Product extends Product ? Order[] : Order)
+    | (Customer extends Customer ? Order[] : Customer extends Product ? Order[] : Order)
+    | (number extends Customer ? Order[] : number extends Product ? Order[] : Order)
+// Equal to
+type FetchByProductOrId = Order[] | Order[] | Order
+// Removed redundancies
+type FetchByProductOrId = Order[] | Order
+#+end_src
+분산 조건부 타입의 중요한 전제 조건은 연산에 사용되는 제너릭 타입의 파라미터가 네이키드 타입이어야 한다는 것이다. 네이키드 타입은 타입 파라미터가 현재 존재하고 다른 구성의 일부분이 아닌 타입을 말한다. 배열, 튜플, 함수형, 비동기 타입 등의 제너릭 타입이 아닌 타입이다.
+제너릭 타입의 파라미터가 네이키드 타입이 아닌 경우는 사이드 이펙트가 발생할 수 있다.
+#+begin_src typescript
+type FetchReturn<Param extends FetchParams> = [Param] extends [Customer] ? Order[] : [Param] extends [Product] ? Order[] : Order
+#+end_src
+단일 타입이 연동될 때 조건부 타입은 예전처럼 동작할 것이다.
+#+begin_src typescript
+type FetchByCustomer = FetchReturn<Customer>
+// This condition is still true!
+type FetchByCustomer = [Customer] extends [Customer] ? Order[] : [Customer] extends [Product] ? Order[] : Order
+// Equal to
+type FetchByCustomer = Order[]
+#+end_src
+하지만 튜플 타입이 입력된다면 Customer 는 서브 타입으로 식별되고 분산되지 않게 된다.
+#+begin_src typescript
+type FetchByCustomerOrId = FetchReturn<Customer | number>
+type FetchByProductOrId = [Customer | number] extends [Customer] ? Order[] : // This is false!
+                          [Customer | number] extends [Product] ? Order[] : // This is obviously also false
+                          Order // So we resolve to this
+// Equal to
+type FetchByProductOrId = Order
+#+end_src
+[Customer | number] 는 [Customer] 의 수퍼 타입이기 때문에 [Customer] 를 확장하지 못한다.
+위 FetchReturn 을 안전하고 정확하게 만들기 위해 숫자의 서브 타입을 확인하는 다른 조건을 추가할 수 있다.
+#+begin_src typescript
+type FetchReturn<Param extends FetchParams> = [Param] extends [Customer]
+    ? Order[] : [Param] extends [Product]
+    ? Order[] : [Param] extends [number]
+    ? Order : never
+#+end_src
+이렇게 하면 단일 유형으로 입력하는 경우까지 올바른 반환 타입을 얻을 수 있다.
+
+** Lesson 39
+: Never 타입과 Extract
+조건부 타입의 분산 프로퍼티는 never 와 결합할 때 유용한 필터 역할을 한다. CD 와 LP 를 골라 파는 웹서비스를 구현하는 과정에 적용해 본다.
+#+begin_src typescript
+type Medium = { id: number; title: string; artist: string }
+type TrackInfo = { duration: number; tracks: number }
+#+end_src
+CD 와 LP 의 특성에 따라 Union 타입을 구성한다.
+#+begin_src typescript
+type CD = Medium & TrackInfo & {
+    kind: 'cd'
+}
+type LP = Medium & {
+    sides: { a: TrackInfo; b: TrackInfo }
+    kind: 'lp'
+}
+#+end_src
+모든 미디어에 적용할 수 있는 타입과 미디어에 대한 유니언 키를 정의하자.
+#+begin_src typescript
+type AllMedia = CD | LP
+type MediaTypes = AllMedia['kind']
+#+end_src
+미디어 종류와 나머지 정보를 전달하여 createMedium 함수를 만들자.
+#+begin_src typescript
+declare function createMedium(kind: MediaKinds, info ): AllMedia
+#+end_src
+위와 같은 함수 원형을 구성할 수 있다. 여기에 제너릭을 추가해보자.
+#+begin_src typescript
+declare function createMedium<Kin extends MediaKinds>(kind: Kin, info): AllMedia
+#+end_src
+이어서 AllMedia 의 타입을 좁혀 보자. Union 의 조건부 결과는 해당 조건의 합집합이다. 조건부 유형을 처리하는 과정에 CD 나 LP 가 아닌 경우 never 를 사용할 수 있다.
+#+begin_src typescript
+type SelectBranch<Brnch, Kin> = Brnch extends { kind: Kin } ? Brnch : never
+#+end_src
+Brnch 값을 통해 CD, LP 타입을 구분할 수 있고 그 어떤 것도 아닌 것을 알아 판단할 수 있게 된다.
+#+begin_src typescript
+type SelectCD = SelectBranch<AllMedia, 'cd'>
+// This equals
+type SelectCD = SelectBranch<CD | LP, 'cd'>
+type SelectCD = SelectBranch<CD, 'cd'> | SelectBranch<LP, 'cd'>
+type SelectCD = (CD extends { kind: 'cd' } ? CD : never) | (LP extends { kind: 'cd' } ? LP : never)
+// Evaluate!
+type SelectCD =
+    // This is true! Awesome! Let’s return CD
+    (CD extends { kind: 'cd' } ? CD : never) |
+    // This is false. let’s return never
+    (LP extends { kind: 'cd' } ? LP : never)
+// Equal to
+type SelectCD = CD | never
+#+end_src
+결국 CD | never 의 유니언 타입을 얻게 되는데 결국 SelectCD 는 CD 를 얻게 된다.
+#+begin_src typescript
+declare function createMedium<Kin extends MediaKinds>(kind: Kin, info ): SelectBranch<AllMedia, Kin>
+#+end_src
+그래서 함수 원형은 위와 같이 작성할 수 있다. 타입 연산만으로 입력과 출력에 대해 튜링 컴플리트할 수 있게 된다.
+이렇게 never 를 사용하는 유틸리티 함수 타입에 Extract 가 제공된다.
+#+begin_src typescript
+type Extract<A, B> = A extends B ? A : never
+#+end_src
+Extract 를 사용해 LP 타입을 구성할 수 있다.
+#+begin_src typescript
+type SelectLP = Extract<AllMedia, { kind: 'lp' }>
+#+end_src
+
+** Lesson 40
+: 합성 보조 타입
+이전에 CD 와 LP 타입을 정의하였으니 이것만으로 createMedium 의 info 인수 타입을 정의할 때 재사용하자.
+우선 key 가 되는 식별자를 제거해 보자. 예를 들면, CD 인지 LP 인지 구별할 수 있으니 kind 나 자동 생성되는 id 는 필요없다.
+이를 위해 Remove 합성 보조 타입을 살펴 보자.
+#+begin_src typescript
+type CDKeys = keyof CD
+// Equal to
+type CDKeys = 'id' | 'description' | 'title' | 'kind' | 'tracks' | 'duration'
+// Now for the keys we actually want
+type CDInfoKeys = Remove<CDKeys, Removable>
+// Equal to
+type CDInfoKeys = Remove<'id' | 'description' | 'title' | 'kind' | 'tracks' | 'duration', 'id' | 'kind'>
+// A conditional of a union is a union of conditionals
+type CDInfoKeys = Remove<'id', 'id' | 'kind'> | Remove<'description', 'id' | 'kind'> | Remove<'title', 'id' | 'kind'> |
+                  Remove<'kind', 'id' | 'kind'> | Remove<'tracks', 'id' | 'kind'> | Remove<'duration', 'id' | 'kind'>
+#+end_src
+Remove 는 아래와 같이 정의된다.
+#+begin_src typescript
+type Remove<A, B> = A extends B ? never : A
+#+end_src
+각 보조 타입을 대치해 보자.
+#+begin_src typescript
+type CDInfoKeys = ('id' extends 'id' | 'kind' ? never : 'id') |
+    ('description' extends 'id' | 'kind' ? never : 'description') |
+    ('title' extends 'id' | 'kind' ? never : 'title') |
+    ('kind' extends 'id' | 'kind' ? never : 'kind') |
+    ('tracks' extends 'id' | 'kind' ? never : 'tracks') |
+    ('duration' extends 'id' | 'kind' ? never : 'duration')
+// Evaluate
+type CDInfoKeys = never | 'description' | 'title' | never | 'tracks' | 'duration'
+// Remove impossible types from the union
+type CDInfoKeys = 'description' | 'title' | 'tracks' | 'duration'
+#+end_src
+이 Remove 타입은 Exclude 라는 내장 타입으로 선언되어 있다.
+이제 key 를 제외한 info 타입을 정의할 수 있다. 이전에 사용한 Pick 합성 타입을 사용하면 아래와 같다.
+#+begin_src typescript
+type CDInfo = Pick<CD, Exclude<keyof CD, 'kind' | 'id'>>
+#+end_src
+좀 복잡하기 때문에 Omit 이라는 보조 타입을 제공한다.
+#+begin_src typescript
+type CDInfo = Omit<CD, 'kind' | 'id'>
+#+end_src
+이전에 정의해 둔 RemovableKeys 를 사용해 정리해 보자.
+#+begin_src typescript
+type RemovableKeys = 'kind' | 'id'
+type GetInfo<Med> = Omit<Med, RemovableKeys>
+declare function createMedium<Kin extends MediaKinds>(kind: Kin, info: GetInfo<SelectedBranch<AllMedia, Kin>> ): SelectBranch<AllMedia, Kin>
+#+end_src
+기본 타입의 모델 데이터를 잘 구성하고 제너릭과 분산 조건부 타입을 통해 그 안의 타입을 재활용하는 것이 타입스크립트를 잘 활용하는 것 같다.
+
+** Lesson 41
+: 함수 선언에서 파라미터 타입을 infer 하기
+타입 관리 드는 비용을 적게할수록 타입스크립트는 효율적으로 동작한다. 지금까지 데이터를 모델링하고 행동을 기술하는 작업 방식을 깨끗하게 유지시키지는 과정이었다. 다른 타입에서 동적으로 타입을 생성하고 운용하여 타입 관리에 많은 시간을 보내지 않은 것이다.
+하지만 개발이 진행되는 과정에는 계속 변한다. 지금까지 실습해 온 이커머스의 어드민 서비스를 가정하고 레슨을 시작하자.
+새 유저를 생성하는 코드이다.
+#+begin_src typescript
+function createUser(name: string, role: 'admin' | 'maintenace' | 'shipping', isActive: boolean) {
+  return { userId: userId++, name, role, isActive, createdAt: new Date() }
+}
+#+end_src
+두 개의 속성은 자동 생성되고 나머지는 인수로 받는다. 타입을 적용해 좀 더 단단하게 만들 것이다.
+역할은 admin, maintenance 와 shopoing 으로 나눈다.
+#+begin_src typescript
+function createUser(name: string, role: 'admin' | 'maintenace' | 'shipping', isActive: boolean) {
+    //
+}
+#+end_src
+더 타입 안전한 환경으로 개선하자. 그 전에 생성되는 user 의 타입을 추론해 보자.
+#+begin_src typescript
+const user = createUser('Stefan', 'shipping', true)
+type User = typeof user
+#+end_src
+이렇게 User 타입을 추론할 수 있지만 비용도 높고 위험하다. 함수의 반환 값이 아니라 함수 선언에서 반환 타입을 추론할 수 있게 해보자.
+우선 함수 인지 확인하고 createUser 의 함수 타입을 생성한다.
+#+begin_src typescript
+type GetReturn<Fun> = Fun extends (...args: any[]) => any ? Fun : never
+// get this
+type Fun = GetReturn<typeof createUser>
+#+end_src
+이제 infer 키워드를 통해 extends 로 확장된 함수 타입에 대해 제너릭 타입을 구성할 수 있다. 함수의 반환 타입 any 를 제너릭하게 처리하게 된다.
+#+begin_src typescript
+type GetReturn<Fun> = Fun extends (...args: any[]) => infer R ? R : never
+// get this
+type User = GetReturn<typeof createUser>
+#+end_src
+이런 보조 타입은 데이터베이스에서 데이터를 저장하고 불러올 때나 스키마를 통해 새 객체를 만드는 일을 할 때 자주 필요하다. infer 키워드를 통해 타입 제약을 견고하게 할 수 있다.
+promise 를 통해 조회되는 값에 대해 타입을 정의해 보면 이렇다.
+#+begin_src typescript
+type Unpack<T> = T extends Promise<infer Res> ? Res : never
+type A1 = Unpack<Promise<number>> // A1 is number
+type A2 = Unpack<number> // A2 is never
+#+end_src
+배열을 풀어내는 타입이라면 이렇게 정의할 수 있다.
+#+begin_src typescript
+type Flatten<T> = T extends Array<infer Vals> ? Vals : never
+type A1 = Flatten<Customer[]> // A1 is Customer
+type A2 = Flatten<Customer> // A2 is never
+#+end_src
+이런 응용 방식을 통해 제공되는 함수 인수의 타입을 추론하는 Parameters 내장 보조 타입이 있다.
+#+begin_src typescript
+type Parameters<T> = T extends (...args: infer Param) => any ? Param : never
+type A = Parameters<typeof createUser> // A is [string, "admin" | "maintenace" | "shipping", boolean]
+#+end_src
+
+** Lesson 42
+: null 타입 다루기
+tsconfig 에서 strictNullChecks 을 활성화하여 undefined 와 null 을 고유한 타입 속성으로 처리하게 할 수 있다. 이는 nullish 한 경우를 강력하게 제약하여 타입 안전을 도모한다.
+이전 학습에서 살펴 본 fetchOrderList 함수를 다시 보자.
+#+begin_src typescript
+declare function fetchOrderList(input: Customer | Product): Promise<Order[]>
+#+end_src
+Promise 는 그 정의에도 있지만 rejected 될 수 있다. 그리고 return any 라면 null 과 undefined 그리고 never 를 포함하고 있다. 실제 추론되는 함수 선언 타입은 아래와 같다.
+#+begin_src typescript
+declare function fetchOrderList(input: Customer | Product): Promise<Order[] | null>
+#+end_src
+이어 소개되는 NunNullable 타입을 위해 listOrder 함수 선언을 보자. fetchOrderList 의 반환 결과를 활용할 수 있도록 구성하면 이렇게 된다.
+#+begin_src typescript
+declare function listOrders(Order[] | null): void
+#+end_src
+만약 listOrder 안에서 null 처리가 되어 있다면 아래와 같이 선언하고 싶을 것이다.
+#+begin_src typescript
+declare function listOrders(Order[]): void
+#+end_src
+이를 위해 아래의 제너릭으로 확장한 함수 선언을 보자
+#+begin_src typescript
+declare function isAvailable<Obj>(obj: Obj ): obj is NonNullable<Obj>
+#+end_src
+NonNullable 은 아래와 같이 구성할 수 있다.
+#+begin_src typescript
+type NonNullable<T> = T extends null | undefined ? never : T
+#+end_src
+이를 활용해 isAvailable 함수를 구현해 보자.
+#+begin_src typescript
+function isAvaialble<Obj>(obj: Obj): obj is NonNullable<Obj> {
+    return typeof obj !== 'undefined' && obj !== null
+}
+
+const orders = await fetchOrderList(customer) // orders is Order[] | null
+
+if (isAvailable(orders)) {
+    listOrders(orders) //orders is Order[]
+}
+#+end_src
+이 점검은 런타임에서 일어나지 않고 타입스크립트의 컴파일 타임에 제약된다는 것이다. 데이터를 패치하여 주문 목록을 구하는 함수를 다시 설계 해 보자.
+#+begin_src typescript
+type FetchDBKind = 'orders' | 'products' | 'customers'
+type FetchDBReturn<T> = T extends 'orders' ? Order[] : T extends 'products' ? Products[] : T extends 'customers' ? Customers[] : never
+
+declare function fetchFromDatabase<Kin extends FetchKind>(kind: Kin ): Promise<FetchDbReturn<Kin>| null>
+#+end_src
+이 타입을 활용하는 고차함수를 구성해 보자. 자바스크립트는 함수형 프로그래밍에도 잘 맞는다.
+#+begin_src typescript
+function process<T extends Promise<any>>(promise: T, cb: (res: Unpack<NonNullable<T>>) => void): void {
+    promise.then((res) => {
+        if (isAvailable(res)) {
+            cb(res)
+        }
+    })
+}
+#+end_src
+데이터가 잘 fetch 된 경우에 listOrder 를 실행한다.
+#+begin_src typescript
+process(fetchFromDatabase('orders'), listOrders)
+#+end_src
+조건부 타입을 통해 복잡한 데이터 모델의 타입을 구성하고 제너릭하게 표현하고 보조 타입과 결합하여 안전한 자바스크립트 코딩을 하도록 강제한다.
