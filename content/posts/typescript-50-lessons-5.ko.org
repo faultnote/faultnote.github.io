@@ -1,0 +1,293 @@
++++
+title = "TypeScript 50 Lessons Part 5"
+slug = "typescript-50-lessons-5"
+date = "2022-07-23T15:00:00+09:00"
+author = "soomtong"
+cover = "/posts/images/cover-typescript-50-lessons.png"
+tags = ["typescript", "javascript"]
+keywords = ["typescript", "Stefan Baumgartner"]
+description = "스매싱매거진의 타입스크립트 50 레슨 정리 5편"
+showFullContent = false
+readingTime = true
++++
+
+* 타입스크립트 in 50 레슨
+
+[[https://fettblog.eu/][스테판 바움가트너]]가 스매싱 매거진에서 출판한 서적으로 타입스크립트 주요 주제들에 대해 잘 짚어주고 있다.
+
+** Lesson 29
+: 내가 원하는 게 뭔지 모르지만 어떻게 얻을지 알고 있다.
+비디오 스트리밍 플랫폼 예제를 통해 제너릭 타입을 살펴보자.
+#+begin_src typescript
+type VideoFormatURLs = {
+    format360p: URL
+    format480p: URL
+    format720p: URL
+    format1080p: URL
+}
+
+type SubtitleURLs = {
+    english: URL
+    german: URL
+    french: URL
+}
+#+end_src
+그리고 이를 사용하기 위한 함수들과 유틸리티를 준비한다. 추가로 자막에 대한 타입도 준비했다.
+#+begin_src typescript
+function isFormatVailable(obj: VideoFormatURLs, key: string): key is keyof VideoFormatURLs {
+    return key in obj
+}
+
+function isSubtitleAvailable(obj: SubtitleURLs, key: string): key is keyof SubtitleURLs {
+    return key in obj
+}
+
+// generalized
+function isAvailable(obj, key) {
+    return key in obj
+}
+#+end_src
+작성하고 보니 비디오 포맷에 대한 점검 함수와 자막에 대한 점검 함수가 같은 모양이다. 제너릭 타입이 필요하다.
+#+begin_src typescript
+function isAvailable<Formats>(obj: Formats, key: string | number | symbol): key is keyof Formats {
+    return key in obj
+}
+#+end_src
+이를 사용하는 과정은 `< >` 안에 명시적으로 타입을 추가하는 것이다.
+#+begin_src typescript
+if (isFormatAvailable<VideoFormatURLs>(videos, format)) {
+    // ...
+}
+#+end_src
+우리가 자주 사용하는 Promise 객체도 제너릭 타입을 사용한다.
+제너릭 타입은 선언 시점이 아닌, 사용 시점에 타입이 추론된다. 이를 제너릭 인퍼런스라고 할 수 있다.
+이를 위해 타입을 인수로 받아서 사용하는데 이를 제너릭 어노테이션이라고 한다.
+
+** Lesson 30
+: 제너릭 제약
+이전 예제는 그럴듯 하지만 전달되는 인자에 대한 타입 제약이 없다. 이는 제너릭 타입이 기본적으로 `any` 를 바탕으로 제공되기 때문이고 따라서 아래와 같은 코드에서도 정상으로 타입 체크가 된다.
+#+begin_src typescript
+if (isAvailable({ name: 'Stefan', age: 38 }, key)) {
+    // key is now “name” | “age”
+}
+
+if (isAvailable('A string', 'length')) {
+    // Also strings have methods,
+    // like length, indexOf, ...
+}
+
+if (isAvailable(1337, aKey)) {
+    // Also numbers have methods
+    // aKey is now everything number has to offer
+}
+#+end_src
+제너릭 어노테이션에 대한 경계를 추가해야 하는데 `extends` 키워드를 사용할 수 있다.
+#+begin_src typescript
+function isAvailable<FormatList extends object>(obj: FormatList, key: string): key is keyof FormatList {
+    return key in obj
+}
+#+end_src
+이제 적어도 FormatList 는 object 타입으로 제약된다.
+비디오를 로딩하는 함수를 하나 만들면 이전에 작성한 제너릭 타입을 사용하는 코드와 유사하게 작성될 것이다.
+#+begin_src typescript
+function loadFile<Formats extends object>(fileFormats: Formats, format: string) {
+    // You know
+}
+#+end_src
+비디오 파일을 로드하기 위한 주요 타입은 URL 이고 이 정보를 동적으로 만들어내는 인덱스 타입을 사용해 제너릭 어노테이션을 확장할 수 있다.
+#+begin_src typescript
+type URLList = { [k: string]: URL }
+
+function loadFile<Formats extends URLList>(fileFormats: Formats, format: string) {
+    // The real work ahead
+}
+#+end_src
+
+** Lesson 31
+: 키 활용하기
+문자열을 키로 사용하는 경우 오탈자나 정의되지 않은 키를 사용해 발생하는 런타임 에러를 막아보자.
+#+begin_src typescript
+function loadVideoFormat(fileFormats: VideoFormatURLs, format: keyof VideoFormatURLs) {
+    // You know
+}
+#+end_src
+`keyof` 를 통해 'format' 의 타입을 제약하는 방법이 있다. 아래는 제너릭 타입과 타입 제약을 적용한 것이다.
+#+begin_src typescript
+type URLObject = { [k: string]: URL }
+
+function loadFile<Formats extends URLObject>(fileFormats: Formats, format: keyof Formats) {
+    // The real work ahead
+}
+
+loadFile(video, 'format1080p') // ok
+loadFile(video, 'format4k') // 'format4k' is not available
+#+end_src
+제너릭 어노테이션은 하나 이상 작성할 수 있다.
+#+begin_src typescript
+async function loadFile<Formats extends URLObject, Key extends keyof Formats>(fileFormats: Formats, format: Key) {
+    const data = await fetch(fileFormats[format].href)
+    return { format, loaded: data.response === 200 }
+}
+#+end_src
+Promise 타입에 대한 부분도 제너릭으로 표현할 수 있다. loadFile 의 실제 구현에 await 가 필요하다면 이 함수의 반환 타입을 `Promise<{ format: keyof Formats, loaded: boolean }>` 처럼 작성할 수 있다.
+#+begin_src typescript
+type URLObject = { [k: string]: URL }
+
+type Loaded<Key> = { format: Key, loaded: boolean }
+
+async function loadFile<Formats extends URLObject, Key extends keyof Formats>(fileFormats: Formats, format: Key): Promise<Loaded<Key>> {
+    const data = await fetch(fileFormats[format].href)
+    return { format, loaded: data.response === 200 }
+}
+#+end_src
+
+** Lesson 32
+: 제너릭 맵 타입
+타입스크립트는 기본 타입을 확장해 사용할 수 있는 헬퍼 타입(유틸리티 타입)을 제공한다. 제너릭 맵 타입을 알아보기 위해 Record 와 Pick 을 살펴 본다.
+Pick 은 첫 번째 인자의 타입에서 두 번째 인자를 선택한 타입을 만든다.
+#+begin_src typescript
+type HD = Pick<VideoFormatURLs, 'format1080p' | 'format720p'>
+#+end_src
+Record 는 키와 타입으로 이루어진 맵이다. Record 는 쉽게 동적으로 object 타입에 대한 타입을 만들어 낸다.
+#+begin_src typescript
+type URLObject = Record<string, URL>
+#+end_src
+맵 타입과 인덱스 타입을 활용하면 복잡한 타입을 단순하게 풀어낼 수 있다. 이어지는 예제를 보자.
+#+begin_src typescript
+type Split = keyof VideoFormatURLs
+// Equivalent to
+type Split = 'format360p' | 'format480p' | 'format720p' | 'format1080p'
+#+end_src
+#+begin_src typescript
+type Split = { [P in keyof VideoFormatURLs]: P }
+// Equivalent to
+type Split = {
+    format360p: 'format360p', format480p: 'format480p', format720p: 'format720p', format1080p: 'format1080p'
+}
+#+end_src
+#+begin_src typescript
+type Split = { [P in keyof VideoFormatURLs]: P }[keyof VideoFormatURLs]
+// Equivalent to
+type Split = 'format360p' | 'format480p' | 'format720p' | 'format1080p'
+#+end_src
+#+begin_src typescript
+type Split = { [P in keyof VideoFormatURLs]: Record<P, VideoFormatURLs[P]> }[keyof VideoFormatURLs]
+// Equivalent to
+type Split = Record<'format360p', URL> | Record<'format480p', URL> | Record<'format720p', URL> | Record<'format1080p', URL>
+// Equivalent to
+type Split = { format360p: URL } | { format480p: URL } | { format720p: URL } | { format1080p: URL }
+#+end_src
+마지막으로 잘 인덱스와 맵으로 정의된 제너릭 타입을 보자.
+#+begin_src typescript
+type Split<Obj> = { [Prop in keyof Obj]: Record<Prop, Obj[P]> }[keyof Obj]
+type AvailableFormats = Split<VideoFormatURLs>
+#+end_src
+
+** Lesson 33
+: 맵 타입 모디파이어
+타입스크립트는 Pick 처럼 맵 타입을 수정해 사용할 수 있는 수정자를 제공한다.
+이전 예제에서 사용할 사용자 속성을 아래 코드처럼 정의해 볼 수 있다.
+#+begin_src typescript
+type UserPreferences = {
+    format: keyof VideoFormatURLs
+    subtitles: {
+        active: boolean,
+        language: keyof SubtitleURLs
+    },
+    theme: 'dark' | 'light'
+}
+#+end_src
+새로 추가된 UserPreferences 을 사용하는 코드에서 기본 세팅과 사용자 정의 세팅을 제공해야 한다면 사용자 세팅을 override 해야 한다.
+#+begin_src typescript
+function combinePreferences(defaultPerf: UserPreferences, userPerf: unknown) {
+    return { ...defaultPerf, ...userPerf }
+}
+#+end_src
+처음 정의한 UserPreferences 타입을 수정하지 않고 옵셔널 하게 정의할 수 있는 Optional<T> 수정자를 만들어 보자.
+#+begin_src typescript
+type Optional<Obj> = {
+    [Key in keyof Obj]?: Obj[Key]
+}
+function combinePreferences(defaultPerf: UserPreferences, userPerf: Optional<UserPreferences>) {
+    return { ...defaultPerf, ...userPerf }
+}
+#+end_src
+이 기능을 위한 Partial<T> 수정자가 내장되어 있다. 상반된 목적의 Required<T> 수정자도 있다.
+#+begin_src typescript
+type Required<Obj> = {
+    [Key in keyof Obj]-?: Obj[Key]
+}
+#+end_src
+읽기 전용으로 변경하는 Readonly<T> 수정자는 아래 코드처럼 구현된다. 타입스크립트는 컴파일 타임에 이를 검사하기 때문에 런타임에 변경되는 것을 막기 위해서는 Object.freeze 를 사용해야 한다.
+#+begin_src typescript
+type Const<Obj> = {
+    readonly [Key in keyof Obj]: Obj[Key]
+}
+#+end_src
+추가로 Readonly 나 Partial 수정자는 첫 단계의 프로퍼티에 대해 동작하는 것을 기억해야 한다. deep 하게 제약을 추가하기 위해 DeepReadyonly 같은게 필요할 수 있다.
+#+begin_src typescript
+type DeepReadonly<T> = {
+    readonly [key in keyof T]: DeepReadonly<T[key]>
+}
+type DeepPartial<T> = {
+    [key in keyof T]?: DeepPartial<T[key]>
+}
+#+end_src
+
+** Lesson 34
+: 고정 타입을 제너릭 타입으로 확장하기
+이전에 combinePreferences 함수의 반환 타입을 만들어가며 제너릭을 확장하고 있다.
+#+begin_src typescript
+combinePreferences(defaultUserPref, { format: 'format720p', theme: 'dark' })
+const userSettings = { format: 'format720p', theme: 'dark' }
+combinePreferences(defaultUserPref, userSettings) // type errors
+#+end_src
+이렇게 리터럴을 사용할 때랑 참조를 전달할 때 동작이 다르다. userSettings 가 만들어지는 시점을 보면 타입스크립트는 이 타입 UserPreferences 타입인지 확인하기 어렵다. format 이나 theme 가 변경 가능하기 때문에 가능하면 더 넓은 범위의 타입을 추론한다. `as const` 타입을 제약해 보자.
+#+begin_src typescript
+const userSettings = { format: 'format720p', theme: 'dark' } as const
+#+end_src
+이제 Partial<UserPreferences> 타입을 만족한다. 다른 방법으로 userSettings 를 생성할 때 타입을 정의하여 타입 체크를 만족시킬 수 있다.
+#+begin_src typescript
+const userSettings: Partial<UserPreferences> = { format: 'format720p', theme: 'dark' }
+#+end_src
+모디파이어를 사용한 타입이라도 제너릭 기준에서 보면 고정 타입이다. 예제 함수의 매개변수 타입을 제너릭으로 개선해 보자.
+#+begin_src typescript
+function combinePreferences<UserSettings extends Partial<UserPreferences>> (
+  defaultPref: UserPreferences,
+  userPref: UserSettings
+) {
+  //
+}
+#+end_src
+물론 defaultPerf 의 UserPreferences 도 제너릭하게 변경할 수 있다.
+
+** Lesson 35
+: 제너릭 타입의 기본 타입을 정의하기
+협업 상황에서 주의할 것은 사이드 이펙트를 유발하는 undefined, null 데이터들이다. Nullable 한 타입을 하나 가정하자.
+#+begin_src typescript
+type Nullable<T> = T | undefined
+#+end_src
+HTML 을 처리하기 위한 HTMLElement 타입의 Container 클래스를 만들 때에도 제너릭을 활용할 수 있다.
+#+begin_src typescript
+class Container<CustomElement extends HTMLElement> {
+    private element: Nullable<CustomElement>;
+    // ...
+    set element(value: Nullable<CustomElement>) {
+        this.#element = value
+    }
+    get element(): Nullable<CustomElement>  {
+        return this.#element
+    }
+    // ...
+}
+#+end_src
+#+begin_src typescript
+const container = new Container(userPrefs)
+#+end_src
+위 코드처럼 container 에 제너릭 타입 어노테이션을 작성하지 않고 생성할 때에도 VideoElement 를 위한 기본 타입을 가지도록 정의하기 위해 제너릭은 기본 값을 가질 수 있다.
+#+begin_src typescript
+class Container<CustomElement extends HTMLElement = HTMLVideoElement>
+#+end_src
+기본 타입이 정의된다면 조금 더 편리하게 코드를 작성할 수 있다.
+
+제너릭스의 개념은 1970년대 Ada 프로그래밍 언어에서 처음 소개되었다. 타입스크립트의 제너릭 문법은 C++ 의 템플릿에서 물려 받았다. 그래서 기본 타입을 표기할 때 `T` 를 사용한다. 이어지는 타입으로 U,V,W 을 사용하고 프로퍼티로 P, 키로 K 등을 쓴다.
