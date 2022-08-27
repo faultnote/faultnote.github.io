@@ -1,1 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FaultNote</title><link>https://faultnote.github.io/en/</link><description>Recent content on FaultNote</description><generator>Hugo -- gohugo.io</generator><language>ko-kr</language><managingEditor>soomtong@gmail.com (soomtong)</managingEditor><webMaster>soomtong@gmail.com (soomtong)</webMaster><atom:link href="https://faultnote.github.io/en/index.xml" rel="self" type="application/rss+xml"/></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FaultNote</title><link>https://faultnote.github.io/en/</link><description>Recent content on FaultNote</description><generator>Hugo -- gohugo.io</generator><language>ko-kr</language><managingEditor>soomtong@gmail.com (soomtong)</managingEditor><webMaster>soomtong@gmail.com (soomtong)</webMaster><atom:link href="https://faultnote.github.io/en/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://faultnote.github.io/en/about/</link><pubDate>Sat, 01 Jan 2022 13:03:15 +0900</pubDate><author>soomtong@gmail.com (soomtong)</author><guid>https://faultnote.github.io/en/about/</guid><description>About me:
+Backend software engineer. Develop a Web services. Do senior role in a office. Work in Seoul, South Korea.</description><content>&lt;p>About me:&lt;/p>
+&lt;ul>
+&lt;li>Backend software engineer.
+&lt;ul>
+&lt;li>Develop a Web services.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>Do senior role in a office.&lt;/li>
+&lt;li>Work in Seoul, South Korea.&lt;/li>
+&lt;/ul></content></item></channel></rss>

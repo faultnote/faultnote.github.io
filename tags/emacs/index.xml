@@ -34,15 +34,15 @@
 &lt;li>&lt;code>SPC n t&lt;/code>: &lt;code>org-todo-list&lt;/code> 명령으로 할 일이 담긴 버퍼를 연다.&lt;/li>
 &lt;/ul>
 &lt;p>처음 시작한다면 &lt;code>SPC n n t&lt;/code> 를 통해 기본 todo 파일을 생성하고 시작해 볼수 있다.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-python" data-lang="python">&lt;span style="color:#f92672">**&lt;/span> PROJ 프로젝트 이름
-&lt;span style="color:#f92672">***&lt;/span> HOLD OOOO 북마크 대응 API 검수
-DEADLINE: &lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#ae81ff">2022&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">01&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">21&lt;/span> Fri&lt;span style="color:#f92672">&amp;gt;&lt;/span>
-&lt;span style="color:#f92672">***&lt;/span> STRT XXXX 시청 기록 API 대응
-DEADLINE: &lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#ae81ff">2022&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">01&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">07&lt;/span> Fri&lt;span style="color:#f92672">&amp;gt;&lt;/span>
-&lt;span style="color:#f92672">***&lt;/span> DONE MMMM 처리 스크립트 보완
-DEADLINE: &lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#ae81ff">2022&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">01&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">05&lt;/span> Wed&lt;span style="color:#f92672">&amp;gt;&lt;/span>
-: 추가 설명&lt;span style="color:#f92672">...&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>뭐 이런 내용을 작성하면 에디터에서는 이렇게 보인다.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">**&lt;/span> PROJ 프로젝트 이름
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">***&lt;/span> HOLD OOOO 북마크 대응 API 검수
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>DEADLINE: &lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#ae81ff">2022&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">01&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">21&lt;/span> Fri&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">***&lt;/span> STRT XXXX 시청 기록 API 대응
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>DEADLINE: &lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#ae81ff">2022&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">01&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">07&lt;/span> Fri&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">***&lt;/span> DONE MMMM 처리 스크립트 보완
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>DEADLINE: &lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color:#ae81ff">2022&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">01&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">05&lt;/span> Wed&lt;span style="color:#f92672">&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>: 추가 설명&lt;span style="color:#f92672">...&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>뭐 이런 내용을 작성하면 에디터에서는 이렇게 보인다.&lt;/p>
 &lt;p>&lt;img src="https://faultnote.github.io/posts/images/org_mode-todo-lookslike-1.png" alt="org mode - todo list" title="나쁘지 않다.">&lt;/p>
 &lt;p>작업 모드(org mode)에서 기본 구성으로 제공되는 &lt;code>todo.org&lt;/code> 파일만 관리해도 적당히 쓸만한 할 일 관리를 수행할 수 있다.&lt;/p>
 &lt;p>&lt;code>SPC n t&lt;/code> 로 즉시 전체 할 일 목록 버퍼를 띄울 수 있다. 할 일들은 꼭 &lt;code>todo.org&lt;/code> 파일 안에 있지 않아도 된다. 작업 모드의 지정된 폴더 안에 있는 org 파일은 모두 대상이 되고 각 아이템에서 기록이 있는 파일로 즉시 이동이 가능하다.&lt;/p>
@@ -86,11 +86,11 @@ DEADLINE: &lt;span style="color:#f92672">&amp;lt;&lt;/span>&lt;span style="color
 &lt;p>하나의 장비(PC)로 글을 쓰는 환경이 아니라면 기기 간 동기화가 가능한 솔루션을 통해 진행하는 것이 좋다.&lt;/p>
 &lt;p>애플의 iCloud 드라이브나 아이클라우드를 통해 지원하는 데스크탑/도큐멘트 폴더 동기화 기능이나 구글 드라이브, 드랍박스 등의 동기화가 가능한 대상을 인박스로 구성하는 것을 추천한다.&lt;/p>
 &lt;p>내 경우, 데스크탑에 Inbox 폴더를 두었다.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">&lt;span style="color:#75715e"># ~/.doom.d/config.el &lt;/span>
-;; If you use &lt;span style="color:#e6db74">`&lt;/span>org&lt;span style="color:#e6db74">`&lt;/span> and don&lt;span style="color:#960050;background-color:#1e0010">&amp;#39;&lt;/span>t want your org files in the default location below,
-;; change &lt;span style="color:#e6db74">`&lt;/span>org-directory&lt;span style="color:#e6db74">`&lt;/span>. It must be set before org loads!
-&lt;span style="color:#f92672">(&lt;/span>setq org-directory &lt;span style="color:#e6db74">&amp;#34;~/Desktop/Inbox&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>자주 보는 곳에 두고 자주 사용할 수 있도록 했다.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># ~/.doom.d/config.el &lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>;; If you use &lt;span style="color:#e6db74">`&lt;/span>org&lt;span style="color:#e6db74">`&lt;/span> and don&lt;span style="color:#960050;background-color:#1e0010">&amp;#39;&lt;/span>t want your org files in the default location below,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>;; change &lt;span style="color:#e6db74">`&lt;/span>org-directory&lt;span style="color:#e6db74">`&lt;/span>. It must be set before org loads!
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">(&lt;/span>setq org-directory &lt;span style="color:#e6db74">&amp;#34;~/Desktop/Inbox&amp;#34;&lt;/span>&lt;span style="color:#f92672">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>자주 보는 곳에 두고 자주 사용할 수 있도록 했다.&lt;/p>
 &lt;h3 id="자동-저장">자동 저장&lt;/h3>
 &lt;p>Doom Emacs 에 아쉬운 점이 하나 있는데 자동 저장 기능이 디폴트가 아니라는 점이다.
 Webstorm 이나 VSCode 를 사용할 때는 항상 자동 저장을 켜고 사용했고 다른 사람에게 안내할 때는 반드시 이 옵션부터 활성화 하라고 지시하기도 했다.&lt;/p>
@@ -100,14 +100,14 @@ Webstorm 이나 VSCode 를 사용할 때는 항상 자동 저장을 켜고 사�
 &lt;p>&lt;a href="https://github.com/hlissner">Henrik Lissner&lt;/a> 가 시작한 이 프로젝트는 조만간 GitHub 의 doomemacs organization 으로 이관될 듯 하다. 그 밑 작업들이 계속 진행되고 있으며 Spacemacs 만큼 중요한 프로젝트가 될 것 같다.&lt;/p>
 &lt;p>&lt;img src="https://faultnote.github.io/posts/images/doom-emacs-org-account.png" alt="DoomEmacs Organization in GitHub">&lt;/p>
 &lt;p>둠 이맥스가 계획하고 있는 로드맵을 보면 이 에디터 환경에 배팅해도 좋을 듯 하다.&lt;/p>
-&lt;section class="footnotes" role="doc-endnotes">
+&lt;div class="footnotes" role="doc-endnotes">
 &lt;hr>
 &lt;ol>
-&lt;li id="fn:1" role="doc-endnote">
+&lt;li id="fn:1">
 &lt;p>org mode - 이맥스에서 특정 확장을 위한 구성을 mode 라고 부르고 작업 관리를 위한 가장 유명한 도구로 org mode 가 있다.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;/section></content></item><item><title>2022년에 Doom Emacs 시작하기</title><link>https://faultnote.github.io/posts/doom-emacs-intro/</link><pubDate>Sat, 01 Jan 2022 14:10:21 +0900</pubDate><author>soomtong@gmail.com (soomtong)</author><guid>https://faultnote.github.io/posts/doom-emacs-intro/</guid><description>이맥스는 뭐냐? 오리지널 Vi 보다는 늦지만 Vim 보다 조금 먼저 개발된 텍스트 편집기로 오래되었고, 요즘은 VSCode 가 승리했지만 Emacs vs Vim 성전(聖戰, a holy war)의 핫한 주</description><content>&lt;h2 id="이맥스는-뭐냐">이맥스는 뭐냐?&lt;/h2>
+&lt;/div></content></item><item><title>2022년에 Doom Emacs 시작하기</title><link>https://faultnote.github.io/posts/doom-emacs-intro/</link><pubDate>Sat, 01 Jan 2022 14:10:21 +0900</pubDate><author>soomtong@gmail.com (soomtong)</author><guid>https://faultnote.github.io/posts/doom-emacs-intro/</guid><description>이맥스는 뭐냐? 오리지널 Vi 보다는 늦지만 Vim 보다 조금 먼저 개발된 텍스트 편집기로 오래되었고, 요즘은 VSCode 가 승리했지만 Emacs vs Vim 성전(聖戰, a holy war)의 핫한 주</description><content>&lt;h2 id="이맥스는-뭐냐">이맥스는 뭐냐?&lt;/h2>
 &lt;p>오리지널 Vi 보다는 늦지만 Vim 보다 조금 먼저 개발된 텍스트 편집기로 오래되었고, 요즘은 VSCode 가 승리했지만 Emacs vs Vim 성전(聖戰, a holy war)의 핫한 주인공이었다. (지금 저 &lt;code>vs&lt;/code> 는 VSCode 가 되었고 코딩용 편집기의 de facto 가 되었다.)&lt;/p>
 &lt;blockquote>
 &lt;p>&lt;a href="https://www.youtube.com/watch?v=3r1z5NDXU3s">I do use Vim other Emacs&lt;/a> 커버에 있는 이미지의 클립에서도 볼 수 있듯 연애 보다 중요한 문제다.&lt;/p>
@@ -192,9 +192,9 @@ Webstorm 이나 VSCode 를 사용할 때는 항상 자동 저장을 켜고 사�
 &lt;li>빌드된 패키지를 제공함(emacs-plus 는 컴파일해야 해서&amp;hellip;)&lt;/li>
 &lt;/ul>
 &lt;p>아무튼 빌드 하지 말자. 여기 &lt;a href="https://github.com/railwaycat/homebrew-emacsmacport">https://github.com/railwaycat/homebrew-emacsmacport&lt;/a> 를 통해 &amp;ndash;cask 로 설치하자.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ brew tap railwaycat/emacsmacport
-$ brew install --cask emacs-mac-spacemacs-icon
-&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>$ brew tap railwaycat/emacsmacport
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ brew install --cask emacs-mac-spacemacs-icon
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
 &lt;p>스페이스맥스의 아이콘은 정말 멋지다.&lt;/p>
 &lt;/blockquote>
 &lt;p>설치가 완료되면 &lt;code>/usr/local/bin&lt;/code> 에 &lt;code>emacs&lt;/code> 실행 스크립트도 추가해 준다. &lt;a href="https://emacsformacosx.com/tips">https://emacsformacosx.com/tips&lt;/a> 에 있는 내용과 같다.&lt;/p>
@@ -229,13 +229,13 @@ $ brew install --cask emacs-mac-spacemacs-icon
 &lt;p>나는 dot file 관리를 위해 &lt;code>chezmoi&lt;/code> 를 사용 중이다.&lt;/p>
 &lt;/blockquote>
 &lt;p>이맥스 애플리케이션을 다시 설치할 필요는 없다. 이맥스의 로컬 세팅을 제거하고 둠 환경을 다시 설치하면 초기 세팅을 복원할 수 있다.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-shell" data-lang="shell">$ rm -rf ~/.emacs.d/.local
-$ ~/.emacs.d/bin/doom install
-&lt;/code>&lt;/pre>&lt;/div>&lt;section class="footnotes" role="doc-endnotes">
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-shell" data-lang="shell">&lt;span style="display:flex;">&lt;span>$ rm -rf ~/.emacs.d/.local
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>$ ~/.emacs.d/bin/doom install
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="footnotes" role="doc-endnotes">
 &lt;hr>
 &lt;ol>
-&lt;li id="fn:1" role="doc-endnote">
+&lt;li id="fn:1">
 &lt;p>새해 첫 글에 이맥스를 소개하기 위해 부랴 부랴 작성 중이다.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;/section></content></item></channel></rss>
+&lt;/div></content></item></channel></rss>
