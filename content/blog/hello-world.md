@@ -2,7 +2,7 @@
 title: Hello World
 date: 2017-03-07 20:56:23
 tags:
-  - blog
+- blog
 description: 블로그 정리 및 새로이 배우는 내용을 담기 위해 깃헙에 다시 페이지를 열었습니다.
 author: soomtong
 ---
