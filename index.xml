@@ -219,7 +219,7 @@ Snapshots: 0 total
 Time: 1.161 s, estimated 2 s
 Ran all test suites.
 &lt;/code>&lt;/pre>&lt;p>이어 파싱된 데이터를 어셈블리로 변환하는 단계로 넘어가자.&lt;/p>
-&lt;p>어셈블리 변환은 gcc 나 llvm 의 도움을 받는다.&lt;/p></content></item><item><title>마이크로서비스 도입 이렇게 한다</title><link>https://faultnote.github.io/posts/monolith-to-microservices/</link><pubDate>Mon, 03 Oct 2022 00:00:00 +0000</pubDate><author>soomtong@gmail.com (soomtong)</author><guid>https://faultnote.github.io/posts/monolith-to-microservices/</guid><description>마이크로서비스 이렇게 한다 책 소개 샘 뉴먼의 두 번째 마이크로서비스 책인데, 첫 책은 마이크로서비스의 개념, 필요성과 적용 패턴 등이 소개되었을 것 같고 몇 년 후 나온</description><content>
+&lt;p>어셈블리를 바이너리로 변환하는 것은 gcc 나 llvm 의 도움을 받는다.&lt;/p></content></item><item><title>마이크로서비스 도입 이렇게 한다</title><link>https://faultnote.github.io/posts/monolith-to-microservices/</link><pubDate>Mon, 03 Oct 2022 00:00:00 +0000</pubDate><author>soomtong@gmail.com (soomtong)</author><guid>https://faultnote.github.io/posts/monolith-to-microservices/</guid><description>마이크로서비스 이렇게 한다 책 소개 샘 뉴먼의 두 번째 마이크로서비스 책인데, 첫 책은 마이크로서비스의 개념, 필요성과 적용 패턴 등이 소개되었을 것 같고 몇 년 후 나온</description><content>
 &lt;div id="outline-container-headline-1" class="outline-2">
 &lt;h2 id="headline-1">
 마이크로서비스 이렇게 한다

@@ -219,7 +219,7 @@ Snapshots: 0 total
 Time: 1.161 s, estimated 2 s
 Ran all test suites.
 &lt;/code>&lt;/pre>&lt;p>이어 파싱된 데이터를 어셈블리로 변환하는 단계로 넘어가자.&lt;/p>
-&lt;p>어셈블리 변환은 gcc 나 llvm 의 도움을 받는다.&lt;/p></content></item><item><title>TypeScript 50 Lessons Part 7</title><link>https://faultnote.github.io/posts/typescript-50-lessons-7/</link><pubDate>Sat, 27 Aug 2022 22:00:00 +0900</pubDate><author>soomtong@gmail.com (soomtong)</author><guid>https://faultnote.github.io/posts/typescript-50-lessons-7/</guid><description>타입스크립트 in 50 레슨 스테판 바움가트너가 스매싱 매거진에서 출판한 서적으로 타입스크립트 주요 주제들에 대해 잘 짚어주고 있다. Lesson 43 Promise 와 가변variadic</description><content>
+&lt;p>어셈블리를 바이너리로 변환하는 것은 gcc 나 llvm 의 도움을 받는다.&lt;/p></content></item><item><title>TypeScript 50 Lessons Part 7</title><link>https://faultnote.github.io/posts/typescript-50-lessons-7/</link><pubDate>Sat, 27 Aug 2022 22:00:00 +0900</pubDate><author>soomtong@gmail.com (soomtong)</author><guid>https://faultnote.github.io/posts/typescript-50-lessons-7/</guid><description>타입스크립트 in 50 레슨 스테판 바움가트너가 스매싱 매거진에서 출판한 서적으로 타입스크립트 주요 주제들에 대해 잘 짚어주고 있다. Lesson 43 Promise 와 가변variadic</description><content>
 &lt;div id="outline-container-headline-1" class="outline-2">
 &lt;h2 id="headline-1">
 타입스크립트 in 50 레슨

@@ -219,4 +219,4 @@ Snapshots: 0 total
 Time: 1.161 s, estimated 2 s
 Ran all test suites.
 &lt;/code>&lt;/pre>&lt;p>이어 파싱된 데이터를 어셈블리로 변환하는 단계로 넘어가자.&lt;/p>
-&lt;p>어셈블리 변환은 gcc 나 llvm 의 도움을 받는다.&lt;/p></content></item></channel></rss>
+&lt;p>어셈블리를 바이너리로 변환하는 것은 gcc 나 llvm 의 도움을 받는다.&lt;/p></content></item></channel></rss>
