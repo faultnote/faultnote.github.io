@@ -1,4 +1,225 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>javascript on FaultNote</title><link>https://faultnote.github.io/tags/javascript/</link><description>Recent content in javascript on FaultNote</description><generator>Hugo -- gohugo.io</generator><language>ko-kr</language><managingEditor>soomtong@gmail.com (soomtong)</managingEditor><webMaster>soomtong@gmail.com (soomtong)</webMaster><lastBuildDate>Sat, 27 Aug 2022 22:00:00 +0900</lastBuildDate><atom:link href="https://faultnote.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml"/><item><title>TypeScript 50 Lessons Part 7</title><link>https://faultnote.github.io/posts/typescript-50-lessons-7/</link><pubDate>Sat, 27 Aug 2022 22:00:00 +0900</pubDate><author>soomtong@gmail.com (soomtong)</author><guid>https://faultnote.github.io/posts/typescript-50-lessons-7/</guid><description>타입스크립트 in 50 레슨 스테판 바움가트너가 스매싱 매거진에서 출판한 서적으로 타입스크립트 주요 주제들에 대해 잘 짚어주고 있다. Lesson 43 Promise 와 가변variadic</description><content>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>javascript on FaultNote</title><link>https://faultnote.github.io/tags/javascript/</link><description>Recent content in javascript on FaultNote</description><generator>Hugo -- gohugo.io</generator><language>ko-kr</language><managingEditor>soomtong@gmail.com (soomtong)</managingEditor><webMaster>soomtong@gmail.com (soomtong)</webMaster><lastBuildDate>Sat, 19 Nov 2022 22:00:00 +0900</lastBuildDate><atom:link href="https://faultnote.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml"/><item><title>Write Deadly Simple Compiler</title><link>https://faultnote.github.io/posts/write-simple-compiler-1/</link><pubDate>Sat, 19 Nov 2022 22:00:00 +0900</pubDate><author>soomtong@gmail.com (soomtong)</author><guid>https://faultnote.github.io/posts/write-simple-compiler-1/</guid><description>내가 처음으로 구독한 개인 메일인 Phil 의 웹 페이지에 있는 2018년 말 포스트인 &amp;lsquo;Writing a lisp compiler from scratch in JavaScript&amp;rsquo; 를 학습하며 기록한 글이다. 우선 Node 환경에서 구동되는 Lisp 컴파일러를</description><content>&lt;blockquote>
+&lt;p>내가 처음으로 구독한 개인 메일인 &lt;a href="https://notes.eatonphil.com">Phil&lt;/a> 의 웹 페이지에 있는 2018년 말 포스트인 &amp;lsquo;Writing a lisp compiler from scratch in JavaScript&amp;rsquo; 를 학습하며 기록한 글이다.&lt;/p>
+&lt;/blockquote>
+&lt;p>우선 Node 환경에서 구동되는 Lisp 컴파일러를 구현하는 투토리얼을 따라가 보도록 한다. 본문은 여기에 있다.&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://notes.eatonphil.com/compiler-basics-lisp-to-assembly.html">https://notes.eatonphil.com/compiler-basics-lisp-to-assembly.html&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>시리즈의 목표는 아래와 같은 코드를 계산하는 프로그램을 만드는 것이다.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-scheme" data-lang="scheme">&lt;span style="display:flex;">&lt;span>(+ &lt;span style="color:#ae81ff">1&lt;/span> (+ (&lt;span style="color:#ae81ff">2&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span>)))
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>이 과정에서 &amp;lsquo;파싱&amp;rsquo;, &amp;lsquo;코드 생성&amp;rsquo;, &amp;lsquo;어셈블리 기본&amp;rsquo;, &amp;lsquo;시스템 콜&amp;rsquo; 에 대한 내용을 다루지만 &amp;lsquo;함수 정의&amp;rsquo;, &amp;lsquo;비 심볼/비 산술 데이터 타입&amp;rsquo;, &amp;lsquo;3개 이상의 인자 전달&amp;rsquo;, &amp;lsquo;예외 처리&amp;rsquo;, &amp;lsquo;에러 핸들링&amp;rsquo; 등은 다루지 않는다.&lt;/p>
+&lt;h2 id="파싱">파싱&lt;/h2>
+&lt;p>이 강의에서 lisp 에서 사용되는 S-expression 문법을 처리하는 컴파일러를 만들 것이다. S-expression 은 파싱하기 쉽기 때문에 선택되었다. 그리고, 우리의 프로그램은 기능이 제한적이기 때문에 렉싱lexing과 파싱parsing 단계를 나누지 않고 진행한다.&lt;/p>
+&lt;p>렉서와 파서를 통해 컴파일러를 만드는 것은 다음 기회에 살펴보자. 또는 파서와 렉서를 만들어 보는 시간을 가지는 것도 좋겠다.&lt;/p>
+&lt;blockquote>
+&lt;p>언어 문법을 디자인하고 파싱하고 렉싱하는 유명한 소프트웨어들이 있다. 해당 언어를 위한 파서를 만들어주는 프로그램도 있다. lex, yacc, bison, menhir, peg, antlr, lalrpop 등 본격적으로 언어를 만든다면 이런 툴을 사용하지 않을까?
+&lt;a href="https://en.wikipedia.org/wiki/Comparison_of_parser_generators">https://en.wikipedia.org/wiki/Comparison_of_parser_generators&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>파서는 &lt;code>구문 추상 트리abstract syntax tree&lt;/code> 를 만들어 낸다. 트리 구조는 중첩된 배열로 표현된다.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>(&lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span> (&lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">2&lt;/span> &lt;span style="color:#ae81ff">3&lt;/span>)) &lt;span style="color:#960050;background-color:#1e0010">→&lt;/span> [&lt;span style="color:#e6db74">&amp;#39;+&amp;#39;&lt;/span>, &lt;span style="color:#ae81ff">1&lt;/span>, [&lt;span style="color:#e6db74">&amp;#39;+&amp;#39;&lt;/span>, &lt;span style="color:#ae81ff">2&lt;/span>, &lt;span style="color:#ae81ff">3&lt;/span>]]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>처음 이 과제를 자바스크립트가 아닌 다른/새로운 언어를 공부하면서 연습해 보면서 구현하려 했다. 하지만, 디자인도 안나왔는데 테스트 코드를 작성하는 것처럼 어색한게 진도가 나가지 않았다. 익숙한 언어로 먼저 진행해 보자.&lt;/p>
+&lt;ol>
+&lt;li>TypeScript&lt;/li>
+&lt;li>Grain&lt;/li>
+&lt;li>Zig&lt;/li>
+&lt;/ol>
+&lt;p>정도 경험해 보면 어떨까 싶다.&lt;/p>
+&lt;p>먼저 parse 함수를 만들자. parse 함수는 아래의 형태를 가질 것이다. 타입 정보는 과정이 진행되면서 개선해 간다.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ts" data-lang="ts">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">parse&lt;/span> &lt;span style="color:#f92672">=&lt;/span> (&lt;span style="color:#a6e22e">program&lt;/span>: &lt;span style="color:#66d9ef">unknown&lt;/span>)&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">unknown&lt;/span>[] &lt;span style="color:#f92672">=&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">tokens&lt;/span>: &lt;span style="color:#66d9ef">unknown&lt;/span>[] &lt;span style="color:#f92672">=&lt;/span> [];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// todo:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">return&lt;/span> [&lt;span style="color:#a6e22e">tokens&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>소스 코드를 program 으로 받아 어떤 처리를 하여 AST(abstract syntax tree)를 얻어낸다. parse 함수는 처리가 성공하면 반환되는 결과의 두 번째 요소에 빈 문자열을 전달하는 것으로 규칙을 삼았다.&lt;/p>
+&lt;blockquote>
+&lt;p>그래도 왜 반환이 [tokens, &amp;lsquo;&amp;rsquo;] 인지 아직 모르겠다. 그냥 타입을 이렇게 작성한 거라면 나중에 바꾸도록 하자.&lt;/p>
+&lt;/blockquote>
+&lt;p>공백이나 괄호를 만날 때까지 문자열을 더해 토큰을 만들어 추가하는 코드로 개선해 보자.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ts" data-lang="ts">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">parse&lt;/span> &lt;span style="color:#f92672">=&lt;/span> (&lt;span style="color:#a6e22e">program&lt;/span>: &lt;span style="color:#66d9ef">string&lt;/span>)&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">unknown&lt;/span>[] &lt;span style="color:#f92672">=&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">tokens&lt;/span>&lt;span style="color:#f92672">:&lt;/span> (&lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#66d9ef">number&lt;/span>)[] &lt;span style="color:#f92672">=&lt;/span> [];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">let&lt;/span> &lt;span style="color:#a6e22e">currentToken&lt;/span>: &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">for&lt;/span> (&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">char&lt;/span> &lt;span style="color:#66d9ef">of&lt;/span> &lt;span style="color:#a6e22e">program&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">switch&lt;/span> (&lt;span style="color:#a6e22e">char&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39;(&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// todo:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39;)&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// todo:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39; &amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">tokens&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(Number.isFinite(&lt;span style="color:#a6e22e">currentToken&lt;/span>) &lt;span style="color:#f92672">?&lt;/span> Number(&lt;span style="color:#a6e22e">currentToken&lt;/span>) &lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">currentToken&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">currentToken&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">default&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">currentToken&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> &lt;span style="color:#a6e22e">char&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> [&lt;span style="color:#a6e22e">tokens&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>계산을 위해 숫자인 경우는 연산 가능한 타입으로 변경해 주고 있다.&lt;/p>
+&lt;p>그 다음은 괄호를 만나게 되는 경우를 처리하자.&lt;/p>
+&lt;p>괄호를 열면 또 다시 파싱할 문자열이 들어있다. 즉, 재귀 가능한 구조라는 것이다. 여는 괄호 코드를 구현하기 전에 닫는 괄호를 먼저 구성하자.&lt;/p>
+&lt;p>단어를 읽다가 닫는 괄호를 만나면 여기까지 토큰을 저장하고 재귀 호출한 parse 함수에게 현재까지 모아둔 토큰과 이어서 처리해야할 남은 문자열을 반환한다.&lt;/p>
+&lt;p>남은 문자열 반환을 위해 substring 이 필요해 for of 대신 forEach 를 사용하기로 했다.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ts" data-lang="ts">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">parse&lt;/span> &lt;span style="color:#f92672">=&lt;/span> (&lt;span style="color:#a6e22e">program&lt;/span>: &lt;span style="color:#66d9ef">string&lt;/span>)&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">unknown&lt;/span>[] &lt;span style="color:#f92672">=&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">tokens&lt;/span>&lt;span style="color:#f92672">:&lt;/span> (&lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#66d9ef">number&lt;/span>)[] &lt;span style="color:#f92672">=&lt;/span> [];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">let&lt;/span> &lt;span style="color:#a6e22e">currentToken&lt;/span>: &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">program&lt;/span>.&lt;span style="color:#a6e22e">forEach&lt;/span>((&lt;span style="color:#a6e22e">char&lt;/span>: &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">index&lt;/span>: &lt;span style="color:#66d9ef">number&lt;/span>) &lt;span style="color:#f92672">=&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">switch&lt;/span> (&lt;span style="color:#a6e22e">char&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39;(&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// todo:
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39;)&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> [&lt;span style="color:#a6e22e">tokens&lt;/span>, &lt;span style="color:#a6e22e">program&lt;/span>.&lt;span style="color:#a6e22e">substring&lt;/span>(&lt;span style="color:#a6e22e">index&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>)];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39; &amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">tokens&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(Number.isFinite(&lt;span style="color:#a6e22e">currentToken&lt;/span>) &lt;span style="color:#f92672">?&lt;/span> Number(&lt;span style="color:#a6e22e">currentToken&lt;/span>) &lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">currentToken&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">currentToken&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">default&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">currentToken&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> &lt;span style="color:#a6e22e">char&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> });
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> [&lt;span style="color:#a6e22e">tokens&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>이제 여는 괄호의 코드를 구성하자. 재귀 호출이 시작되는 구간이다.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ts" data-lang="ts">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">parse&lt;/span> &lt;span style="color:#f92672">=&lt;/span> (&lt;span style="color:#a6e22e">program&lt;/span>: &lt;span style="color:#66d9ef">string&lt;/span>)&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#66d9ef">any&lt;/span>[] &lt;span style="color:#f92672">=&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">tokens&lt;/span>&lt;span style="color:#f92672">:&lt;/span> (&lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#66d9ef">number&lt;/span>)[] &lt;span style="color:#f92672">=&lt;/span> [];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">let&lt;/span> &lt;span style="color:#a6e22e">currentToken&lt;/span>: &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> Array.&lt;span style="color:#66d9ef">from&lt;/span>(&lt;span style="color:#a6e22e">program&lt;/span>).&lt;span style="color:#a6e22e">forEach&lt;/span>((&lt;span style="color:#a6e22e">char&lt;/span>: &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">index&lt;/span>: &lt;span style="color:#66d9ef">number&lt;/span>) &lt;span style="color:#f92672">=&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">switch&lt;/span> (&lt;span style="color:#a6e22e">char&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39;(&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> [&lt;span style="color:#a6e22e">parsedToken&lt;/span>, &lt;span style="color:#a6e22e">rest&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">parse&lt;/span>(&lt;span style="color:#a6e22e">program&lt;/span>.&lt;span style="color:#a6e22e">substring&lt;/span>(&lt;span style="color:#a6e22e">index&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">tokens&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(&lt;span style="color:#a6e22e">parsedToken&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39;)&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> [&lt;span style="color:#a6e22e">tokens&lt;/span>, &lt;span style="color:#a6e22e">program&lt;/span>.&lt;span style="color:#a6e22e">substring&lt;/span>(&lt;span style="color:#a6e22e">index&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>)];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39; &amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">tokens&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(Number.isFinite(&lt;span style="color:#a6e22e">currentToken&lt;/span>) &lt;span style="color:#f92672">?&lt;/span> Number(&lt;span style="color:#a6e22e">currentToken&lt;/span>) &lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">currentToken&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">currentToken&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">default&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">currentToken&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> &lt;span style="color:#a6e22e">char&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> });
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> [&lt;span style="color:#a6e22e">tokens&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>정상적으로 종료되는 경우 반환은 파싱된 토큰 뭉치와 빈 문자열인게 납득이 된다. 더 이상 파싱할 문자열이 없을 때에 해당되는 것이다.&lt;/p>
+&lt;p>대강 이 쯤 되니 spec 파일을 만들 수 있을 것 같다. 테스트 케이스를 만들고 타입 정보를 제대로 구성해 보자.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ts" data-lang="ts">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">import&lt;/span> { &lt;span style="color:#a6e22e">parse&lt;/span> } &lt;span style="color:#66d9ef">from&lt;/span> &lt;span style="color:#e6db74">&amp;#39;./parser&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">describe&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;Parse s-expression&amp;#39;&lt;/span>, () &lt;span style="color:#f92672">=&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">it&lt;/span>(&lt;span style="color:#e6db74">&amp;#39;should parse basic expression&amp;#39;&lt;/span>, () &lt;span style="color:#f92672">=&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">source&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;(+ 3 (+ 1 2)&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">expected&lt;/span> &lt;span style="color:#f92672">=&lt;/span> [[[&lt;span style="color:#e6db74">&amp;#39;+&amp;#39;&lt;/span>, &lt;span style="color:#ae81ff">3&lt;/span>, [&lt;span style="color:#e6db74">&amp;#39;+&amp;#39;&lt;/span>, &lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#ae81ff">2&lt;/span>]]], &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">result&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">parse&lt;/span>(&lt;span style="color:#a6e22e">source&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">expect&lt;/span>(&lt;span style="color:#a6e22e">result&lt;/span>).&lt;span style="color:#a6e22e">toEqual&lt;/span>(&lt;span style="color:#a6e22e">expected&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> });
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>});
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>따로 분리한 타입 정보는 우선 이 정도로 구성되었다.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ts" data-lang="ts">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Program&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">Token&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">string&lt;/span> &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#66d9ef">number&lt;/span> &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#66d9ef">boolean&lt;/span> &lt;span style="color:#f92672">|&lt;/span> &lt;span style="color:#a6e22e">Token&lt;/span>[];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">type&lt;/span> &lt;span style="color:#a6e22e">ParsedTokens&lt;/span> &lt;span style="color:#f92672">=&lt;/span> [&lt;span style="color:#a6e22e">Token&lt;/span>, &lt;span style="color:#a6e22e">Program&lt;/span>];
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>제대로 동작하지 않는 첫 파서는 아래와 같다.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ts" data-lang="ts">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">import&lt;/span> &lt;span style="color:#66d9ef">type&lt;/span> { &lt;span style="color:#a6e22e">Program&lt;/span>, &lt;span style="color:#a6e22e">Token&lt;/span>, &lt;span style="color:#a6e22e">ParsedTokens&lt;/span> } &lt;span style="color:#66d9ef">from&lt;/span> &lt;span style="color:#e6db74">&amp;#39;./parser.type&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">export&lt;/span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">parse&lt;/span> &lt;span style="color:#f92672">=&lt;/span> (&lt;span style="color:#a6e22e">program&lt;/span>: &lt;span style="color:#66d9ef">Program&lt;/span>)&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">ParsedTokens&lt;/span> &lt;span style="color:#f92672">=&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">tokens&lt;/span>: &lt;span style="color:#66d9ef">Token&lt;/span>[] &lt;span style="color:#f92672">=&lt;/span> [];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">let&lt;/span> &lt;span style="color:#a6e22e">currentToken&lt;/span>: &lt;span style="color:#66d9ef">Token&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#75715e">// @ts-ignore
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> Array.&lt;span style="color:#66d9ef">from&lt;/span>(&lt;span style="color:#a6e22e">program&lt;/span>).&lt;span style="color:#a6e22e">forEach&lt;/span>((&lt;span style="color:#a6e22e">char&lt;/span>: &lt;span style="color:#66d9ef">string&lt;/span>, &lt;span style="color:#a6e22e">index&lt;/span>: &lt;span style="color:#66d9ef">number&lt;/span>) &lt;span style="color:#f92672">=&amp;gt;&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">switch&lt;/span> (&lt;span style="color:#a6e22e">char&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39;(&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> [&lt;span style="color:#a6e22e">parsedToken&lt;/span>, &lt;span style="color:#a6e22e">rest&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">parse&lt;/span>(&lt;span style="color:#a6e22e">program&lt;/span>.&lt;span style="color:#a6e22e">substring&lt;/span>(&lt;span style="color:#a6e22e">index&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">tokens&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(&lt;span style="color:#a6e22e">parsedToken&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// reset rest and index?
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39;)&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">tokens&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(Number.isNaN(Number(&lt;span style="color:#a6e22e">currentToken&lt;/span>)) &lt;span style="color:#f92672">?&lt;/span> &lt;span style="color:#a6e22e">currentToken&lt;/span> : &lt;span style="color:#66d9ef">Number&lt;/span>(&lt;span style="color:#a6e22e">currentToken&lt;/span>));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> [&lt;span style="color:#a6e22e">tokens&lt;/span>, &lt;span style="color:#a6e22e">program&lt;/span>.&lt;span style="color:#a6e22e">substring&lt;/span>(&lt;span style="color:#a6e22e">index&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>)];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39; &amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">tokens&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(Number.isNaN(Number(&lt;span style="color:#a6e22e">currentToken&lt;/span>)) &lt;span style="color:#f92672">?&lt;/span> &lt;span style="color:#a6e22e">currentToken&lt;/span> : &lt;span style="color:#66d9ef">Number&lt;/span>(&lt;span style="color:#a6e22e">currentToken&lt;/span>));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">currentToken&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">default&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">currentToken&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> &lt;span style="color:#a6e22e">char&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> });
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> [&lt;span style="color:#a6e22e">tokens&lt;/span>, &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>};
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>재귀 함수를 통해 처리된 다음 프로그램이 또 다시 파싱되어 배열이 필요 이상 중첩되는 결과를 만나게 된다.&lt;/p>
+&lt;pre tabindex="0">&lt;code>console.dir
+[
+[
+[ &amp;#39;+&amp;#39;, 3, [ &amp;#39;+&amp;#39;, 1, 2 ], &amp;#39;+&amp;#39;, 1, 2 ],
+&amp;#39;+&amp;#39;,
+3,
+[ &amp;#39;+&amp;#39;, 1, 2 ],
+&amp;#39;+&amp;#39;,
+1,
+2
+],
+&amp;#39;&amp;#39;
+]
+&lt;/code>&lt;/pre>&lt;p>재귀 함수를 통해 반환 된 나머지 프로그램 코드에 대해 다시 tokenize 를 할 필요가 없기 때문에 재귀 함수를 통해 처리된 토크을 제외한 나머지 프로그램만 이전 parse 단계를 가지도록 프로그램 문자열을 추려 낼 필요가 있게 되어 forEach 를 전통적인 인덱스를 가지는 for 문으로 변경해야 한다.&lt;/p>
+&lt;blockquote>
+&lt;p>파서는 문자열 커서를 앞으로 뒤로 이동하며 토큰을 생성해 내는데 재귀 함수를 통해 처리한 내용은 건너 뛰어야 하는 기능이 필요한 것이다.&lt;/p>
+&lt;/blockquote>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ts" data-lang="ts">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">getToken&lt;/span> &lt;span style="color:#f92672">=&lt;/span> (&lt;span style="color:#a6e22e">source&lt;/span>: &lt;span style="color:#66d9ef">Program&lt;/span>)&lt;span style="color:#f92672">:&lt;/span> &lt;span style="color:#a6e22e">Token&lt;/span> &lt;span style="color:#f92672">=&amp;gt;&lt;/span> (Number.isNaN(Number(&lt;span style="color:#a6e22e">source&lt;/span>)) &lt;span style="color:#f92672">?&lt;/span> &lt;span style="color:#a6e22e">source&lt;/span> : &lt;span style="color:#66d9ef">Number&lt;/span>(&lt;span style="color:#a6e22e">source&lt;/span>));
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-ts" data-lang="ts">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">for&lt;/span> (&lt;span style="color:#66d9ef">let&lt;/span> &lt;span style="color:#a6e22e">index&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>; &lt;span style="color:#a6e22e">index&lt;/span> &lt;span style="color:#f92672">&amp;lt;&lt;/span> &lt;span style="color:#a6e22e">program&lt;/span>.&lt;span style="color:#a6e22e">length&lt;/span>; &lt;span style="color:#a6e22e">index&lt;/span>&lt;span style="color:#f92672">++&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> &lt;span style="color:#a6e22e">char&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">program&lt;/span>.&lt;span style="color:#a6e22e">charAt&lt;/span>(&lt;span style="color:#a6e22e">index&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">switch&lt;/span> (&lt;span style="color:#a6e22e">char&lt;/span>) {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39;(&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">const&lt;/span> [&lt;span style="color:#a6e22e">parsedToken&lt;/span>, &lt;span style="color:#a6e22e">restProgram&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">parse&lt;/span>(&lt;span style="color:#a6e22e">program&lt;/span>.&lt;span style="color:#a6e22e">substring&lt;/span>(&lt;span style="color:#a6e22e">index&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">tokens&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(&lt;span style="color:#a6e22e">parsedToken&lt;/span>);
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#75715e">// reset program with skipped by recursive and index to 0
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span> &lt;span style="color:#a6e22e">program&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#a6e22e">restProgram&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">index&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">0&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39;)&amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">tokens&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(&lt;span style="color:#a6e22e">getToken&lt;/span>(&lt;span style="color:#a6e22e">currentToken&lt;/span>));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">return&lt;/span> [&lt;span style="color:#a6e22e">tokens&lt;/span>, &lt;span style="color:#a6e22e">program&lt;/span>.&lt;span style="color:#a6e22e">substring&lt;/span>(&lt;span style="color:#a6e22e">index&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>)];
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">case&lt;/span> &lt;span style="color:#e6db74">&amp;#39; &amp;#39;&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">tokens&lt;/span>.&lt;span style="color:#a6e22e">push&lt;/span>(&lt;span style="color:#a6e22e">getToken&lt;/span>(&lt;span style="color:#a6e22e">currentToken&lt;/span>));
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">currentToken&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#39;&amp;#39;&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">default&lt;/span>&lt;span style="color:#f92672">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">currentToken&lt;/span> &lt;span style="color:#f92672">+=&lt;/span> &lt;span style="color:#a6e22e">char&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">break&lt;/span>;
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> }
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>파싱 함수 반복문을 Phil 의 코드에 맞게 수정하고 &lt;code>npm t&lt;/code> 를 통해 테스트를 성공시켰다.&lt;/p>
+&lt;pre tabindex="0">&lt;code>&amp;gt; simple-compiler@0.1.0 test
+&amp;gt; jest
+PASS src/parser.spec.ts
+Parse s-expression
+✓ should parse basic expression (2 ms)
+Test Suites: 1 passed, 1 total
+Tests: 1 passed, 1 total
+Snapshots: 0 total
+Time: 1.161 s, estimated 2 s
+Ran all test suites.
+&lt;/code>&lt;/pre>&lt;p>이어 파싱된 데이터를 어셈블리로 변환하는 단계로 넘어가자.&lt;/p>
+&lt;p>어셈블리 변환은 gcc 나 llvm 의 도움을 받는다.&lt;/p></content></item><item><title>TypeScript 50 Lessons Part 7</title><link>https://faultnote.github.io/posts/typescript-50-lessons-7/</link><pubDate>Sat, 27 Aug 2022 22:00:00 +0900</pubDate><author>soomtong@gmail.com (soomtong)</author><guid>https://faultnote.github.io/posts/typescript-50-lessons-7/</guid><description>타입스크립트 in 50 레슨 스테판 바움가트너가 스매싱 매거진에서 출판한 서적으로 타입스크립트 주요 주제들에 대해 잘 짚어주고 있다. Lesson 43 Promise 와 가변variadic</description><content>
 &lt;div id="outline-container-headline-1" class="outline-2">
 &lt;h2 id="headline-1">
 타입스크립트 in 50 레슨
