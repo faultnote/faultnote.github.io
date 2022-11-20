@@ -1,0 +1,40 @@
++++
+title = "Web developer 101 - 2022년 버전"
+slug = "web-developer-101"
+date = "2022-06-01T20:00:00+09:00"
+author = "soomtong"
+cover = "https://images.unsplash.com/photo-1574607407517-cd664b1504f5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
+tags = ["career"]
+keywords = ["developer", "roadmap", "2022"]
+description = "웹 개발 직군을 위한 주요 항목을 조합하여 단계별 커리큘럼을 구성하고 핵심 내용을 소개합니다."
+showFullContent = false
+readingTime = true
+draft = true
++++
+
+* Web developer 101 - 2022년 버전
+
+#+begin_quote
+웹 개발 직군을 위한 프론트엔드/백엔드/데이터베이스/데브옵스 등에 대해 살펴보고 주요 커리큘럼을 이야기합니다.
+#+end_quote
+
+** 소프트웨어 개발자 직군과 업무에 대한 개요
+
+*** 정보와 디지털
+*** 컴퓨터와 코딩
+*** 네트워크와 통신
+*** 데이터와 데이터베이스
+
+** 2022년 웹 개발자 직군 전망과 기대
+
+** 프론트엔드와 백엔드 그리고 데이터베이스 엔지니어와 데브옵스
+
+** 시작을 위한 커리큘럼
+
+** 밥값하기
+
+** 학습을 위한 목표
+
+** 소프트 스킬
+
+** 추구해야 할 하드 스킬
