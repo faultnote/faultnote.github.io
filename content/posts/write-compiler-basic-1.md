@@ -1,11 +1,11 @@
 ---
-title: Write Deadly Simple Compiler 
+title: Write Deadly Simple Compiler Part 1
 slug: write-simple-compiler-1 
 date: 2022-11-19T22:00:00+09:00 
 author: soomtong 
 tags: 
   - compiler 
-  - lisp 
+  - s-expression
   - javascript 
 keywords: 
   - compiler
@@ -31,7 +31,9 @@ readingTime: true
 
 ## 파싱
 
-이 강의에서 lisp 에서 사용되는 S-expression 문법을 처리하는 컴파일러를 만들 것이다. S-expression 은 파싱하기 쉽기 때문에 선택되었다. 그리고, 우리의 프로그램은 기능이 제한적이기 때문에 렉싱lexing과 파싱parsing 단계를 나누지 않고 진행한다.
+이 강의에서 lisp 에서 사용되는 S-expression 문법을 처리하는 컴파일러를 만들 것이다. S-expression 은 Symbolic expression 으로 구조적인 데이터를 표현하는 방법 중 하나이다. 이 문법은 비교적 파싱하기 쉽기 때문에 선택되었다. 많은 파서들의 추상화 단계로 S-expression 을 사용한다. 이 내용에 대해서는 다른 포스트로 정리할 예정이다.
+
+그리고, 우리의 프로그램은 기능이 제한적이기 때문에 렉싱lexing과 파싱parsing 단계를 나누지 않고 진행한다.
 
 렉서와 파서를 통해 컴파일러를 만드는 것은 다음 기회에 살펴보자. 또는 파서와 렉서를 만들어 보는 시간을 가지는 것도 좋겠다.
 
