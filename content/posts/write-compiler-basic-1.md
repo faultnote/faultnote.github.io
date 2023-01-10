@@ -31,7 +31,7 @@ readingTime: true
 
 ## 파싱
 
-이 강의에서 lisp 에서 사용되는 S-expression 문법을 처리하는 컴파일러를 만들 것이다. S-expression 은 Symbolic expression 으로 구조적인 데이터를 표현하는 방법 중 하나이다. 이 문법은 비교적 파싱하기 쉽기 때문에 선택되었다. 많은 파서들의 추상화 단계로 S-expression 을 사용한다. 이 내용에 대해서는 다른 포스트로 정리할 예정이다.
+이 강의는 보통 lisp 계열의 프로그래밍 언어에서 사용되는 S-expression 문법을 처리하는 컴파일러를 만드는 것이다. S-expression(Symbolic expression)은 구조적인 데이터를 표현하는 방법 중 하나로 이 문법은 비교적 파싱하기 쉽기 때문에 각종 구문 트리를 표현하는 언어로 선택되곤 한다. 그래서 많은 파서들의 추상화 단계로 S-expression 을 사용한다. 이 내용에 대해서는 다른 포스트로 정리할 예정이다.
 
 그리고, 우리의 프로그램은 기능이 제한적이기 때문에 렉싱lexing과 파싱parsing 단계를 나누지 않고 진행한다.
 
@@ -228,7 +228,7 @@ export const parse = (program: Program): ParsedTokens => {
 
 재귀 함수를 통해 처리된 다음 프로그램이 또 다시 파싱되어 배열이 필요 이상 중첩되는 결과를 만나게 된다.
 
-```
+```shell
 console.dir
 [
   [
@@ -280,7 +280,7 @@ for (let index = 0; index < program.length; index++) {
 
 파싱 함수 반복문을 Phil 의 코드에 맞게 수정하고 `npm t` 를 통해 테스트를 성공시켰다.
 
-```
+```shell
 > simple-compiler@0.1.0 test
 > jest
 
