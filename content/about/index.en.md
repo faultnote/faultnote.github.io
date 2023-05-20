@@ -6,7 +6,7 @@ draft: false
 
 About me:
 
-- Backend software engineer.
-  - Develop a Web services.
-- Do senior role in a office.
+- Make Backend software.
+  - Develop a node.js Web services.
+- Do senior manager/tech lead in a office.
 - Work in Seoul, South Korea.
