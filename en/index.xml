@@ -1,11 +1,320 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FaultNote</title><link>https://faultnote.github.io/en/</link><description>Recent content on FaultNote</description><generator>Hugo -- gohugo.io</generator><language>ko-kr</language><managingEditor>soomtong@gmail.com (soomtong)</managingEditor><webMaster>soomtong@gmail.com (soomtong)</webMaster><atom:link href="https://faultnote.github.io/en/index.xml" rel="self" type="application/rss+xml"/><item><title>About</title><link>https://faultnote.github.io/en/about/</link><pubDate>Sat, 01 Jan 2022 13:03:15 +0900</pubDate><author>soomtong@gmail.com (soomtong)</author><guid>https://faultnote.github.io/en/about/</guid><description>About me:
-Backend software engineer. Develop a Web services. Do senior role in a office. Work in Seoul, South Korea.</description><content>&lt;p>About me:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>FaultNote</title><link>https://faultnote.github.io/en/</link><description>Recent content on FaultNote</description><generator>Hugo -- gohugo.io</generator><language>ko-kr</language><managingEditor>soomtong@gmail.com (soomtong)</managingEditor><webMaster>soomtong@gmail.com (soomtong)</webMaster><lastBuildDate>Sat, 20 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://faultnote.github.io/en/index.xml" rel="self" type="application/rss+xml"/><item><title>Neovim setup by NvChad in 2023</title><link>https://faultnote.github.io/en/posts/nvchad-settings/</link><pubDate>Sat, 20 May 2023 00:00:00 +0000</pubDate><author>soomtong@gmail.com (soomtong)</author><guid>https://faultnote.github.io/en/posts/nvchad-settings/</guid><description>NvChad NvChad, hosted by siduck1, is an impressive neovim enhancement suite designed to provide a seamless experience without the need for complex configurations.2 It proudly boasts a Blazing fast Neovim config providing solid defaults and a beautiful UI and it lives up to this claim. I have personally used my own custom3 neovim and lunarvim setups, both of which are fast, but none can match the sheer beauty of NvChad.</description><content>&lt;h2 id="nvchad">NvChad&lt;/h2>
+&lt;p>NvChad, hosted by siduck&lt;sup id="fnref:1">&lt;a href="#fn:1" class="footnote-ref" role="doc-noteref">1&lt;/a>&lt;/sup>, is an impressive neovim enhancement suite designed to provide a seamless experience without the need for complex configurations.&lt;sup id="fnref:2">&lt;a href="#fn:2" class="footnote-ref" role="doc-noteref">2&lt;/a>&lt;/sup>&lt;/p>
+&lt;p>It proudly boasts a &lt;code>Blazing fast Neovim config providing solid defaults and a beautiful UI&lt;/code> and it lives up to this claim. I have personally used my own custom&lt;sup id="fnref:3">&lt;a href="#fn:3" class="footnote-ref" role="doc-noteref">3&lt;/a>&lt;/sup> neovim and lunarvim setups, both of which are fast, but none can match the sheer beauty of NvChad.&lt;/p>
+&lt;p>What sets NvChad apart is its ability to provide custom UI improvements for a editor&amp;rsquo;s frame, even live in the terminal environment.&lt;/p>
+&lt;p>If you&amp;rsquo;re interested, you can find videos showcasing NvChad on the maker&amp;rsquo;s channel on YouTube.&lt;/p>
+&lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+&lt;iframe src="https://www.youtube.com/embed/IljDD4cjgKc" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video">&lt;/iframe>
+&lt;/div>
 &lt;ul>
-&lt;li>Backend software engineer.
+&lt;li>&lt;a href="https://www.youtube.com/playlist?list=PLYVQrj2EVSUIT3N0QuiwWnGfzue1mtMNM">https://www.youtube.com/playlist?list=PLYVQrj2EVSUIT3N0QuiwWnGfzue1mtMNM&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h3 id="vim-and-neovim">Vim and Neovim&lt;/h3>
+&lt;p>Vim, an abbreviation for Vi Improved, is an enhanced version of the original Vi editor. It was first released to the public in 1991.&lt;/p>
+&lt;p>The original Vi editor was developed by &lt;a href="https://en.wikipedia.org/wiki/Bill_Joy">Bill Joy&lt;/a> and gained widespread adoption as the editor for most UNIX systems. &lt;a href="https://en.wikipedia.org/wiki/Bram_Moolenaar">Bram Moolenaar&lt;/a> initially began with Vi Imitation, and Vim has since evolved into one of the most esteemed editors.&lt;/p>
+&lt;p>Presently, Vim is at version 8.x and continues to be widely used. In addition, there are other notable editors gaining popularity, such as &lt;a href="https://neovim.io">Neovim&lt;/a>, a modernized version of Vim, and &lt;a href="https://helix-editor.com">Helix&lt;/a> Editor, a post-modern alternative.&lt;/p>
+&lt;p>Neovim offers the advantage of being able to use both the traditional Vim plugins written in Vimscript and new plugins developed with the Lua programming language.&lt;/p>
+&lt;p>Comparing Vimscript and Lua can be challenging as they have different characteristics and syntax. However, many developers prefer Lua for creating plugins and customizing their editor environment due to its flexibility and ease of use.&lt;/p>
+&lt;p>Many Vim users now prefer Neovim due to the power of Lua-based plugins. However, classic Vimscript-based plugins still have value and are widely used. Rewriting or replacing existing Vimscript plugins solely for the sake of adopting Lua may not always be necessary or practical. Developers often focus on creating new Lua plugins or gradually migrating existing ones based on specific needs or significant improvements. The compatibility between Neovim and Vimscript ensures access to a vast plugin ecosystem for Neovim users, while Lua offers modern development capabilities for new enhancements. This balance allows users to benefit from the strengths of both languages.&lt;/p>
+&lt;p>In building a custom environment based on NvChad, we take advantage of Neovim&amp;rsquo;s compatibility with Vimscript-based plugins. This allows us to incorporate a combination of Vimscript and Lua-based plugins into our setup. In the following sections, I will explain the process of composing this custom environment, highlighting the integration of selected Vimscript-based plugins along with other relevant configurations.&lt;/p>
+&lt;h3 id="astronvim-lunarvim-nvchad">Astronvim, Lunarvim, Nvchad&lt;/h3>
+&lt;p>In the Neovim ecosystem, notable options include &lt;code>AstroNvim&lt;/code>, &lt;code>LunarVim&lt;/code>, and &lt;code>NvChad&lt;/code>.&lt;/p>
 &lt;ul>
-&lt;li>Develop a Web services.&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://astronvim.com">AstroNvim&lt;/a> is a comprehensive choice suitable for new users looking to switch from Vim to Neovim, offering extensive coverage for text and code editing tasks.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://www.lunarvim.org">LunarVim&lt;/a> is popular due to its maintainer&amp;rsquo;s YouTube show, providing step-by-step guidance for building a setup from scratch. However, I used LunarVim before but I require customized keybindings for some features eg. tab switching.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Personally, I prefer &lt;a href="https://nvchad.com">NvChad&lt;/a> as my setup. It offers a custom UI framework and its key mappings align well with my preferences.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>Consider these options and their specific features to select the one that best meets your requirements and aligns with your preferences.&lt;/p>
+&lt;p>I recommend reading this article below for more information to consider when choosing &lt;code>NvChad&lt;/code>.&lt;/p>
+&lt;h2 id="install-and-basic-configurations">Install and basic configurations&lt;/h2>
+&lt;p>To install NvChad, you can follow the installation process outlined on the official website. However, if you have been using Neovim previously, it is advisable to perform certain initialization steps.&lt;/p>
+&lt;p>For macOS, the initialization process involves deleting specific folders. By deleting the &lt;code>nvim&lt;/code> folder inside the &lt;code>.config&lt;/code> directory and the &lt;code>share/nvim&lt;/code> folder inside &lt;code>.local&lt;/code>, you can consider all the configuration files of Neovim to be removed. After completing these steps, Neovim should run properly when executed.&lt;/p>
+&lt;p>The folders that need to be deleted are as follows:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-perl" data-lang="perl">&lt;span style="display:flex;">&lt;span>drwxr&lt;span style="color:#f92672">-&lt;/span>xr&lt;span style="color:#f92672">-&lt;/span>x &lt;span style="color:#ae81ff">26&lt;/span> Feb &lt;span style="color:#ae81ff">2022&lt;/span> karabiner
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>drwxr&lt;span style="color:#f92672">-&lt;/span>xr&lt;span style="color:#f92672">-&lt;/span>x &lt;span style="color:#ae81ff">9&lt;/span> Nov &lt;span style="color:#ae81ff">2022&lt;/span> lunarvim
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>drwxr&lt;span style="color:#f92672">-&lt;/span>xr&lt;span style="color:#f92672">-&lt;/span>x &lt;span style="color:#ae81ff">20&lt;/span> May &lt;span style="color:#ae81ff">13&lt;/span>:&lt;span style="color:#ae81ff">25&lt;/span> chezmoi
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>drwxr&lt;span style="color:#f92672">-&lt;/span>xr&lt;span style="color:#f92672">-&lt;/span>x &lt;span style="color:#ae81ff">20&lt;/span> May &lt;span style="color:#ae81ff">15&lt;/span>:&lt;span style="color:#ae81ff">07&lt;/span> nvim
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">~&lt;/span>&lt;span style="color:#e6db74">/.local/s&lt;/span>hare $ rm &lt;span style="color:#f92672">-&lt;/span>rf nvim
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-perl" data-lang="perl">&lt;span style="display:flex;">&lt;span>drwxr&lt;span style="color:#f92672">-&lt;/span>xr&lt;span style="color:#f92672">-&lt;/span>x &lt;span style="color:#ae81ff">26&lt;/span> Feb &lt;span style="color:#ae81ff">2022&lt;/span> chezmoi
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>drwxr&lt;span style="color:#f92672">-&lt;/span>xr&lt;span style="color:#f92672">-&lt;/span>x &lt;span style="color:#ae81ff">26&lt;/span> Feb &lt;span style="color:#ae81ff">2022&lt;/span> iterm2
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>drwxr&lt;span style="color:#f92672">-&lt;/span>xr&lt;span style="color:#f92672">-&lt;/span>x &lt;span style="color:#ae81ff">14&lt;/span> Oct &lt;span style="color:#ae81ff">2022&lt;/span> lf
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>drwxr&lt;span style="color:#f92672">-&lt;/span>xr&lt;span style="color:#f92672">-&lt;/span>x &lt;span style="color:#ae81ff">17&lt;/span> Feb &lt;span style="color:#ae81ff">23&lt;/span>:&lt;span style="color:#ae81ff">32&lt;/span> helix
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>drwxr&lt;span style="color:#f92672">-&lt;/span>xr&lt;span style="color:#f92672">-&lt;/span>x &lt;span style="color:#ae81ff">20&lt;/span> May &lt;span style="color:#ae81ff">13&lt;/span>:&lt;span style="color:#ae81ff">25&lt;/span> lvim
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>drwxr&lt;span style="color:#f92672">-&lt;/span>xr&lt;span style="color:#f92672">-&lt;/span>x &lt;span style="color:#ae81ff">20&lt;/span> May &lt;span style="color:#ae81ff">14&lt;/span>:&lt;span style="color:#ae81ff">12&lt;/span> nvim
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">~/.&lt;/span>config $ rm &lt;span style="color:#f92672">-&lt;/span>rf nvim
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Please note that these instructions are based on macOS. If you are using a different operating system, the folder paths may vary.&lt;/p>
+&lt;p>Afterward, you can download the NvChad settings for Neovim. For detailed instructions, please refer to the official website.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-perl" data-lang="perl">&lt;span style="display:flex;">&lt;span>$ git clone https:&lt;span style="color:#e6db74">//gi&lt;/span>thub&lt;span style="color:#f92672">.&lt;/span>com&lt;span style="color:#e6db74">/NvChad/&lt;/span>NvChad &lt;span style="color:#f92672">~&lt;/span>&lt;span style="color:#e6db74">/.config/&lt;/span>nvim &lt;span style="color:#f92672">--&lt;/span>depth &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#f92672">&amp;amp;&amp;amp;&lt;/span> nvim
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Cloning into &lt;span style="color:#e6db74">&amp;#39;/Users/pa/.config/nvim&amp;#39;&lt;/span>&lt;span style="color:#f92672">...&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>remote: Enumerating objects: &lt;span style="color:#ae81ff">37&lt;/span>, done&lt;span style="color:#f92672">.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>remote: Counting objects: &lt;span style="color:#ae81ff">100&lt;/span>% &lt;span style="color:#960050;background-color:#1e0010">(&lt;/span>37&lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#ae81ff">37&lt;/span>), done&lt;span style="color:#f92672">.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>remote: Compressing objects: &lt;span style="color:#ae81ff">100&lt;/span>% &lt;span style="color:#960050;background-color:#1e0010">(&lt;/span>36&lt;span style="color:#f92672">/&lt;/span>&lt;span style="color:#ae81ff">36&lt;/span>), done&lt;span style="color:#f92672">.&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>remote: Total &lt;span style="color:#ae81ff">37&lt;/span> (delta &lt;span style="color:#ae81ff">0&lt;/span>), reused &lt;span style="color:#ae81ff">14&lt;/span> (delta &lt;span style="color:#ae81ff">0&lt;/span>), pack&lt;span style="color:#f92672">-&lt;/span>reused &lt;span style="color:#ae81ff">0&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>Receiving objects: &lt;span style="color:#ae81ff">100&lt;/span>% &lt;span style="color:#960050;background-color:#1e0010">(&lt;/span>37&lt;span style="color:#e6db74">/37), 34.02 KiB | 6.80 MiB/s&lt;/span>, done&lt;span style="color:#f92672">.&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Once NvChad settings are installed and Neovim is running, you will be prompted to install the plugins used by NvChad through its plugin manager. Along with the downloaded configuration files, you will also be asked if you want to download a sample of custom settings.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-perl" data-lang="perl">&lt;span style="display:flex;">&lt;span>Do you want to install example custom config? (y&lt;span style="color:#f92672">/&lt;/span>N) : y
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If you have limited experience with plugin settings, it is recommended to download and use this sample as it will provide additional guidance. It is likely that the target audience reading this text may not be familiar with creating their own custom setups.&lt;/p>
+&lt;p>Please note that these instructions assume a lack of familiarity with customizing settings, and the sample setting serves as a helpful resource in such cases.&lt;/p>
+&lt;h3 id="custom-folder">Custom folder&lt;/h3>
+&lt;p>NvChad offers both a core provided by &lt;code>siduck&lt;/code> and custom settings that users can tailor to their needs. The custom settings are gitignored, allowing users to manage their own configuration files independently of the core.&lt;/p>
+&lt;p>While I am using &lt;code>chezmoi&lt;/code> for configuration management, it is generally sufficient to manage the settings simply with Git.&lt;/p>
+&lt;p>In any case, the custom folder is structured as follows:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e"># core files and custom folder location
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#960050;background-color:#1e0010">├──&lt;/span> LICENSE
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">├──&lt;/span> init.lua
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">├──&lt;/span> lazy&lt;span style="color:#f92672">-&lt;/span>lock.json
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">└──&lt;/span> lua
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#960050;background-color:#1e0010">├──&lt;/span> core: Contains core Lua modules &lt;span style="color:#66d9ef">for&lt;/span> NvChad.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#960050;background-color:#1e0010">├──&lt;/span> custom: Holds user&lt;span style="color:#f92672">-&lt;/span>specific Lua configurations and customizations.
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#960050;background-color:#1e0010">└──&lt;/span> plugins: Contains Lua configurations &lt;span style="color:#66d9ef">for&lt;/span> specific plugins used in NvChad.
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Unlike Vim, Neovim supports the Lua programming language. It is customary to place the Lua modules used by Neovim in the &lt;code>lua&lt;/code> folder. In the NvChad configuration environment, the &lt;code>lua&lt;/code> folder is divided into three subfolders: &lt;code>core&lt;/code>, &lt;code>custom&lt;/code>, and &lt;code>plugins&lt;/code>.&lt;/p>
+&lt;p>It is important to avoid modifying the code within the &lt;code>core&lt;/code> or &lt;code>plugins&lt;/code> folders if possible. These folders should be left intact for future updates to NvChad.&lt;/p>
+&lt;p>The &lt;code>custom&lt;/code> folder consists of the following components:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-c" data-lang="c">&lt;span style="display:flex;">&lt;span>[ &lt;span style="color:#ae81ff">288&lt;/span>] custom
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">├──&lt;/span> [ &lt;span style="color:#ae81ff">179&lt;/span>] README.md
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">├──&lt;/span> [ &lt;span style="color:#ae81ff">492&lt;/span>] chadrc.lua
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">├──&lt;/span> [ &lt;span style="color:#ae81ff">160&lt;/span>] configs
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">│  &lt;/span> &lt;span style="color:#960050;background-color:#1e0010">├──&lt;/span> [ &lt;span style="color:#ae81ff">469&lt;/span>] lspconfig.lua
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">│  &lt;/span> &lt;span style="color:#960050;background-color:#1e0010">├──&lt;/span> [ &lt;span style="color:#ae81ff">481&lt;/span>] null&lt;span style="color:#f92672">-&lt;/span>ls.lua
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">│  &lt;/span> &lt;span style="color:#960050;background-color:#1e0010">└──&lt;/span> [ &lt;span style="color:#ae81ff">829&lt;/span>] overrides.lua
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">├──&lt;/span> [ &lt;span style="color:#ae81ff">394&lt;/span>] highlights.lua
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">├──&lt;/span> [ &lt;span style="color:#ae81ff">578&lt;/span>] init.lua
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">├──&lt;/span> [&lt;span style="color:#ae81ff">3.4&lt;/span>K] mappings.lua
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#960050;background-color:#1e0010">└──&lt;/span> [&lt;span style="color:#ae81ff">2.1&lt;/span>K] plugins.lua
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#ae81ff">2&lt;/span> directories, &lt;span style="color:#ae81ff">9&lt;/span> files
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now let&amp;rsquo;s add some plugins.&lt;/p>
+&lt;h2 id="custom-settings">Custom settings&lt;/h2>
+&lt;p>Here is a basic guideline:&lt;/p>
+&lt;p>Configuration related to NvChad is done through the &lt;code>chadrc.lua&lt;/code> file. Other Neovim settings are handled in the &lt;code>init.lua&lt;/code> file.&lt;/p>
+&lt;p>To add plugins, you can modify the &lt;code>plugins.lua&lt;/code> file, and for key mappings, you can modify the &lt;code>mappings.lua&lt;/code> file.&lt;/p>
+&lt;p>Therefore, in this guide, there will be some modifications to the &lt;code>chadrc.lua&lt;/code> and &lt;code>init.lua&lt;/code> files, but most of the changes will be made in the &lt;code>plugins.lua&lt;/code> and &lt;code>mappings.lua&lt;/code> files.&lt;/p>
+&lt;p>In the &lt;code>chadrc.lua&lt;/code> file, we can configure our preferred theme set. NvChad provides a selection of themes, despite being a terminal editor, including both light and dark themes.&lt;/p>
+&lt;p>&lt;img src="https://faultnote.github.io/posts/images/neovim-nvchad-theme-switcher.png" alt="">&lt;/p>
+&lt;p>I am currently using the Penumbra theme set. This theme is included within NvChad by default.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#66d9ef">in&lt;/span> &lt;span style="color:#e6db74">&amp;#39;custom/chadrc.lua&amp;#39;&lt;/span> &lt;span style="color:#a6e22e">file&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">M&lt;/span>.&lt;span style="color:#a6e22e">ui&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">theme&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;penumbra_dark&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">theme_toggle&lt;/span> &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;penumbra_dark&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;penumbra_light&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--&lt;/span> ...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Additionally, there is a process of adding key mapping settings to the &lt;code>init.lua&lt;/code> file.&lt;/p>
+&lt;p>Although key mappings are typically done in the &lt;code>mappings.lua&lt;/code> file, there are certain cases where specific key mappings need to be added in a different style within the &lt;code>init.lua&lt;/code> file.&lt;/p>
+&lt;p>By adding the following code, you can implement key mappings according to your preferences:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#66d9ef">in&lt;/span> &lt;span style="color:#e6db74">&amp;#39;custom/init.lua&amp;#39;&lt;/span> &lt;span style="color:#a6e22e">file&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#a6e22e">Auto&lt;/span> &lt;span style="color:#a6e22e">resize&lt;/span> &lt;span style="color:#a6e22e">panes&lt;/span> &lt;span style="color:#a6e22e">when&lt;/span> &lt;span style="color:#a6e22e">resizing&lt;/span> &lt;span style="color:#a6e22e">nvim&lt;/span> window
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--&lt;/span> ...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">vim&lt;/span>.&lt;span style="color:#a6e22e">opt&lt;/span>.&lt;span style="color:#a6e22e">list&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">i&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>, &lt;span style="color:#ae81ff">9&lt;/span>, &lt;span style="color:#ae81ff">1&lt;/span> &lt;span style="color:#66d9ef">do&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#a6e22e">Move&lt;/span> &lt;span style="color:#a6e22e">to&lt;/span> &lt;span style="color:#a6e22e">desired&lt;/span> &lt;span style="color:#a6e22e">buffer&lt;/span> &lt;span style="color:#a6e22e">line&lt;/span> &lt;span style="color:#a6e22e">using&lt;/span> &lt;span style="color:#a6e22e">Alt&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">9&lt;/span> &lt;span style="color:#a6e22e">keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">vim&lt;/span>.&lt;span style="color:#a6e22e">keymap&lt;/span>.&lt;span style="color:#a6e22e">set&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;n&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">string&lt;/span>.&lt;span style="color:#a6e22e">format&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;&amp;lt;A-%s&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">i&lt;/span>), &lt;span style="color:#66d9ef">function&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">vim&lt;/span>.&lt;span style="color:#a6e22e">api&lt;/span>.&lt;span style="color:#a6e22e">nvim_set_current_buf&lt;/span>(&lt;span style="color:#a6e22e">vim&lt;/span>.&lt;span style="color:#a6e22e">t&lt;/span>.&lt;span style="color:#a6e22e">bufs&lt;/span>[&lt;span style="color:#a6e22e">i&lt;/span>])
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">end&lt;/span>, { &lt;span style="color:#a6e22e">desc&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;which_key_ignore&amp;#34;&lt;/span> })
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#a6e22e">Move&lt;/span> &lt;span style="color:#a6e22e">to&lt;/span> &lt;span style="color:#a6e22e">desired&lt;/span> &lt;span style="color:#a6e22e">tab&lt;/span> &lt;span style="color:#a6e22e">group&lt;/span> &lt;span style="color:#a6e22e">instantly&lt;/span> &lt;span style="color:#a6e22e">using&lt;/span> &lt;span style="color:#a6e22e">Leader&lt;/span> &lt;span style="color:#f92672">+&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>&lt;span style="color:#f92672">-&lt;/span>&lt;span style="color:#ae81ff">9&lt;/span> &lt;span style="color:#a6e22e">keys&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">vim&lt;/span>.&lt;span style="color:#a6e22e">keymap&lt;/span>.&lt;span style="color:#a6e22e">set&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;n&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">string&lt;/span>.&lt;span style="color:#a6e22e">format&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;&amp;lt;leader&amp;gt;%s&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">i&lt;/span>), &lt;span style="color:#66d9ef">function&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">vim&lt;/span>.&lt;span style="color:#a6e22e">api&lt;/span>.&lt;span style="color:#a6e22e">nvim_set_current_tabpage&lt;/span>(&lt;span style="color:#a6e22e">i&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">end&lt;/span>, { &lt;span style="color:#a6e22e">desc&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;which_key_ignore&amp;#34;&lt;/span> })
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">end&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>With these mappings, you can use the &lt;code>Alt + 1-9&lt;/code> keys to navigate to the desired buffer line, and the &lt;code>Leader + 1-9&lt;/code> keys to instantly navigate to the desired tab group.&lt;/p>
+&lt;p>NvChad implements the concepts of tabs and buffers in a way that aligns with modern editor conventions, which may differ from the original features of Vim. This adaptability to modern practices is an advantage that sets NvChad apart from other custom setups for Neovim.&lt;/p>
+&lt;h3 id="additional-plugin-packages">Additional plugin packages&lt;/h3>
+&lt;p>If you have downloaded the default custom settings offered during the initial NvChad installation, you can find a &lt;code>plugins.lua&lt;/code> file that includes some basic plugin configurations. You can add your own preferred plugin combinations based on this setup.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#66d9ef">in&lt;/span> &lt;span style="color:#e6db74">&amp;#39;custom/plugins.lua&amp;#39;&lt;/span> &lt;span style="color:#a6e22e">file&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">local&lt;/span> &lt;span style="color:#a6e22e">plugins&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#a6e22e">Override&lt;/span> &lt;span style="color:#a6e22e">plugin&lt;/span> &lt;span style="color:#a6e22e">definition&lt;/span> &lt;span style="color:#a6e22e">options&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;neovim/nvim-lspconfig&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">dependencies&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#a6e22e">format&lt;/span> &lt;span style="color:#f92672">&amp;amp;&lt;/span> &lt;span style="color:#a6e22e">linting&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">--&lt;/span> ...
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#a6e22e">additional&lt;/span> &lt;span style="color:#a6e22e">plugin&lt;/span> &lt;span style="color:#a6e22e">here&lt;/span>...
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Here are the plugins I have been using along with the default setup:&lt;/p>
+&lt;ul>
+&lt;li>&amp;ldquo;kylechui/nvim-surround&amp;rdquo;: Lua version of the beloved Vim Surround plugin, providing text surround functionality.&lt;/li>
+&lt;li>&amp;ldquo;rlane/pounce.nvim&amp;rdquo;: An EasyMotion-like plugin with personal preferences incorporated.&lt;/li>
+&lt;li>&amp;ldquo;mg979/vim-visual-multi&amp;rdquo;: Enables multiple cursors for changing text, useful for non-LSP related tasks.&lt;/li>
+&lt;li>&amp;ldquo;terryma/vim-expand-region&amp;rdquo;: Provides an easier way to select regions of text compared to &lt;code>viw&lt;/code> or &lt;code>p&lt;/code>.&lt;/li>
+&lt;li>&amp;ldquo;t9md/vim-quickhl&amp;rdquo;: Highlights selected words, useful for on-site code reviews.&lt;/li>
+&lt;li>&amp;ldquo;cappyzawa/trim.nvim&amp;rdquo;: Handy for general text manipulation tasks.&lt;/li>
+&lt;/ul>
+&lt;p>With these plugins, you can achieve a fairly straightforward combination of NvChad&amp;rsquo;s default setup and your desired configuration.&lt;/p>
+&lt;h4 id="nvim-surround">nvim-surround&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#66d9ef">in&lt;/span> &lt;span style="color:#e6db74">&amp;#39;custom/plugins.lua&amp;#39;&lt;/span> &lt;span style="color:#a6e22e">file&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;kylechui/nvim-surround&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">version&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;*&amp;#34;&lt;/span>, &lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#a6e22e">Use&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">stability&lt;/span>; &lt;span style="color:#a6e22e">omit&lt;/span> &lt;span style="color:#a6e22e">to&lt;/span> &lt;span style="color:#a6e22e">use&lt;/span> &lt;span style="color:#e6db74">`main`&lt;/span> &lt;span style="color:#a6e22e">branch&lt;/span> &lt;span style="color:#66d9ef">for&lt;/span> &lt;span style="color:#a6e22e">the&lt;/span> &lt;span style="color:#a6e22e">latest&lt;/span> &lt;span style="color:#a6e22e">features&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">event&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;VeryLazy&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">config&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;nvim-surround&amp;#34;&lt;/span>).&lt;span style="color:#a6e22e">setup&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">end&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If you don&amp;rsquo;t have any specific customizations, you can simply use the default key mappings provided by plugins like Vim Surround.&lt;/p>
+&lt;h4 id="pouncenvim">pounce.nvim&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#66d9ef">in&lt;/span> &lt;span style="color:#e6db74">&amp;#39;custom/plugins.lua&amp;#39;&lt;/span> &lt;span style="color:#a6e22e">file&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;rlane/pounce.nvim&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">lazy&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>For the &amp;ldquo;Pounce&amp;rdquo; plugin, we&amp;rsquo;ll need to configure separate key mappings. The official guide suggests using &lt;code>s&lt;/code> and &lt;code>S&lt;/code> for the mappings, and we can follow that recommendation.&lt;/p>
+&lt;h4 id="vim-visual-multi">vim-visual-multi&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#66d9ef">in&lt;/span> &lt;span style="color:#e6db74">&amp;#39;custom/plugins.lua&amp;#39;&lt;/span> &lt;span style="color:#a6e22e">file&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;mg979/vim-visual-multi&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">lazy&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="vim-expand-region">vim-expand-region&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#66d9ef">in&lt;/span> &lt;span style="color:#e6db74">&amp;#39;custom/plugins.lua&amp;#39;&lt;/span> &lt;span style="color:#a6e22e">file&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;terryma/vim-expand-region&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">lazy&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">config&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">vim&lt;/span>.&lt;span style="color:#a6e22e">keymap&lt;/span>.&lt;span style="color:#a6e22e">set&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;v&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;v&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;&amp;lt;Plug&amp;gt;(expand_region_expand)&amp;#34;&lt;/span>, { &lt;span style="color:#a6e22e">remap&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span> })
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">vim&lt;/span>.&lt;span style="color:#a6e22e">keymap&lt;/span>.&lt;span style="color:#a6e22e">set&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;v&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;V&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;&amp;lt;Plug&amp;gt;(expand_region_shrink)&amp;#34;&lt;/span>, { &lt;span style="color:#a6e22e">remap&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span> })
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">end&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This plugin, which is configured as a vim script, performs a key binding during the plugin load process as I have not yet figured out how to handle this in a separate custom/mappings file.&lt;/p>
+&lt;h4 id="vim-quickhl">vim-quickhl&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#66d9ef">in&lt;/span> &lt;span style="color:#e6db74">&amp;#39;custom/plugins.lua&amp;#39;&lt;/span> &lt;span style="color:#a6e22e">file&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;t9md/vim-quickhl&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">lazy&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>While this plugin is also configured as Vim script, we can still configure the key bindings using NvChad&amp;rsquo;s mappings system. I will explain how to do it in the following section.&lt;/p>
+&lt;h4 id="trimnvim">trim.nvim&lt;/h4>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#66d9ef">in&lt;/span> &lt;span style="color:#e6db74">&amp;#39;custom/plugins.lua&amp;#39;&lt;/span> &lt;span style="color:#a6e22e">file&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;cappyzawa/trim.nvim&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">lazy&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">config&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">function&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">require&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;trim&amp;#34;&lt;/span>).&lt;span style="color:#a6e22e">setup&lt;/span> {}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">end&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The activation key for the trimming plugin will be covered in the next chapter. Let&amp;rsquo;s explore it there.&lt;/p>
+&lt;h3 id="additional-key-mappings">Additional key mappings&lt;/h3>
+&lt;p>First, let me introduce the key mappings I use, along with the corresponding key bindings for the installed plugins.&lt;/p>
+&lt;p>I use &lt;code>ctrl+p&lt;/code>/&lt;code>leader+e&lt;/code> for file navigation. The reason is that &lt;code>ctrl+n&lt;/code> is reserved for other plugins.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">M&lt;/span>.&lt;span style="color:#a6e22e">disabled&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;C-n&amp;gt;&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#e6db74">&amp;#34;&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Additionally, I have customized the default environment with the following settings.&lt;/p>
+&lt;p>Some key combinations are borrowed from Emacs. I highly recommend them as they are powerful.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">M&lt;/span>.&lt;span style="color:#a6e22e">general&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">--&lt;/span> [&lt;span style="color:#e6db74">&amp;#34;;&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;:&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;enter command mode&amp;#34;&lt;/span>, &lt;span style="color:#a6e22e">opts&lt;/span> &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#a6e22e">nowait&lt;/span> &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span> } },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;gh&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;Home&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Move cursor beginning of line&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;gl&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;End&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Move cursor end of line&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;leader&amp;gt;.&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;cmd&amp;gt; cd %:p:h&amp;lt;CR&amp;gt;:pwd &amp;lt;CR&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Change workspace onto current location&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;leader&amp;gt;qq&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;cmd&amp;gt; quitall &amp;lt;CR&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Quit all&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;leader&amp;gt;gx&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;cmd&amp;gt; silent :%bd&amp;lt;bar&amp;gt;e#&amp;lt;bar&amp;gt;&amp;#39;\&amp;#34; &amp;lt;CR&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Close all buffer except itself&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;leader&amp;gt;gT&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;cmd&amp;gt; Trim &amp;lt;CR&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Trim test in buffer&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;leader&amp;gt;fs&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;cmd&amp;gt; :wa &amp;lt;CR&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Save all file buffers&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;leader&amp;gt;tt&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;cmd&amp;gt; :tabnew &amp;lt;CR&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;New tab space&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;leader&amp;gt;tp&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;cmd&amp;gt; :tabprev &amp;lt;CR&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Go prev tab space&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;leader&amp;gt;tn&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;cmd&amp;gt; :tabnext &amp;lt;CR&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Go next tab space&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;A-l&amp;gt;&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">function&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">vim&lt;/span>.&lt;span style="color:#a6e22e">call&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;quickhl#manual#this&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;n&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">end&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;Quick hilight this word&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;C-A-l&amp;gt;&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">function&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">vim&lt;/span>.&lt;span style="color:#a6e22e">call&lt;/span> &lt;span style="color:#e6db74">&amp;#34;quickhl#cword#toggle&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">end&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;Quick hilight toggle this word&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;A-L&amp;gt;&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">function&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">vim&lt;/span>.&lt;span style="color:#a6e22e">call&lt;/span> &lt;span style="color:#e6db74">&amp;#34;quickhl#manual#reset&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">end&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;Quick hilight reset&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;]l&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">function&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">vim&lt;/span>.&lt;span style="color:#a6e22e">call&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;quickhl#manual#go_to_next&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;s&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">end&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;Quick hilight move to next&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;[l&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#66d9ef">function&lt;/span>()
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">vim&lt;/span>.&lt;span style="color:#a6e22e">call&lt;/span>(&lt;span style="color:#e6db74">&amp;#34;quickhl#manual#go_to_prev&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;s&amp;#34;&lt;/span>)
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">end&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#e6db74">&amp;#34;Quick hilight move to prev&amp;#34;&lt;/span>,
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">i&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;C-a&amp;gt;&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;ESC&amp;gt;^i&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Move cursor beginning of line&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;C-e&amp;gt;&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;End&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Move cursor end of line&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;C-b&amp;gt;&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;Left&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Move cursor left&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;C-f&amp;gt;&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;Right&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Move cursor right&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;C-k&amp;gt;&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;C-o&amp;gt;D&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Kill till to end of line&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;C-s&amp;gt;&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;C-o&amp;gt;&amp;lt;cmd&amp;gt; w &amp;lt;CR&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;save file&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Next, I change the key mapping of open nvimtree to &lt;code>ctrl+p&lt;/code>.
+And I use the &lt;code>leader+ss&lt;/code> key to search for the current word under the cursor.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">M&lt;/span>.&lt;span style="color:#a6e22e">nvimtree&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;C-p&amp;gt;&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;cmd&amp;gt; NvimTreeToggle &amp;lt;CR&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;toggle nvimtree&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">M&lt;/span>.&lt;span style="color:#a6e22e">telescope&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">--&lt;/span> &lt;span style="color:#a6e22e">find&lt;/span>
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;&amp;lt;leader&amp;gt;ss&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;cmd&amp;gt; Telescope grep_string &amp;lt;cr&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Search under your cursor&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>추가한 pounce 플러그인을 위해 키를 할당 한다.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-js" data-lang="js">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#a6e22e">M&lt;/span>.&lt;span style="color:#a6e22e">pounce&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">n&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;s&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;cmd&amp;gt; Pounce &amp;lt;CR&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Pounce in buffer&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;S&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;cmd&amp;gt; PounceRepeat &amp;lt;CR&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Pounce repeat&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> &lt;span style="color:#a6e22e">x&lt;/span> &lt;span style="color:#f92672">=&lt;/span> {
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> [&lt;span style="color:#e6db74">&amp;#34;s&amp;#34;&lt;/span>] &lt;span style="color:#f92672">=&lt;/span> { &lt;span style="color:#e6db74">&amp;#34;&amp;lt;cmd&amp;gt; Pounce &amp;lt;cr&amp;gt;&amp;#34;&lt;/span>, &lt;span style="color:#e6db74">&amp;#34;Pounce in buffer&amp;#34;&lt;/span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> },
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>}
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="in-conclusion">In conclusion&lt;/h2>
+&lt;p>NvChad extends Neovim in a concise and clutter-free manner, allowing users to make minimal modifications to the familiar keybindings of Vim. It offers a visually pleasing experience, surpassing other Vim editors in aesthetics and bringing joy while typing.&lt;/p>
+&lt;p>After using NvChad for a few weeks, I have fully embraced it, and I believe that the combination of Neovim and NvChad is the way to go for a terminal editor.&lt;/p>
+&lt;div class="footnotes" role="doc-endnotes">
+&lt;hr>
+&lt;ol>
+&lt;li id="fn:1">
+&lt;p>&lt;a href="https://github.com/siduck">https://github.com/siduck&lt;/a>&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:2">
+&lt;p>&lt;a href="https://nvchad.com/">https://nvchad.com/&lt;/a>&amp;#160;&lt;a href="#fnref:2" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li id="fn:3">
+&lt;p>&lt;a href="https://gist.github.com/soomtong/a25f272d97ce763dfc0d2a95ee2c1efa">https://gist.github.com/soomtong/a25f272d97ce763dfc0d2a95ee2c1efa&lt;/a>&amp;#160;&lt;a href="#fnref:3" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;/div></content></item><item><title>About</title><link>https://faultnote.github.io/en/about/</link><pubDate>Sat, 01 Jan 2022 13:03:15 +0900</pubDate><author>soomtong@gmail.com (soomtong)</author><guid>https://faultnote.github.io/en/about/</guid><description>About me:
+Make Backend software. Develop a node.js Web services. Do senior manager/tech lead in a office. Work in Seoul, South Korea.</description><content>&lt;p>About me:&lt;/p>
+&lt;ul>
+&lt;li>Make Backend software.
+&lt;ul>
+&lt;li>Develop a node.js Web services.&lt;/li>
 &lt;/ul>
 &lt;/li>
-&lt;li>Do senior role in a office.&lt;/li>
+&lt;li>Do senior manager/tech lead in a office.&lt;/li>
 &lt;li>Work in Seoul, South Korea.&lt;/li>
 &lt;/ul></content></item></channel></rss>
