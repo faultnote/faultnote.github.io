@@ -1,0 +1,3200 @@
+---
+title: Learning Zig
+slug: learning-zig
+date: 2023-12-25T10:00:00+09:00 
+author: soomtong 
+tags: 
+  - zig
+keywords: 
+  - compiler
+  - builder
+  - llvm
+description: "Karl Seguin 의 Learning Zig 를 번역한 내용입니다."
+showFullContent: false
+readingTime: true
+---
+
+Learning Zig 문서를 공개해주셔서 감사합니다.
+이 번역(일부 의역)은 개인적인 학습 목적으로 시작하였습니다.
+
+## Learning Zig
+
+> https://www.openmymind.net/learning_zig/
+> 위 문서를 보며 주요 내용을 정리합니다.
+
+Zig 프로그래밍 언어에 대한 소개인 Zig 배우기에 오신 것을 환영합니다.
+이 가이드는 Zig에 익숙해지는 것을 목표로 합니다. 독자는 특정 언어에 국한하지 않고 일반적인 프로그래밍 경험이 있다고 가정합니다.
+
+Zig는 현재 활발히 개발 중이며 Zig 언어와 표준 라이브러리(보통 std 라고 합니다) 모두 지속적으로 발전하고 있습니다.
+이 가이드는 Zig의 최신 개발 버전을 대상으로 합니다. 그러나 일부 코드가 최신화되지 않을 수 있습니다.
+최신 버전의 Zig를 다운로드한 후 일부 코드를 실행하는 데 문제가 있는 경우 알려주세요.
+
+- https://github.com/karlseguin/blog/issues
+
+## Zig 설치하기
+
+Zig의 다운로드 페이지에는 일반적인 플랫폼을 위해 미리 컴파일된 바이너리binary(실행파일)가 포함되어 있습니다.
+
+- https://ziglang.org/download/
+
+이 페이지에서는 최신 개발 릴리스와 주요 릴리스에 대한 바이너리를 찾을 수 있습니다.
+이 가이드가 추적하는 최신 릴리스는 페이지 상단에서 찾을 수 있습니다.
+
+제 컴퓨터에서는 `zig-macos-aarch64-0.12.0-dev.161+6a5463951.tar.xz` 를 다운로드하겠습니다.
+
+> [!] `brew info zig` 를 통해 최신 릴리스를 확인할 수 있습니다.
+
+다른 플랫폼이나 최신 릴리스를 사용하고 있을 수도 있습니다.
+파일을 압축해제한 후에는 `alias` 를 사용하거나 `path` 경로에 `zig` 바이너리(다른 것들과 함께)가 있어야 합니다.
+
+> [!] 맥OS에서 brew 를 통해 설치하면 실행 경로에 자동으로 설치됩니다.
+
+이제 `zig zen` 이나 `zig version` 을 실행하여 zig를 사용할 준비가 되었는지 확인할 수 있습니다.
+
+## 언어 개요 - Part 1
+
+Zig는 강타입을 사용하는 컴파일 언어입니다.
+
+제네릭generic을 지원하고 강력한 컴파일 타임 메타프로그래밍 기능을 제공하며 가비지 컬렉터를 포함하지 않습니다.
+많은 사람들이 Zig를 C의 최신 대안으로 간주합니다. 따라서 언어의 구문은 C와 유사합니다. 세미콜론으로 종결된 문과 중괄호로 구분된 블록을 사용합니다.
+
+> [!] 프로그래밍 언어는 타입 시스템을 통해 견고한 프로그램을 작성하는 방향으로 발전하고, 다형성을 통해 유연하게 프로그램을 수정할 수 있도록 발전하고 있습니다. 특히 타입 시스템은 변수나 객체의 타입에 변경에 제약을 두어 프로그램의 안정성을 높이는 역할을 합니다.
+> 
+> [!] 타입 시스템은 강타입과 약타입으로 구분합니다. 강타입은 자료를 표현하는 식별자의 타입이 암시적으로 변경되지 않는 것을 보장합니다. 그리고 항상 고유한 타입을 유지한다고 가정합니다. 반면 약타입은 변수의 타입이 변경되거나 모호한 경우를 가질 수 있습니다.
+> 
+> [!] 타입 시스템의 또 다른 구분으로 정적 타입과 동적 타입 시스템이 있습니다. 정적 타입은 컴파일 시점에 타입을 검사합니다. 반면 동적 타입은 런타임에 타입을 검사합니다.
+> 
+> ![이미지](/posts/images/languages-of-type-system-aspect.png)
+
+Zig 코드는 다음과 같습니다:
+
+```js
+const std = @import("std");
+
+// This code won't compile if `main` isn't `pub` (public)
+pub fn main() void {
+	const user = User{
+		.power = 9001,
+		.name = "Goku",
+	};
+
+	std.debug.print("{s}'s power is {d}\n", .{user.name, user.power});
+}
+
+pub const User = struct {
+	power: u64,
+	name: []const u8,
+};
+```
+
+위의 내용을 learning.zig로 저장하고 zig run learning.zig를 실행하면 다음과 같은 내용을 확인할 수 있습니다.
+
+`Goku's power is 9001.`
+
+이것은 지그를 처음 접하는 분들도 쉽게 따라할 수 있는 간단한 예제입니다. 그래도 한 줄 한 줄 살펴보도록 하겠습니다.
+
+### 가져오기Importing
+
+표준 라이브러리나 외부 라이브러리 없이 단일 파일로 작성되는 프로그램은 거의 없습니다.
+첫 번째 프로그램도 예외는 아니어서 Zig의 표준 라이브러리를 사용하여 출력을 인쇄합니다.
+Zig의 가져오기 시스템은 간단하며 `@import` 함수와 `pub` 키워드를 사용합니다(현재 파일 외부에서 코드에 액세스할 수 있도록 하기 위해).
+
+> `@` 로 시작하는 함수는 zig의 내장 함수입니다. 이러한 함수는 표준 라이브러리가 아닌 zig 컴파일러에서 제공합니다.
+
+> [!] 컴퓨터 프로그램을 만드는 것은 소스코드를 컴퓨터가 이해하는 기계어(머신 코드)로 변경하는 작업이라 볼 수 있습니다. 이 소스코드는 프로그래머가 만드는 것과 프로그래머에게 제공되는 것들을 조합하여 구성됩니다. 마치 레고 블럭을 사용하는 것과 유사합니다. 프로그래머에게 제공되는 코드 중 컴파일러가 컴파일 과정에 직접 끼워 넣는 것도 있고, 자주 유용하게 사용되는 것들을 표준 코드로 모아둔 것도 있고, 추가로 유료나 무료의 소스코드를 설치하여 사용하는 경우도 있습니다. > 이는 작은 블럭을 통해 여러 곳에 응용할 수 있는 코드 블럭을 만들어 재사용하는 것과 유사합니다. 이런 코드 블럭을 라이브러리라고 흔히 표현합니다. 라이브러리는 표준 라이브러리와 서드파티 라이브러리로 구분하여 부르기도 합니다.
+
+모듈 이름을 지정하여 모듈을 가져옵니다. Zig의 표준 라이브러리는 "std"라는 이름을 사용하여 사용할 수 있습니다.
+특정 파일을 가져오려면 가져오려는 파일에 상대적인 경로를 사용합니다.
+예를 들어 User 구조체struct를 별도의 파일(예: models/user.zig)로 이동한 경우입니다:
+
+```js
+// models/user.zig
+pub const User = struct {
+	power: u64,
+	name: []const u8,
+};
+```
+
+그런 다음 다음을 통해 가져옵니다:
+
+```js
+// main.zig
+const User = @import("models/user.zig").User;
+```
+
+> User 구조체가 pub으로 표시되지 않은 경우 다음과 같은 오류가 발생합니다. `'User' is not marked 'pub'.`
+
+models/user.zig는 두 개 이상의 항목을 내보낼 수 있습니다. 예를 들어 상수를 내보낼 수도 있습니다:
+
+```js
+// models/user.zig
+pub const MAX_POWER = 100_000;
+
+pub const User = struct {
+	power: u64,
+	name: []const u8,
+};
+```
+
+이 경우 둘 다 가져올 수 있습니다:
+
+```js
+const user = @import("models/user.zig");
+const User = user.User;
+const MAX_POWER = user.MAX_POWER
+```
+
+이 시점에서 답변보다 질문이 더 많을 수 있습니다.
+위의 코드 조각에서 user는 무엇일까요? 아직 보지 못했지만 const 대신 var를 사용하면 어떨까요?
+또는 서드파티 라이브러리를 어떻게 사용하는지 궁금할 수도 있습니다.
+모두 좋은 질문이지만, 이 질문에 답하기 위해서는 먼저 Zig에 대해 자세히 알아볼 필요가 있습니다.
+지금은 Zig의 표준 라이브러리를 가져오는 방법, 다른 파일을 가져오는 방법, 정의를 내보내는 방법 등 지금까지 배운 내용으로 만족해야 할 것입니다.
+
+### 주석Comments
+
+다음 줄은 Zig 예제의 주석입니다:
+
+```js
+// This code won't compile if `main` isn't `pub` (public)
+```
+
+Zig에는 C 계열의 언어에서 사용하는 `/* ... */` 와 같은 여러 줄 주석문이 없습니다.
+
+코드와 문서의 유기적 관리를 위해 주석에 기반한 자동 문서 생성 기능을 실험적으로 지원하고 있습니다.
+Zig의 [표준 라이브러리 문서](https://ziglang.org/documentation/master/std)를 보셨다면 이 기능이 실제로 작동하는 것을 보셨을 것입니다. `//!` 는 최상위 문서 주석으로 알려져 있으며 파일 상단에 배치할 수 있습니다. 문서 주석으로 알려진 삼중 슬래시 주석(`///`)은 함수 선언 앞과 같은 특정 위치에 넣을 수 있습니다.
+두 가지 유형의 문서 주석을 잘못된 위치에 사용하려고 하면 컴파일러 오류가 발생합니다.
+
+### 함수Functions
+
+다음 줄은 `main` 함수의 시작입니다:
+
+```zig
+pub fn main() void
+```
+
+모든 실행 파일에는 프로그램의 진입점인 `main` 이라는 함수가 필요합니다. `main` 의 이름을 `doIt` 과 같은 다른 이름으로 바꾸고 `zig run learning.zig` 를 실행하려고 하면 'learning' 에 'main' 이라는 멤버가 없다는 오류가 발생합니다.
+
+> [!] 이런 최초 진입 위치를 `entry point` 라고 합니다.
+
+위 코드는 프로그램의 시작점으로서 `main` 의 특별한 역할을 무시하고, 아무런 매개변수를 받지 않고 아무것도 반환하지 않는, 즉 `void` 를 반환하는 매우 기본적인 함수입니다. 다음은 조금 더 흥미로울 것입니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+  const sum = add(8999, 2);
+  std.debug.print("8999 + 2 = {d}\n", .{sum});
+}
+
+fn add(a: i64, b: i64) i64 {
+  return a + b;
+}
+```
+
+C와 C++ 프로그래머라면 Zig에는 선행하는 함수 선언이 필요하지 않다는 것, 즉 코드 순서상 `add` 가 정의되기 전에 호출된다는 것을 알 수 있습니다.
+
+> [!] 특정 프로그래밍 언어는 함수가 사용되기 전에 선언되어야 합니다. 이를 `forward declaration` 이라고 합니다.
+
+다음으로 주목해야 할 것은 64비트 부호 있는 정수인 `i64` 유형입니다. 다른 숫자 유형으로는 `u8`, `i8`, `u16`, `i16`, `u32`, `i32`, `u47`, `i47`, `u64`, `i64`, `f32` 및 `f64`가 있습니다.
+
+`u47`과 `i47`은 당신이 아직 깨어 있는지 확인하기 위한 테스트가 아닙니다; Zig는 임의의 비트 폭 정수를 지원합니다. 자주 사용하지는 않겠지만 유용하게 사용할 수 있습니다.
+자주 사용하는 유형 중 하나는 부호 없는 포인터 크기의 정수이며 일반적으로 어떤 것의 길이/크기를 나타내는 유형인 `usize` 입니다.
+
+> Zig는 `f32`와 `f64` 외에도 `f16`, `f80`, `f128` 부동소수점 유형도 지원합니다.
+
+그렇게 해야 할 좋은 이유는 없지만, 다음과 같이 `add` 구현을 변경하면:
+
+```zig
+fn add(a: i64, b: i64) i64 {
+  a += b;
+  return a;
+}
+```
+
+`a += b;: cannot assign to constant.`-상수에 할당할 수 없습니다-라는 에러가 발생합니다.
+
+```log
+<source>:9:7: error: cannot assign to constant
+    a += b;
+    ~~^~~~
+referenced by:
+    main: <source>:4:14
+```
+
+함수의 매개변수는 상수라는 점은 나중에 더 자세히 살펴볼 중요한 교훈입니다.
+
+> [!] 상수는 보통 정해진 데이터를 의미합니다. 상수를 담은 변수는 보통 변경이 불가능합니다. zig 는 함수의 매개변수에 다시 할당을 할 수 없다는 것입니다.
+> [!] 이는 프로그래밍 언어마다 다른 철학과 정책을 가지고 있습니다. 특별한 목적이나 언어가 만들어질 당시의 요구사항에 따라 다른 방식으로 사용되기도 합니다. 여러 방식을 지원하는 언어도 있습니다.
+
+가독성을 높이기 위해, 함수 오버로딩(overloding; 동일한 함수에 다른 매개변수 유형 및/또는 개수에 따라)은 없습니다. 현재로서는 함수에 대해 알아야 할 모든 것이 여기까지입니다.
+
+> [!] 함수 오버로딩은 같은 이름의 함수를 다양한 유형으로 사용하기 위해 제공되는 방법으로, 프로그래밍 언어의 Polymorph 주제에 해당합니다. 프로그래밍 언어들은 폴리모피즘을 구현하기 위해 오버로딩overloding, 인터페이스interface, 제너릭generic 등의 방법을 제공합니다.
+
+### 구조체Structures
+
+다음 코드 줄은 스니펫의 끝에 정의된 타입인 User를 생성하는 것입니다. User의 정의는 다음과 같습니다:
+
+```zig
+pub const User = struct {
+	power: u64,
+	name: []const u8,
+};
+```
+
+> 우리 프로그램은 단일 파일이므로 `User` 가 정의된 파일에서만 사용되므로 이를 공개용으로 변경할 필요는 없습니다. 하지만 그렇게 했다면 이 구조체 선언을 다른 파일에 노출하는 방법을 알지 못했을 것입니다.
+
+구조체 필드는 쉼표로 끝나고 기본값을 지정할 수 있습니다:
+
+```zig
+pub const User = struct {
+	power: u64 = 0,
+	name: []const u8,
+};
+```
+
+구조체를 생성할 때 **모든** 필드를 설정해야 합니다.
+예를 들어(아래 코드처럼), 기본값이 없는 `power` 가 있는 선언 코드서를 사용할 때 다음과 같은 오류가 발생합니다: _missing struct field: power_
+
+```zig
+const user = User{.name = "Goku"}; // no power assigned
+```
+
+하지만, 기본값을 사용하면 위와 같은 컴파일이 정상적으로 수행됩니다.
+
+구조체는 메서드를 가질 수 있고, 선언(다른 구조체 포함)을 포함할 수 있으며, 심지어 아무런 필드를 선언하지 않고 사용할 수 있는데, 이 경우 네임스페이스처럼 작동합니다.
+
+> [!] 흔히 모듈이나 클래스를 선언해 사용하는 경우처럼 구조체도 필드나 메소드를 묶는 namespace 역할을 할 수 있습니다.
+
+```zig
+pub const User = struct {
+	power: u64 = 0,
+	name: []const u8,
+
+	pub const SUPER_POWER = 9000;
+
+	fn diagnose(user: User) void {
+		if (user.power >= SUPER_POWER) {
+			std.debug.print("it's over {d}!!!", .{SUPER_POWER});
+		}
+	}
+};
+```
+
+> [!] 구조체의 필드는 `,` 로 끝나야 합니다. `;` 로 끝나면 컴파일 에러가 발생합니다.
+
+메서드는 점 구문으로 호출할 수 있는 일반 함수일 뿐입니다. 이 두 가지 모두 작동합니다:
+
+```zig
+// call diagnose on user
+user.diagnose();
+
+// The above is syntactical sugar for:
+User.diagnose(user);
+```
+
+대부분의 경우 점 구문을 사용하지만 때로는 일반 함수보다 편의 구문 방법이 유용할 수 있습니다.
+
+> `if` 문은 우리가 처음 본 제어 흐름입니다. 꽤 간단하지 않나요? 다음 파트에서 이에 대해 더 자세히 살펴보겠습니다.
+
+`diagnose` 는 `User` 구조체 안에 정의되며 첫 번째 파라미터로 `User` 타입 변수를 받습니다. 따라서 점 구문을 사용하여 호출할 수 있습니다. 하지만 구조체 내의 함수들는 이 패턴을 따를 필요가 없습니다. 한 가지 일반적인 예로 구조체를 초기화하는 `init` 함수를 들 수 있습니다:
+
+```zig
+pub const User = struct {
+	power: u64 = 0,
+	name: []const u8,
+
+	pub fn init(name: []const u8, power: u64) User {
+		return User{
+			.name = name,
+			.power = power,
+		};
+	}
+}
+```
+
+> [!] 구조체에 종속되어 구조체의 데이터를 사용하는 함수를 메소드라고 부르기도 합니다.
+
+`init` 을 사용하는 것은 단지 관례일 뿐이며 경우에 따라 `open` 또는 다른 이름이 더 적합할 수도 있습니다. 저처럼 C++ 프로그래머가 아니라면 필드를 초기화하는 문법, `.필드이름 = 필드값` 이 조금 이상할 수 있지만 금방 익숙해질 것입니다.
+
+> [!] 구조체의 필드 이름 앞에 `.` 을 붙이는 표현법에 대한 내용입니다.
+
+"Goku"를 생성할 때 `user` 변수를 `const` 로 선언했습니다:
+
+```zig
+const user = User{
+	.power = 9001,
+	.name = "Goku",
+};
+```
+
+즉, `user` 의 내용은 수정할 수 없습니다. 이 변수를 수정하려면 `var` 를 사용하여 선언해야 합니다. 또한 변수에 할당된 내용에 따라 user 의 타입이 추론된다는 것을 눈치채셨을 것입니다. 이는 명시적으로 선언할 수 있습니다:
+
+```zig
+const user: User = User{
+	.power = 9001,
+	.name = "Goku",
+};
+```
+
+> [!] 컴파일러에 따라 명시적으로 타입을 지정하면 컴파일러가 타입을 추론하는 시간을 줄일 수 있습니다.
+
+변수의 타입을 명시해야 하는 경우도 있지만, 대부분의 경우 명시적 유형이 없는 코드가 더 가독성이 높습니다. 유형 추론은 다른 방식으로도 작동합니다. 위의 두 스니펫 모두에 해당합니다:
+
+```zig
+const user: User = .{
+	.power = 9001,
+	.name = "Goku",
+};
+```
+
+그래도 이 사용법은 매우 드문 경우입니다. 대신 함수에서 구조체를 반환할 때 더 자주 사용됩니다. 여기서도 타입은 함수의 반환 유형에서 유추할 수 있습니다. `init` 함수는 다음과 같이 작성될 가능성이 높습니다:
+
+```zig
+pub fn init(name: []const u8, power: u64) User {
+	// instead of return User{...}
+	return .{
+		.name = name,
+		.power = power,
+	};
+}
+```
+
+지금까지 살펴본 대부분의 것들과 마찬가지로, 앞으로 언어의 다른 부분에 대해 이야기할 때 구조체를 다시 살펴볼 것입니다. 하지만 대부분의 경우 이들은 직관적입니다.
+
+### 배열과 슬라이스Arrays and Slices
+
+이전 코드의 마지막 줄을 간략히 설명할 수도 있지만, 이 스니핏에 "Goku"와 "{s}'s power is {d}\n"이라는 두 개의 문자열이 포함되어 있으므로 Zig의 문자열에 대해 궁금할 것입니다. 문자열을 더 잘 이해하기 위해 먼저 배열과 슬라이스를 살펴보겠습니다.
+
+> [!] 스니핏snippet은 코드 조각을 의미합니다.
+
+배열은 컴파일 시점에 정해진 길이로 고정된 크기를 가집니다. 길이는 타입의 일부이므로 부호 있는 정수 4개로 구성된 배열인 `[4]i32`는 부호 있는 정수 5개로 구성된 배열인 `[5]i32`와 다른 타입입니다.
+
+배열 길이는 초기화 과정에서 유추할 수 있습니다. 다음 코드에서 세 변수는 모두 `[5]i32` 타입입니다:
+
+```zig
+const a = [5]i32{1, 2, 3, 4, 5};
+
+// we already saw this .{...} syntax with structs
+// it works with arrays too
+const b: [5]i32 = .{1, 2, 3, 4, 5};
+
+// use _ to let the compiler infer the length
+const c = [_]i32{1, 2, 3, 4, 5};
+```
+
+반면에 슬라이스는 길이가 있는 배열에 대한 포인터입니다. 길이는 런타임에 알 수 있습니다. 포인터에 대해서는 뒷부분에서 다루겠지만 슬라이스는 배열에 대한 일종의 뷰view라고 생각하면 됩니다.
+
+> Go에 익숙하다면 Zig에서 슬라이스는 용량이 **없고** 포인터와 길이만 있다는 점이 조금 다르다는 것을 눈치채셨을 것입니다.
+
+다음 코드를 보시면,
+
+```zig
+const a = [_]i32{1, 2, 3, 4, 5};
+const b = a[1..4];
+```
+
+저는 `b`가 길이가 3이고 `a`를 가리키는 포인터를 가진 슬라이스라고 말할 수 있으면 좋겠습니다. 하지만 컴파일 타임에 알려진 값, 즉 `1`과 `4`를 사용하여 배열을 "슬라이스"했으므로 길이인 `3` 것도 컴파일 타임에 알 수 있습니다. 지그는 이 모든 것을 알아내어 `b`는 슬라이스가 아니라 길이가 3인 정수 배열에 대한 포인터입니다. 구체적으로, 그 유형은 `*const [3]i32` 입니다. 따라서 이 슬라이스 데모는 Zig의 영리함 때문에 실패합니다.
+
+실제 코드에서는 배열보다 슬라이스를 더 많이 사용할 것입니다. 좋든 나쁘든, 프로그램은 컴파일 과정에서의 정보보다 런타임에서 정보를 더 많이 갖는 경향이 있습니다. 그렇지만 이 작은 예제에서 원하는 것을 얻기 위해 우리는 컴파일러를 속여야 합니다:
+
+```zig
+const a = [_]i32{1, 2, 3, 4, 5};
+var end: usize = 4;
+const b = a[1..end];
+```
+
+이제 `b`는 적절한 슬라이스이며, 특히 그 유형은 `[]const i32` 입니다. 슬라이스의 길이는 런타임 프로퍼티이고 타입은 컴파일 시점에 완전히 알 수 있기 때문에 슬라이스의 길이가 타입의 일부가 아님을 알 수 있습니다. 슬라이스를 만들 때 상위 제한을 생략하여 슬라이싱하는 대상(배열이든 슬라이스이든)의 끝 부분에 슬라이스를 만들 수 있습니다(예: `const c = b[2..];`).
+
+> 만약 `end`를 `const`로 선언했다면 컴파일 타임에 알려진 값이 되어 `b`의 길이가 컴파일 타임에 알려졌을 것이고, 따라서 슬라이스가 아닌 배열에 대한 포인터가 생성되었을 것입니다. 약간 혼란스럽긴 하지만 자주 발생하는 문제가 아니며 익히기 어렵지 않습니다. 이 시점에서 그냥 넘어가고 싶었지만 이 세부 사항을 피할 수 있는 적절한 방법을 찾지 못했습니다.
+
+Zig를 배우면서 타입이 매우 서술적이라는 것을 알게 되었습니다. 타입은 단순히 정수나 부울, 심지어 부호 있는 32비트 정수의 배열이 아닙니다. 타입에는 다른 중요한 정보도 포함되어 있습니다. 길이가 배열 타입의 일부라고 이야기했고, 많은 예제에서 상수 또한 타입의 일부라고 설명했습니다. 예를 들어, 마지막 예제에서 `b`의 타입은 `[]const i32` 입니다. 다음 코드를 통해 이를 직접 확인할 수 있습니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	const a = [_]i32{1, 2, 3, 4, 5};
+	var end: usize = 4;
+	const b = a[1..end];
+	std.debug.print("{any}", .{@TypeOf(b)});
+}
+```
+
+`b[2] = 5;`와 같이 `b`에 값을 쓰려고 하면 컴파일 오류가 발생합니다: _cannot assign to constant_. 이는 `b`의 타입 때문입니다.
+
+이 문제를 해결하려면 다음과 같이 변경하면 됩니다:
+
+```zig
+// replace const with var
+var b = a[1..end];
+```
+
+하지만 동일한 오류가 발생합니다. 왜 그럴까요? 힌트를 드리자면, `b`의 유형이 무엇일까요, 더 일반적으로는 `b`가 무엇일까요? 슬라이스는 배열의 `[부분]`에 대한 길이이자 포인터입니다. 슬라이스의 타입은 항상 기본 배열에서 파생됩니다. `b`가 `const`로 선언되든 아니든, 기본 배열은 `[5]const i32` 유형이므로 `b`는 `[]const i32` 유형이어야 합니다. `b`에 쓸 수 있게 하려면 `a` 를 `const`에서 `var`로 변경해야 합니다.
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	var a = [_]i32{1, 2, 3, 4, 5};
+	var end: usize = 4;
+	const b = a[1..end];
+	b[2] = 99;
+}
+```
+
+이것은 슬라이스가 더 이상 `[]const i32` 가 아니라 `[]i32` 이기 때문에 작동합니다. `b`가 여전히 `const`인데 왜 이것이 작동하는지 궁금할 수 있습니다. 그러나 `b`의 const는 `b`가 가리키는 데이터가 아니라 `b` 자체와 관련이 있습니다. 이것이 좋은 설명인지는 모르겠지만, 저에게는 이 코드가 그 차이를 강조합니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	var a = [_]i32{1, 2, 3, 4, 5};
+	var end: usize = 4;
+	const b = a[1..end];
+	b = b[1..];
+}
+```
+
+컴파일러가 알려주는 대로 _상수에 할당할 수 없기_ 때문에 컴파일되지 않습니다. 그러나 `var b = a[1..end];`를 수행했다면, `b` 자체가 더 이상 상수가 아니기 때문에 코드가 작동했을 것입니다.
+
+> [!] 일부 프로그래밍 언어에서 상수 선언은 재할당을 금지하는 역할을 하기도 합니다.
+
+앞으로 언어의 다른 측면을 보면서, 배열과 슬라이스를 더 살펴보고 문자열에 대해 자세히 알아보겠습니다.
+
+### 문자열Strings
+
+Zig에 문자열 타입이 있고 정말 멋지다고 말할 수 있으면 좋겠어요. 안타깝게도 그렇지 않습니다. 가장 간단하게 설명하자면, Zig 문자열은 바이트(`u8`)의 시퀀스(즉, 배열 또는 슬라이스)입니다. 실제로 `name` 필드의 정의에서 이를 확인할 수 있습니다: `name: []const u8,`.
+
+관례에 따라, 그리고 관례에 따라서만, 이러한 문자열은 UTF-8 값만 포함해야 하는데, 그 이유는 Zig 소스 코드 자체가 UTF-8로 인코딩되기 때문입니다. 그러나 이것은 강제 사항이 아니며, ASCII 또는 UTF-8 문자열을 나타내는 `[]const u8` 과 임의의 바이너리 데이터를 나타내는 `[]const u8` 사이에는 실제로 아무런 차이가 없습니다. 같은 타입인데 어떻게 차이가 있을 수 있겠습니까?
+
+배열과 슬라이스에 대해 배웠다면 `[]const u8`이 바이트의 상수 배열(여기서 바이트는 부호 없는 8비트 정수)에 대한 슬라이스라고 추측하는 것이 맞을 것입니다. 하지만 코드 어디에도 배열을 슬라이스하거나 배열이 있는 것은 아니죠? 그저 `user.name` 에 "Goku"를 할당했을 뿐입니다. 어떻게 작동했을까요?
+
+소스 코드에서 볼 수 있는 문자열 리터럴은 컴파일 타임에 알려진 길이를 갖습니다. 컴파일러는 "Goku"의 길이가 4라는 것을 알고 있습니다. 따라서 "Goku"는 `[4]const u8` 과 같은 배열로 표현하는 것이 가장 좋다고 생각할 수 있습니다. 하지만 문자열 리터럴에는 몇 가지 특별한 속성이 있습니다. 문자열 리터럴은 컴파일된 바이너리 내의 특별한 위치에 저장되고 중복 제거됩니다. 따라서 문자열 리터럴에 대한 변수는 이 특별한 위치에 대한 포인터가 됩니다. 즉, "Goku"의 유형은 4바이트의 상수 배열에 대한 포인터인 `*const [4]u8` 에 더 가깝다는 뜻입니다.
+
+> [!] 리터럴literal 은 소스코드에서 다른 표현으로 분해되지 않는 가장 작은 단위의 코드 조각을 의미합니다. 예를 들어, `5` 는 리터럴이지만 `5 + 1` 은 리터럴이 아닙니다. 그리고 `5 + 1` 은 `6` 이라는 리터럴로 분해됩니다.
+
+이외에도 더 있습니다. 문자열 리터럴은 널null 로 종료됩니다. 즉, 항상 끝에 `\0` 이 있습니다. 널로 끝나는 문자열은 C 와 상호 작용할 때 중요합니다. 메모리에서 "Goku"는 실제로 다음과 같이 보일 것입니다: `{'G', 'o', 'k', 'u', 0}` 이므로 유형이 `*const [5]u8` 이라고 생각할 수 있습니다. 그러나 이것은 기껏해야 모호하고 최악의 경우 위험할 수 있습니다(널 종결자를 덮어쓸 수 있습니다). 대신 Zig에는 널로 종료된 배열을 표현하는 고유한 구문이 있습니다. "Goku"의 타입은 다음과 같습니다: `*const [4:0]u8`, 널로 끝나는 4바이트 배열을 가리키는 포인터입니다. 문자열에 대해 이야기할 때는 널로 끝나는 바이트 배열에 초점을 맞추고 있지만(C에서 문자열이 일반적으로 표현되는 방식이므로), 이 구문이 더 일반적입니다: `[LENGTH:SENTINEL]` 여기서 "센티넬Setinel"은 배열의 끝에서 발견되는 특수 값입니다. 따라서 이 구문이 왜 필요한지 모르겠지만, 다음과 같은 구문은 완전히 유효합니다:
+
+> [!] 문자열 종료로 null 을 사용하지 않는 프로그래밍 언어도 있습니다.
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	// an array of 3 booleans with false as the sentinel value
+	const a = [3:false]bool{false, true, false};
+
+	// This line is more advanced, and is not going to get explained!
+	std.debug.print("{any}\n", .{std.mem.asBytes(&a).*});
+}
+```
+
+이 코드는 이렇게 출력됩니다: `{ 0, 1, 0, 0}`.
+
+> 마지막 줄이 상당히 전문적인 내용이고 설명할 의도가 없기 때문에 이 예제를 포함시키는 것을 망설였습니다. 반대로, 원하신다면 지금까지 설명한 내용을 더 잘 살펴보기 위해 실행하고 실습해 볼 수 있는 예제입니다.
+
+제가 충분히 설명했다고 해도 여전히 한 가지 궁금한 점이 있을 것입니다. "Goku"가 `*const [4:0]u8` 이라면 어떻게 `name` 에 `[]const u8` 을 할당할 수 있었을까요? 답은 간단합니다: Zig가 강제로 타입을 지정하기 때문입니다. 몇 가지 다른 타입 사이에서 이 작업을 수행하지만 문자열에서 가장 분명합니다. 즉, 함수에 `[]const u8` 매개변수가 있거나 구조체에 `[]const u8` 필드가 있는 경우 문자열 리터럴을 사용할 수 있습니다. 널로 끝나는 문자열은 배열이고 배열은 길이가 알려져 있기 때문에, 이 강제성은 문자열을 반복하여 널 종결자를 찾을 필요가 없다는 점에서 효율적입니다.
+
+따라서 문자열에 대해 이야기할 때 문자열은 보통 `[]const u8` 을 의미합니다. 필요한 경우 널로 끝나는 문자열을 명시적으로 명시하면 자동으로 `[]const u8` 로 강제 변환될 수 있습니다. 하지만 `[]const u8` 은 임의의 바이너리 데이터를 표현하는 데에도 사용되므로 Zig에는 상위 프로그래밍 언어와 같은 문자열 개념이 없다는 점을 기억하세요. 게다가 Zig의 표준 라이브러리에는 아주 기본적인 유니코드 모듈만 있습니다.
+
+물론, 실제 프로그램에서 대부분의 문자열(더 일반적으로는 배열)은 컴파일 시점에 알 수 없습니다. 대표적인 예가 프로그램이 컴파일될 때 알 수 없는 사용자 입력입니다. 이 부분은 메모리에 대해 이야기할 때 다시 살펴봐야 할 부분입니다. 하지만 간단히 말하자면, 컴파일 시점에 값을 알 수 없고 따라서 길이도 알 수 없는 데이터의 경우 런타임에 메모리를 동적으로 할당해야 한다는 것입니다. 여전히 `[]const u8` 타입인 문자열 변수는 이 동적으로 할당된 메모리를 가리키는 부분이 될 것입니다.
+
+### 컴프타임과 애니타입comptime and anytype
+
+마지막 남은 코드 라인에는 눈에 보이는 것보다 훨씬 더 많은 일이 벌어지고 있습니다:
+
+```zig
+std.debug.print("{s}'s power is {d}\n", .{user.name, user.power});
+```
+
+여기서는 대충 훑어보기만 하겠지만, Zig의 더 강력한 기능 중 몇 가지를 강조할 수 있는 기회를 마련해줍니다. 완전히 익히지는 못했더라도 최소한 알고 있어야 할 기능들입니다.
+
+Zig의 첫 번째 컨셉은 바로 컴파일 시간 실행, 즉 `comptime` 입니다. 이는 Zig 메타프로그래밍 기능의 핵심이며, 이름에서 알 수 있듯이 런타임이 아닌 컴파일 타임에 코드를 실행하는 것을 중심으로 합니다. 이 가이드에서는 컴프타임으로 할 수 있는 일의 표면적인 부분만 다루겠지만, 컴프타임comptime은 항상 사용되는 기능입니다.
+
+위의 줄에서 컴파일 타임 실행에 필요한 것이 무엇인지 궁금할 수 있습니다. `print` 함수를 정의하려면 첫 번째 매개변수인 문자열 형식은 컴파일 타임에 대해 알 수 있어야 합니다:
+
+```zig
+// "fmt" 변수 앞에 "comptime"이 있는 것을 확인하세요.
+pub fn print(comptime fmt: []const u8, args: anytype) void {
+```
+
+그 이유는 Zig 의 `print` 가 대부분의 다른 언어에서는 얻을 수 없는 추가 컴파일 시간 검사를 수행하기 때문입니다. 어떤 종류의 검사일까요? 형식을 `"it's over {d}\n"`으로 변경했지만 두 개의 인수는 그대로 유지했다고 가정해 봅시다. 그래도 컴파일 시간에 오류가 발생합니다: _unused argument in "it's over {d}"_. 이 과정에는 형식 검사도 수행합니다. 형식 문자열을 `"{s}'s power is {s}\n"` 으로 변경하면 _invalid format string 's' for type 'u64'_ 오류를 만납니다. 컴파일 시점에 문자열 형식을 알 수 없는 경우 이러한 검사는 컴파일 시점에 수행할 수 없습니다. 따라서 컴파일 타임에 알려진 값이 필요합니다.
+
+컴프타임이 코딩에 즉각적으로 영향을 미치는 곳은 정수 및 부동 소수점 리터럴의 기본 유형인 특수 `comptime_int` 및 `comptime_float` 입니다. 다음 코드 줄은 유효하지 않습니다: `var i = 0;`. 이 코드를 컴파일 시 오류가 발생합니다. _variable of type 'comptime_int' must be const or comptime_. `comptime` 코드는 컴파일 시점에 알려진 데이터로만 작동할 수 있으며, 정수 및 부동 소수점의 경우 이러한 데이터는 특수 `comptime_int` 및 `comptime_float` 타입으로 식별됩니다. 이 타입의 값은 컴파일 시간 실행에 사용할 수 있습니다. 하지만 컴파일 시간 실행을 위해 코드를 작성하는 데 대부분의 시간을 소비하지 않을 가능성이 높으므로 특별히 유용한 기본값은 아닙니다. 그래서 변수에 명시적으로 타입을 지정해야 합니다:
+
+```zig
+var i: usize = 0;
+var j: f64 = 0;
+```
+
+> 이 오류는 `var` 를 사용했기 때문에 발생한 것일 뿐, `const` 를 사용했다면 오류가 발생하지 않았을 것입니다. 이 에러의 전체 요점은 `comptime_int`가 _반드시_ `const`여야 한다는 것입니다.
+
+다음 파트에서는 제네릭을 살펴볼 때 컴프타임에 대해 좀 더 자세히 살펴보겠습니다.
+
+우리 코드 줄의 또 다른 특별한 점은, 위의 `print` 정의에서 알 수 있듯이 `anytype` 으로 매핑되는 이상한 `.{user.name, user.power}` 입니다. 이 유형을 Java의 `Object` 나 Go의 `any`(일명 `interface{}`)와 혼동해서는 안 됩니다. 오히려 컴파일 시점에 Zig는 전달된 모든 유형에 대한 특별한 print 함수를 생성합니다.
+
+그러면 무엇을 전달할 것인가라는 질문이 생깁니다. 컴파일러가 구조체의 유형을 유추할 때 `.{...}` 표기법을 본 적이 있을 것입니다. 이것도 비슷합니다. 익명 구조체 리터럴을 생성합니다. 다음 코드를 살펴봅시다:
+
+```zig
+pub fn main() void {
+	std.debug.print("{any}\n", .{@TypeOf(.{.year = 2023, .month = 8})});
+}
+```
+
+이렇게 출력합니다:
+
+```zig
+struct{comptime year: comptime_int = 2023, comptime month: comptime_int = 8}
+```
+
+여기서는 익명의 구조체 필드 이름인 `year`와 `month`을 지정했습니다. 원래 코드에서는 그렇지 않았습니다. 이 경우 필드 이름은 자동으로 "0", "1", "2" 등으로 생성됩니다. 인쇄 함수는 이러한 필드가 있는 구조를 예상하고 문자열 형식의 서수 위치를 사용하여 적절한 인수를 가져옵니다.
+
+Zig에는 함수 오버로딩이 없으며, 가변 함수(임의의 수의 인수를 갖는 함수)도 없습니다. 하지만 컴파일러 자체에서 추론하고 생성한 타입을 포함하여 전달된 타입을 기반으로 특수한 함수를 생성할 수 있는 컴파일러가 있습니다.
+
+## 언어 개요 - Part 2
+
+이번 파트에서는 이전 파트에서 이어서 언어에 익숙해지는 시간을 갖겠습니다. 구조체를 넘어 Zig의 제어 흐름과 타입을 살펴볼 것입니다. 첫 번째 파트에서 언어의 구문 대부분을 다루었으므로 이제 언어와 표준 라이브러리를 더 많이 다룰 수 있습니다.
+
+### 흐름 제어Control Flow
+
+Zig의 제어 흐름은 익숙할 수 있지만, 아직 살펴보지 않은 언어의 측면과 추가적인 시너지 효과가 있습니다. 제어문에 대한 간략한 개요부터 시작해서 특별한 제어 흐름 동작을 유도하는 기능들에 대해 논의하겠습니다.
+
+논리 연산자 `&&` 및 `||` 대신 `and` 또는 `or` 연산자를 사용한다는 것을 알 수 있습니다. 대부분의 언어에서와 마찬가지로 `and` 및 `or` 는 실행 흐름을 제어합니다. 왼쪽이 거짓이면 `and`의 오른쪽은 평가되지 않고, 왼쪽이 참이면 `or`의 오른쪽은 평가되지 않습니다. 지그에서는 제어 흐름이 키워드로 수행되므로 `and` 및 `or` 가 키워드로 사용됩니다.
+
+또한, 비교 연산자 `==` 는 `[]const u8` 과 같은 슬라이스, 즉 문자열 사이에서는 작동하지 않습니다. 대부분의 경우, 두 슬라이스의 길이를 비교한 다음 바이트를 비교하는 것은 `std.mem.eql(u8, str1, str2)` 을 사용하게 됩니다.
+
+지그의 `if`, `else if` 및 `else` 는 일반적으로 사용됩니다:
+
+```zig
+// std.mem.eql does a byte-by-byte comparison
+// for a string it'll be case sensitive
+if (std.mem.eql(u8, method, "GET") or std.mem.eql(u8, method, "HEAD")) {
+	// handle a GET request
+} else if (std.mem.eql(u8, method, "POST")) {
+	// handle a POST request
+} else {
+	// ...
+}
+```
+
+> `std.mem.eql` 의 첫 번째 인수는 타입(이 경우 `u8`)입니다. 이것은 우리가 처음 본 제네릭 함수입니다. 나중에 더 자세히 살펴보겠습니다.
+
+위의 예제는 ASCII 문자열을 비교하는 것이므로 대소문자를 구분하지 않을수도 있습니다. 대소문자를 구분하지 않으려면 `std.ascii.eqlIgnoreCase(str1, str2)` 가 더 나은 옵션일 수 있습니다.
+
+삼항 연산자는 없지만, 다음과 같이 `if/else` 를 사용할 수 있습니다:
+
+```zig
+const super = if (power > 9000) true else false;
+```
+
+`switch` 는 if/else if/else 중첩과 유사하지만 더욱 철저하다는 장점이 있습니다. 즉, 모든 경우를 다루지 않으면 컴파일 타임 오류가 발생합니다. 이 코드는 컴파일되지 않습니다:
+
+```zig
+fn anniversaryName(years_married: u16) []const u8 {
+	switch (years_married) {
+		1 => return "paper",
+		2 => return "cotton",
+		3 => return "leather",
+		4 => return "flower",
+		5 => return "wood",
+		6 => return "sugar",
+	}
+}
+```
+
+`switch`는 모든 가능성을 처리해야 한다고 들었습니다. 그러면 `years_married` 가 16비트 정수이므로 64K 건의 경우를 처리해야 한다는 뜻일까요? 예, 하지만 다행히도 `다른else` 방법이 있습니다:
+
+```zig
+// ...
+6 => return "sugar",
+else => return "no more gifts for you",
+```
+
+여러 케이스를 결합하거나 범위 표현을 사용할 수 있으며 복잡한 사례에는 블록을 사용할 수 있습니다:
+
+```zig
+fn arrivalTimeDesc(minutes: u16, is_late: bool) []const u8 {
+	switch (minutes) {
+		0 => return "arrived",
+		1, 2 => return "soon",
+		3...5 => return "no more than 5 minutes",
+		else => {
+			if (!is_late) {
+				return "sorry, it'll be a while";
+			}
+			// todo, something is very wrong
+			return "never";
+		},
+	}
+}
+```
+
+`switch` 는 여러 경우에 유용하지만, 열거형을 다룰 때 그 철저한 특성이 빛을 발하는데, 이에 대해서는 곧 설명하겠습니다.
+
+Zig의 `for` 루프는 배열, 슬라이스 및 범위를 반복하는 데 사용됩니다. 예를 들어 배열에 값이 포함되어 있는지 확인하기 위해 다음과 같이 작성할 수 있습니다:
+
+```zig
+fn contains(haystack: []const u32, needle: u32) bool {
+	for (haystack) |value| {
+		if (needle == value) {
+			return true;
+		}
+	}
+	return false;
+}
+```
+
+`for` 루프는 각각의 길이가 같은 시퀀스만 있으면 한 번에 여러 시퀀스에서 작동할 수 있습니다. 위에서는 `std.mem.eql` 함수를 사용했습니다. (거의) 다음과 같은 모습입니다:
+
+```zig
+pub fn eql(comptime T: type, a: []const T, b: []const T) bool {
+	// if they arent' the same length, the can't be equal
+	if (a.len != b.len) return false;
+
+	for (a, b) |a_elem, b_elem| {
+		if (a_elem != b_elem) return false;
+	}
+
+	return true;
+}
+```
+
+최초의 `if` 검사는 단순히 성능 최적화를 위한 것이 아니라 필수적인 보호 장치입니다. 이를 제거하고 길이가 다른 인수를 전달하면 런타임에 _for loop over objects with non-equal lengths(길이가 같지 않은 객체에 대한 for 루프)_ 패닉을 일으킬 수 있습니다.
+
+`for` 루프는 다음과 같은 범위에 대한 반복도 할 수 있습니다:
+
+```zig
+for (0..10) |i| {
+	std.debug.print("{d}\n", .{i});
+}
+```
+
+> 우리의 `switch` 범위는 `3...6` 의 세 점을 사용했지만, 이 범위는 `0..10` 의 두 점을 사용합니다. `switch` 케이스는 두 숫자, 하한값과 상한값 모두 포함하지만 `for` 는 상한값을 제외하려 하기 때문입니다.
+
+이 기능은 하나 이상의 시퀀스와 함께 사용하면 더욱 빛을 발합니다:
+
+```zig
+fn indexOf(haystack: []const u32, needle: u32) ?usize {
+	for (haystack, 0..) |value, i| {
+		if (needle == value) {
+			return i;
+		}
+	}
+	return null;
+}
+```
+
+> 널nullable 타입을 살짝 엿보았습니다.
+
+> [!] 함수의 반환 타입 정보 앞에 `?`가 붙어 있습니다.
+
+범위range의 끝은 `haystack` 의 길이에서 유추할 수 있지만, 우리는 스스로 생각하고 쓸 수 있습니다: `0..hastack.len`. `for` 루프는 보다 일반적인 `init; compare; step` 구문을 지원하지 않습니다. 이를 위해 우리는 `while` 에 의존합니다.
+
+`while` 은 `while (condition) { }`의 형태의 단순한 형태로 반복을 더 잘 제어할 수 있습니다. 예를 들어 문자열에서 이스케이프 시퀀스의 수를 계산할 때 `\\`가 이중으로 계산되지 않도록 이터레이터를 2씩 증가시켜야 합니다:
+
+```zig
+var i: usize = 0;
+var escape_count: usize = 0;
+while (i < src.len) {
+	if (src[i] == '\\') {
+		i += 2;
+		escape_count += 1;
+	} else {
+		i += 1;
+	}
+}
+```
+
+`while` 에는 조건이 거짓일 때 실행되는 `else` 절이 있을 수 있습니다. 또한 각 반복 후에 실행할 문을 허용합니다. 이 기능은 `for` 가 사용되기 전에 여러 시퀀스를 지원하기 위해 일반적으로 사용되었습니다. 위는 다음과 같이 작성할 수 있습니다:
+
+```zig
+var i: usize = 0;
+var escape_count: usize = 0;
+
+//                   this part
+while (i < src.len) : (i += 1) {
+	if (src[i] == '\\') {
+		// +1 here, and +1 above == +2
+		i += 1;
+		escape_count += 1;
+	}
+}
+```
+
+> [!] `while` 의 한 반복이 끝나면 `: (i += 1)` 이 실행됩니다.
+
+`break` 와 `continue`는 가장 안쪽 루프에서 벗어나거나 다음 반복으로 이동하는 데 지원됩니다.
+
+블록에 레이블을 지정할 수 있으며 `break` 및 `continue`는 특정 레이블을 대상으로 지정할 수 있습니다. 인위적인 예제입니다:
+
+```zig
+outer: for (1..10) |i| {
+	for (i..10) |j| {
+		if (i * j > (i+i + j+j)) continue :outer;
+		std.debug.print("{d} + {d} >= {d} * {d}\n", .{i+i, j+j, i, j});
+	}
+}
+```
+
+`break` 에는 블록에서 값을 반환하는 또 다른 흥미로운 행동이 있습니다:
+
+```zig
+const personality_analysis = blk: {
+	if (tea_vote > coffee_vote) break :blk "sane";
+	if (tea_vote == coffee_vote) break :blk "whatever";
+	if (tea_vote < coffee_vote) break :blk "dangerous";
+};
+```
+
+이와 같은 블록은 세미콜론으로 끝나야 합니다.
+
+나중에 태그 유니온, 에러 유니온 및 선택적 타입에 대해 살펴볼 때 이러한 제어 흐름 구조가 제공하는 다른 기능에 대해 살펴보겠습니다.
+
+### 열거Enums
+
+열거형은 레이블이 지정된 정수 상수입니다. 열거형은 구조체와 매우 유사하게 정의됩니다:
+
+```zig
+// could be "pub"
+const Status = enum {
+	ok,
+	bad,
+	unknown,
+};
+```
+
+그리고 구조체와 마찬가지로, 열거형을 매개변수로 사용할 수도 있고 사용하지 않을 수도 있는 함수를 비롯한 다른 정의를 포함할 수 있습니다:
+
+```zig
+const Stage = enum {
+	validate,
+	awaiting_confirmation,
+	confirmed,
+	completed,
+	err,
+
+	fn isComplete(self: Stage) bool {
+		return self == .confirmed or self == .err;
+	}
+};
+```
+
+> 열거형의 문자열 표현을 원하면 내장된 `@tagName(enum)` 함수를 사용하면 됩니다.
+
+자기 소환의 구조체 타입은 `.{...}` 표기법을 사용하여 할당 또는 반환 타입에 근거하여 추론할 수 있습니다. 위에서는 열거형 타입이 `Stage` 타입인 `self`와의 비교를 기반으로 추론되는 것을 볼 수 있습니다. 명시적으로 작성할 수도 있었습니다: `return self == Stage.confirmed 또는 self == Stage.err;`. 하지만 열거형을 다룰 때는 종종 `.$value` 표기법을 통해 열거형 타입이 생략되는 것을 볼 수 있습니다.
+
+`switch`의 철저한 특성으로 인해 가능한 모든 경우를 처리할 수 있으므로 이는 열거형과 잘 어울립니다. 하지만 `switch`의 `else` 절을 사용할 때는 새로 추가된 열거형 값과 일치하게 되므로 원하는 동작이 아닐 수도 있으므로 주의하세요.
+
+### 태그드 유니언Tagged Unions
+
+공용체는 값이 가질 수 있는 타입의 집합을 정의합니다. 예를 들어, 이 `Number` 유니온은 `integer`, `float` 또는 `nan`(숫자가 아님) 중 하나일 수 있습니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	const n = Number{.int = 32};
+	std.debug.print("{d}\n", .{n.int});
+}
+
+const Number = union {
+	int: i64,
+	float: f64,
+	nan: void,
+};
+```
+
+공용체는 한 번에 하나의 필드만 설정할 수 있으므로 설정되지 않은 필드에 액세스하려고 하면 오류가 발생합니다. `int` 필드를 설정했기 때문에 `n.float`에 액세스하려고 하면 오류가 발생합니다. 필드 중 하나인 `nan` 의 타입은 `void` 입니다. 그렇다면 그 값을 어떻게 설정할까요? `{}`를 사용하면 됩니다:
+
+```zig
+const n = Number{.nan = {}};
+```
+
+공용체를 사용할 때 어려운 점은 어떤 필드가 설정되어 있는지 파악하는 것입니다. 이때 태그가 지정된 유니온이 유용합니다. 태그가 지정된 유니온은 열거형과 유니온을 병합하여 스위치 문에서 사용할 수 있습니다. 이 예제를 살펴보겠습니다:
+
+```zig
+pub fn main() void {
+	const ts = Timestamp{.unix = 1693278411};
+	std.debug.print("{d}\n", .{ts.seconds()});
+}
+
+const TimestampType = enum {
+	unix,
+	datetime,
+};
+
+const Timestamp = union(TimestampType) {
+	unix: i32,
+	datetime: DateTime,
+
+	const DateTime = struct {
+		year: u16,
+		month: u8,
+		day: u8,
+		hour: u8,
+		minute: u8,
+		second: u8,
+	};
+
+	fn seconds(self: Timestamp) u16 {
+		switch (self) {
+			.datetime => |dt| return dt.second,
+			.unix => |ts| {
+				const seconds_since_midnight: i32 = @rem(ts, 86400);
+				return @intCast(@rem(seconds_since_midnight, 60));
+			},
+		}
+	}
+};
+```
+
+`switch`의 각 케이스가 해당 필드의 타이핑된 값을 캡처하는 것을 볼 수 있습니다. 즉, `dt`는 `Timestamp.DateTime`이고 `ts`는 `i32`입니다. 구조체가 다른 타입 안에 중첩된 구조를 본 것은 이번이 처음입니다. `DateTime`은 유니온 외부에서 정의될 수도 있었습니다. 그리고 두 개의 새로운 내장 함수도 보입니다: 나머지를 가져오는 `@rem`과 결과를 `u16`으로 변환하는 `@intCast`입니다(`@intCast`는 값이 반환되고 있으므로 반환 유형에서 `u16`을 원한다고 추론합니다).
+
+위의 예제에서 볼 수 있듯이 태그된 공용체는 가능한 모든 구현을 미리 알고 태그된 공용체에 담을 수 있다면 인터페이스와 비슷하게 사용할 수 있습니다.
+
+마지막으로 태그된 유니온의 열거형 타입을 추론할 수 있습니다. `TimestampType`을 정의하는 대신 이렇게 할 수도 있습니다:
+
+```zig
+const Timestamp = union(enum) {
+	unix: i32,
+	datetime: DateTime,
+
+	...
+```
+
+그러면 Zig는 유니온의 필드를 기반으로 암시적 열거형을 만들었을 것입니다.
+
+### 옵셔널Optional
+
+모든 값은 타입 앞에 물음표인 `?`를 붙여서 선택 사항으로 선언할 수 있습니다. 선택적 유형은 `null` 이거나 정의된 유형의 값일 수 있습니다:
+
+```zig
+var home: ?[]const u8 = null;
+var name: ?[]const u8 = "Leto";
+```
+
+명시적 타입의 필요성은 명확해야 합니다. 만약 `const name = "Leto";`를 수행했다면, 추론된 타입은 비선택적 타입인 `[]const u8` 이 될 것입니다.
+
+`.?`는 선택적 타입 뒤에 있는 값에 액세스하는 데 사용됩니다:
+
+```zig
+std.debug.print("{s}\n", .{name.?});
+```
+
+하지만 null 에 `.?`를 사용하면 런타임 패닉이 발생합니다. `if` 문은 옵션의 래핑을 안전하게 해제할 수 있습니다:
+
+```zig
+if (home) |h| {
+	// h is a []const u8
+	// we have a home value
+} else {
+	// we don't have a home value
+}
+```
+
+`orelse`를 사용하여 옵셔널을 언래핑하거나 코드를 실행할 수 있습니다. 이는 일반적으로 기본값을 지정하거나 함수에서 복귀하는 데 사용됩니다:
+
+```zig
+const h = home orelse "unknown"
+// or maybe
+
+// exit our function
+const h = home orelse return;
+```
+
+그러나 `orelse`는 블록을 지정하여 더 복잡한 로직을 실행할 수도 있습니다. 선택적 타입은 `while`과도 통합되며, 반복자를 만드는 데 자주 사용됩니다. 이터레이터를 구현하지는 않겠지만 이 더미 코드가 의미가 있기를 바랍니다:
+
+```zig
+while (rows.next()) |row| {
+	// do something with our row
+}
+```
+
+### 언디파인드Undefined
+
+지금까지 살펴본 모든 변수는 적절한 값으로 초기화되었습니다. 하지만 때로는 변수가 선언될 때 그 값을 알 수 없는 경우가 있습니다. 옵셔널도 하나의 옵션이지만 항상 의미가 있는 것은 아닙니다. 이러한 경우 변수를 `undefined` 로 설정하여 초기화되지 않은 상태로 둘 수 있습니다.
+
+일반적으로 이 작업을 수행하는 경우는 어떤 함수에 의해 채워질 배열을 만들 때입니다:
+
+```zig
+var pseudo_uuid: [16]u8 = undefined;
+std.crypto.random.bytes(&pseudo_uuid);
+```
+
+위의 코드로 16바이트의 배열이 생성되지만 메모리는 초기화되지 않은 상태로 남습니다.
+
+> [!] 물론 이후의 코드에 의해 랜덤한 값으로 채워질 것입니다.
+
+### 에러Errors
+
+Zig에는 간단하고 실용적인 오류 처리 기능이 있습니다. 모든 것은 열거형처럼 보이고 열거형처럼 동작하는 오류 집합으로 시작됩니다:
+
+```zig
+// Like our struct in Part 1, OpenError can be marked as "pub"
+// to make it accessible outside of the file it is defined in
+const OpenError = error {
+	AccessDenied,
+	NotFound,
+};
+```
+
+> [!] 이는 `error` 라는 타입이 명시적으로 제공된다고 볼 수 있습니다.
+
+`main`을 포함한 함수는 이제 이 오류를 반환할 수 있습니다:
+
+```zig
+pub fn main() void {
+	return OpenError.AccessDenied;
+}
+
+const OpenError = error {
+	AccessDenied,
+	NotFound,
+};
+```
+
+이 함수를 실행하려고 하면 다음과 같은 오류가 발생합니다: _expected type 'void', found 'error{AccessDenied,NotFound}'_.
+반환 타입이 `void`인 `main`을 정의했지만 무언가(물론 에러지만 여전히 `void`는 아님)를 반환한다는 뜻입니다. 이 문제를 해결하려면 함수의 반환 유형을 변경해야 합니다.
+
+```zig
+pub fn main() OpenError!void {
+	return OpenError.AccessDenied;
+}
+```
+
+이를 에러 유니온 타입이라고 하며, 함수가 `OpenError` 에러 또는 `void`(즉, 아무것도 반환하지 않음)를 반환할 수 있음을 나타냅니다. 지금까지 우리는 명확하게, 함수가 반환할 수 있는 오류에 대해 오류 집합을 만들고 함수의 오류 유니온 반환 유형에 해당하는 오류 집합을 사용했습니다.
+하지만 오류와 관련해서는 Zig에 몇 가지 깔끔한 트릭이 있습니다. 첫째, 에러 유니온을 `에러 집합!반환 타입`으로 지정하는 대신 Zig가 에러 집합을 유추하도록 할 수 있습니다: `!반환 타입`을 사용하면 됩니다. 따라서 `main`을 다음과 같이 정의할 수 있고, 아마도 앞으로는 이렇게 사용할 것입니다:
+
+```zig
+pub fn main() !void
+```
+
+둘째, Zig는 암시적으로 에러 집합을 생성할 수 있습니다. 에러 집합을 생성하는 대신 다음과 같이 할 수 있습니다:
+
+```zig
+pub fn main() !void {
+	return error.AccessDenied;
+}
+```
+
+완전히 명시적인 접근 방식과 암시적 접근 방식이 정확히 동등한 것은 아닙니다. 예를 들어, 암시적 오류 집합이 있는 함수를 참조하려면 특수한 `anyerror` 유형을 사용해야 합니다. 라이브러리 개발자는 코드 자체 문서화같은 것 보다, 명시적인 방식이 더 유리하다고 생각할 수 있습니다. 하지만 저는 암시적 에러 집합과 추론된 에러 유니온 모두 실용적이라고 생각하며, 두 가지를 모두 많이 사용합니다.
+
+에러 유니온의 진정한 가치는 `catch`와 `try` 형태의 내장된 언어 기능에 있습니다. 에러 유니온을 반환하는 함수 호출에는 `catch` 절을 포함할 수 있습니다. 예를 들어, http 서버 라이브러리에는 다음과 같은 코드가 있을 수 있습니다:
+
+```zig
+action(req, res) catch |err| {
+	if (err == error.BrokenPipe or err == error.ConnectionResetByPeer) {
+		return;
+	} else if (err == error.BodyTooBig) {
+		res.status = 431;
+		res.body = "Request body is too big";
+	} else {
+		res.status = 500;
+		res.body = "Internal Server Error";
+		// todo: log err
+	}
+};
+```
+
+`switch` 버전이 더 관용적입니다:
+
+```zig
+action(req, res) catch |err| switch (err) {
+	error.BrokenPipe, error.ConnectionResetByPeer) => return,
+	error.BodyTooBig => {
+		res.status = 431;
+		res.body = "Request body is too big";
+	},
+	else => {
+		res.status = 500;
+		res.body = "Internal Server Error";
+	}
+};
+```
+
+이 모든 것이 꽤 멋지지만, 사실 여러분이 `catch`에서 할 수 있는 일반적인 작업은 호출자에게 오류를 버블 처리하는 것입니다:
+
+```zig
+action(req, res) catch |err| return err;
+```
+
+이것은 매우 일반적으로 `try`가 하는 일입니다. 보통 위와 같이 하지 않고:
+
+```zig
+try action(req, res);
+```
+
+이것은 반드시 오류를 처리해야 하는 경우에 특히 유용합니다. 아마도 여러분은 대부분 `try` 또는 `catch`로 이를 처리할 것입니다.
+
+Go 개발자는 `try`가 `if err != nil { return err }`보다 키 입력 횟수가 적다는 것을 알 수 있습니다.
+
+대부분의 경우 `try`와 `catch`를 사용하게 되겠지만, 옵셔널 타입과 마찬가지로 `if`와 `while`에서도 에러 유니온이 지원됩니다. `while`의 경우 조건이 오류를 반환하면 `else` 절이 실행됩니다.
+
+모든 에러를 담을 수 있는 특별한 `anyerror` 타입이 있습니다. 함수를 `!TYPE`이 아닌 `anyerror!TYPE`을 반환하는 것으로 정의할 수도 있지만, 이 둘은 동일하지 않습니다. 유추된 오류 집합은 함수가 반환할 수 있는 것을 기반으로 만들어집니다. `anyerror`는 프로그램의 모든 오류 집합의 상위 집합인 전역 오류 집합입니다. 따라서 함수 시그니처에 `anyerror`를 사용하면 함수가 실제로는 반환할 수 없는 오류를 반환할 수 있다는 신호가 될 수 있습니다. `anyerror`는 모든 오류와 함께 작동할 수 있는 함수 매개변수나 구조체 필드에 사용됩니다(로깅 라이브러리를 예로 들 수 있습니다).
+
+함수가 에러 유니온 옵셔널 타입을 반환하는 경우는 드물지 않습니다. 추론된 오류 집합을 사용하면 다음과 같이 보입니다:
+
+```zig
+// load the last saved game
+pub fn loadLast() !?Save {
+	// TODO
+	return null;
+}
+```
+
+이러한 함수를 사용하는 방법은 여러 가지가 있지만, 가장 간결한 방법은 `try`를 사용하여 에러를 언래핑한 다음 `otherwise`를 사용하여 선택사항을 언래핑하는 것입니다. 다음은 실제 동작하는 스켈레톤입니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	// This is the line you want to focus on
+	const save = (try Save.loadLast()) orelse Save.blank();
+	std.debug.print("{any}\n", .{save});
+}
+
+pub const Save = struct {
+	lives: u8,
+	level: u16,
+
+	pub fn loadLast() !?Save {
+		//todo
+		return null;
+	}
+
+	pub fn blank() Save {
+		return .{
+			.lives = 3,
+			.level = 1,
+		};
+	}
+};
+```
+
+Zig는 더 심층적인 내용을 가지며 각 언어 기능에는 더 큰 능력이 있지만, 이 첫 두 부분에서 살펴본 내용은 언어의 매우 중요한 부분입니다. 이는 언어의 기초가 되어 우리가 구문에 얽매이지 않고 더 복잡한 주제를 탐구할 수 있게 해줄 것입니다.
+
+## 스타일 가이드
+
+이 짧은 파트에서는 컴파일러가 강제하는 두 가지 코딩 규칙과 표준 라이브러리의 명명 규칙을 다룹니다.
+
+### 사용되지 않는 변수Unused Variables
+
+Zig는 변수가 사용되지 않는 것을 허용하지 않습니다. 다음 코드는 두 개의 컴파일 타임 에러를 발생시킵니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	const sum = add(8999, 2);
+}
+
+fn add(a: i64, b: i64) i64 {
+	// notice this is a + a, not a + b
+	return a + a;
+}
+```
+
+첫 번째 오류는 `sum`이 *사용되지 않은 지역 상수*이기 때문입니다. 두 번째 오류는 `b`가 *사용되지 않은 함수 매개변수*이기 때문입니다. 이 코드에서는 명백한 버그입니다. 하지만 사용하지 않는 변수와 함수 매개변수가 있는 데에는 정당한 이유가 있을 수 있습니다. 이러한 경우 변수를 밑줄(`_`)로 할당할 수 있습니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	_ = add(8999, 2);
+
+	// or
+
+	sum = add(8999, 2);
+	_ = sum;
+}
+
+fn add(a: i64, b: i64) i64 {
+	_ = b;
+	return a + a;
+}
+```
+
+`_ = b;` 대신 함수 매개변수의 이름을 `_`로 지정할 수도 있지만, 제 생각에는 이렇게 하면 이 코드의 독자는 사용하지 않는 매개변수가 무엇인지 고민하게 합니다:
+
+```zig
+fn add(a: i64, _: i64) i64 {
+```
+
+`std`도 사용되지 않지만 오류를 생성하지 않습니다. 향후 어느 시점이 되면 Zig는 이를 컴파일 타임 에러로 처리할 것으로 예상됩니다.
+
+### 쉐도잉Shadowing
+
+Zig는 한 식별자가 같은 이름을 사용하여 다른 식별자를 "숨기는" 것을 허용하지 않습니다. 다음 코드는 소켓에서 무언가 읽기 위한 코드인데 유효하지 않습니다:
+
+```zig
+fn read(stream: std.net.Stream) ![]const u8 {
+	var buf: [512]u8 = undefined;
+	const read = try stream.read(&buf);
+	if (read == 0) {
+		return error.Closed;
+	}
+	return buf[0..read];
+}
+```
+
+`read` 변수가 함수 이름을 가리고 있습니다. 이 규칙은 일반적으로 개발자가 의미 없는 짧은 이름을 사용하도록 유도하기 때문에 저는 이 규칙을 좋아하지 않습니다. 예를 들어, 이 코드를 컴파일하려면 `read`를 `n`으로 변경해야 합니다. 제 생각에는 개발자가 가장 읽기 쉬운 이름을 더 좋은 위치에 두는 것이 좋습니다.
+
+### 명명 규칙Naming Convention
+
+컴파일러가 강제하는 규칙 외에도 원하는 명명 규칙을 자유롭게 따를 수 있습니다. 하지만 표준 라이브러리에서 타사 라이브러리에 이르기까지 상호 작용하게 될 대부분의 코드가 이 규칙을 사용하므로 Zig의 자체 명명 규칙을 이해하는 것이 도움이 됩니다.
+
+Zig의 소스 코드는 4개의 공백으로 들여쓰기되어 있습니다. 저는 개인적으로 탭을 사용하는데, 객관적으로 이 방식이 사용하기 쉽습니다.
+
+함수 이름은 camelCase, 변수는 소문자와 밑줄이 있는 소문자(일명 snake\_ case)입니다. 타입은 PascalCase 입니다. 이 세 가지 규칙 사이에는 흥미로운 겹침이 있습니다. 타입을 참조하는 변수나 타입을 반환하는 함수는 타입 규칙을 따르며 PascalCase입니다. 이미 보셨겠지만 놓치셨을 수도 있습니다.
+
+```zig
+std.debug.print("{any}\n", .{@TypeOf(.{.year = 2023, .month = 8})});
+```
+
+우리는 다른 내장 함수를 보았습니다: `@import`, `@rem` 및 `@intCast` 입니다. 이것들은 함수이기 때문에 카멜 케이스입니다. `@TypeOf`도 내장 함수이지만 왜 파스칼 케이스일까요? 타입을 반환하므로 타입 명명 규칙이 사용되기 때문입니다. Zig의 명명 규칙을 사용하여 `@TypeOf`의 결과를 변수에 할당한다면, 그 변수 역시 파스칼 케이스가 되어야 합니다:
+
+```zig
+const T = @TypeOf(3)
+std.debug.print("{any}\n", .{T});
+```
+
+`zig` 실행 파일에는 파일이나 디렉터리를 지정하면 Zig의 자체 스타일 가이드에 따라 파일 형식을 지정하는 `fmt` 명령이 있습니다만 모든 것을 다루지는 않습니다. 예를 들어 들여쓰기와 괄호 위치는 조정하지만, 식별자의 대소문자는 변경하지 않습니다.
+
+## 포인터
+
+Zig 는 가비지 컬랙터를 가지고 있지 않습니다. 메모리 관리의 부담은 개발자에게 있습니다. 이것은 애플리케이션의 성능, 안정성 및 보안에 직접적인 영향을 미치므로 큰 책임이 따릅니다.
+
+우리는 포인터에 대해 얘기해 보겠습니다. 이것은 그 자체로 중요한 주제이지만, 우리의 프로그램 데이터를 메모리 중심으로 볼 수 있도록 훈련시키기 위해서도 중요합니다. 포인터, 힙 할당 및 댕글링 포인터에 익숙하다면 몇 가지 부분을 건너뛰고 Zig에 특화된 [힙 메모리 및 할당자](https://www.openmymind.net/learning_zig/heap_memory/) 부분으로 건너뛰어도 됩니다.
+
+---
+
+다음 코드는 파워가 1인 사용자를 만들고, 그 사용자의 파워를 1 증가시키는 `levelUp` 함수를 호출합니다. 어떤 결과가 나올지 예상할 수 있나요?
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	var user = User{
+		.id = 1,
+		.power = 100,
+	};
+
+	// this line has been added
+	levelUp(user);
+	std.debug.print("User {d} has power of {d}\n", .{user.id, user.power});
+}
+
+fn levelUp(user: User) void {
+	user.power += 1;
+}
+
+pub const User = struct {
+	id: u64,
+	power: i32,
+};
+```
+
+여기에는 함정이 있습니다. 이 코드는 컴파일되지 않아요: _cannot assign to constant_. 우리는 파트 1에서 함수 매개변수가 상수라는 것을 보았습니다. 따라서 `user.power += 1;` 는 유효하지 않습니다. 컴파일 타임 오류를 수정하려면 `levelUp` 함수를 다음과 같이 변경할 수 있습니다:
+
+```zig
+fn levelUp(user: User) void {
+	var u = user;
+	u.power += 1;
+}
+```
+
+컴파일은 되지만 출력은 _User 1 has power of 100_ 입니다. 우리 코드의 의도는 분명히 `levelUp` 이 사용자의 파워를 `101` 로 증가시키는 것입니다. 어떻게 된 일일까요?
+
+To understand, it helps to think about data with respect to memory, and variables as labels that associate a type with a specific memory location. For example, in `main`, we create a `User`. A simple visualization of this data in memory would be:
+이 과정을 이해하기 위해 데이터를 메모리와 연계하여 생각하고, 변수를 특정 메모리 위치에 타입과 연결하는 레이블로 생각하는 것이 도움이 됩니다. 예를 들어, `main` 에서 `User`를 만듭니다. 이 데이터를 담은 메모리에 대해 간단히 시각화하면 다음과 같습니다:
+
+```text
+user -> ------------ (id)
+        |    1     |
+        ------------ (power)
+        |   100    |
+        ------------
+```
+
+주목해야할 두 가지 사항이 있습니다. 첫 번째는 `user` 변수가 구조체의 시작 부분을 가리킨다는 것입니다. 두 번째는 필드가 순차적으로 배치된다는 것입니다. `user` 도 타입이 있다는 것을 기억하세요. 이 타입은 `id` 가 64비트 정수이고 `power` 가 32비트 정수라는 것을 알려줍니다. 데이터의 시작 위치에 대한 참조와 타입을 갖고 있으므로 컴파일러는 `user.power` 를 *시작 위치에서 64비트 떨어진 곳에 있는 32비트 정수에 접근* 으로 번역할 수 있습니다. 이것이 변수의 힘입니다. 변수는 메모리를 참조하고 메모리를 의미있게 이해하고 조작하는 데 필요한 타입 정보를 포함합니다.
+
+> 기본적으로, Zig는 구조체의 메모리 레이아웃에 대한 보장을 하지 않습니다. 필드를 알파벳 순서로, 크기가 증가하는 순서로 또는 적당한 간격을 두고 저장할 수 있습니다. 코드를 올바르게 번역할 수 있다면 컴파일러가 원하는 대로 할 수 있습니다. 이 유동적인 배치는 특정 최적화를 가능하게 할 수 있습니다. `packed struct`를 선언하지 않으면 메모리 배치 순서에 대한 강력한 보장을 받을 수 없습니다. 그래도 `user`의 시각화는 합리적이고 유용합니다.
+
+다음은 메모리 주소를 포함하는 약간 다른 시각화입니다. 이 데이터의 시작 주소는 제가 임의로 정한 주소입니다. 이 주소는 `user` 변수가 참조하는 메모리 주소이며, 첫 번째 필드인 `id` 의 값입니다. 그러나 이 초기 주소가 주어지면 모든 후속 주소는 상대 주소를 알 수 있습니다. `id` 가 64비트 정수이므로 8바이트의 메모리를 차지합니다. 따라서 `power` 는 $start_address + 8 에 있어야 합니다:
+
+```text
+user ->   ------------  (id: 1043368d0)
+          |    1     |
+          ------------  (power: 1043368d8)
+          |   100    |
+          ------------
+```
+
+To verify this for yourself, I'd like to introduce the addressof operator: `&`. As the name implies, the addressof operator returns the address of an variable (it can also return the address of a function, isn't that something?!). Keeping the existing `User` definition, try this `main`:
+
+이를 직접 확인하기 위해 주소 연산자인 `&` 를 소개하겠습니다. 이름에서 알 수 있듯이 주소 연산자는 변수의 주소를 반환합니다(함수의 주소도 반환할 수 있습니다. 대단하지 않나요?!). 기존의 `User` 정의를 유지한 상태에서 다음 `main` 코드를 사용해보세요:
+
+```zig
+pub fn main() void {
+	var user = User{
+		.id = 1,
+		.power = 100,
+	};
+	std.debug.print("{*}\n{*}\n{*}\n", .{&user, &user.id, &user.power});
+}
+```
+
+이 코드를 실행하면 `user`, `user.id` 및 `user.power` 의 주소가 출력됩니다. 플랫폼 및 기타 요소에 따라 다른 결과가 나올 수 있지만, 아마도, `user` 와 `user.id` 의 주소가 동일하고 `user.power` 가 8바이트 오프셋에 있는 것을 확인할 수 있습니다. 저는 다음과 같은 결과를 얻었습니다:
+
+```text
+learning.User@1043368d0
+u64@1043368d0
+i32@1043368d8
+```
+
+> [!] `learning` 은 사용자가 작성한 파일 이름으로 대체됩니다. 저자는 `learning.zig` 라는 파일을 만들었습니다.
+
+주소 연산자는 포인터를 값으로 반환합니다. 값에 대한 포인터는 고유한 타입입니다. `T` 타입의 값에 대한 주소는 `*T` 입니다. 이를 *T에 대한 포인터* 라고 표현합니다. 따라서 `user` 의 주소를 가져오면 `*User` 또는 `User` 에 대한 포인터를 얻게 됩니다:
+
+```zig
+pub fn main() void {
+	var user = User{
+		.id = 1,
+		.power = 100,
+	};
+
+	const user_p = &user;
+	std.debug.print("{any}\n", .{@TypeOf(user_p)});
+}
+```
+
+우리의 처음 목표는 `levelUp` 함수를 통해 사용자의 `power` 를 1 증가시키는 것이었습니다. 코드는 컴파일되었지만 `power` 를 출력하면 여전히 원래 값이었습니다. 다소 극단적인 예이긴 하지만, `main` 과 `levelUp` 에서 `user` 의 주소를 출력하도록 코드를 변경해 봅시다:
+
+```zig
+pub fn main() void {
+	const user = User{
+		.id = 1,
+		.power = 100,
+	};
+
+	// added this
+	std.debug.print("main: {*}\n", .{&user});
+
+	levelUp(user);
+	std.debug.print("User {d} has power of {d}\n", .{user.id, user.power});
+}
+
+fn levelUp(user: User) void {
+	// add this
+	std.debug.print("levelUp: {*}\n", .{&user});
+	var u = user;
+	u.power += 1;
+}
+```
+
+이 코드를 실행해 보면, 두 개의 다른 주소가 출력됩니다. 이는 `levelUp` 에서 수정되는 `user` 가 `main` 의 `user` 와 다르다는 것을 의미합니다. 이는 Zig 가 levelUp 함수에 값을 복사해서 전달하기 때문에 발생합니다. 이는 기본적으로 이상하게 보일 수 있지만, 이렇게 하는 장점 중 하나는 함수를 호출하는 쪽에서는 함수가 매개변수를 수정하지 않을 것이라는 것을 확신할 수 있다는 것입니다(수정할 수 없으므로). 많은 경우, 이러한 기본값이 보장된다는 것은 좋은 일입니다. 물론 때로는 `levelUp` 처럼 함수가 매개변수를 수정하길 원하는 경우도 있습니다. 이를 위해 `levelUp` 이 `main` 의 실제 `user` 에서 작동하도록 해야 합니다. 이를 위해 함수에 `user` 의 주소를 전달하면 됩니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	var user = User{
+		.id = 1,
+		.power = 100,
+	};
+
+	// user -> &user
+	levelUp(&user);
+	std.debug.print("User {d} has power of {d}\n", .{user.id, user.power});
+}
+
+// User -> *User
+fn levelUp(user: *User) void {
+	user.power += 1;
+}
+
+pub const User = struct {
+	id: u64,
+	power: i32,
+};
+```
+
+우리는 두 곳을 변경해야 했습니다. 첫 번째는 `levelUp` 을 `user` 대신 `&user` 로 호출하는 것입니다. 이는 함수가 더 이상 `User` 를 받지 않고 `*User` 를 받는다는 것을 의미합니다. 이것이 두 번째 변경 사항입니다.
+
+이제 코드가 의도한 대로 작동합니다. 여전히 함수 매개변수와 메모리 모델에는 많은 미묘한 점이 있지만, 우리는 진전을 이루고 있습니다. 이제 말씀드리고 싶은 것은, 구체적인 구문을 제외하고는 이 모든 것이 Zig 에만 해당하는 것은 아니라는 것입니다. 우리가 여기서 탐구하는 모델은 가장 일반적인 모델이며, 일부 언어는 개발자에게 많은 세부 사항과 유연성을 숨기기도 합니다.
+
+### 메소드Methods
+
+아마도 그동안, 여러분은 `levelUp` 을 `User` 구조체의 메소드로 작성했을 것입니다:
+
+```zig
+pub const User = struct {
+	id: u64,
+	power: i32,
+
+	fn levelUp(user: *User) void {
+		user.power += 1;
+	}
+};
+```
+
+여기서 의문이 생깁니다: 포인터 수신자를 가진 메소드를 어떻게 호출할까요? 아마도 `&user.levelUp()` 와 같은 것을 해야 할 것입니다. 다행히 실제로는 그냥 일반적으로 호출하면 됩니다. 즉, `user.levelUp()` 입니다. Zig는 메소드가 포인터를 기대한다는 것을 알고 값을 올바르게 전달합니다(참조로).
+
+포인터를 설명하기 위해 초반에 함수를 선택한 이유는 함수가 명시적이어서 더 쉽게 배울 수 있기 때문이었습니다.
+
+### 변하지 않는 함수 파라미터Constant Function Parameters
+
+저는 기본적으로 Zig가 값을 복사해서 전달한다("pass by value" 라고 부릅니다)고 암시했습니다. 곧 우리는 현실이 조금 더 미묘하다는 것을 알게 될 것입니다(힌트: 중첩된 객체가 있는 복잡한 값은 어떻게 될까요?).
+
+단순한 타입을 고수하더라도, Zig는 코드의 의도가 보존되는 한 원하는 방식으로 매개변수를 전달할 수 있습니다. 우리의 원래 `levelUp` 에서 매개변수는 `User` 였으므로, Zig는 함수가 그것을 변형하지 않는다는 것을 보장할 수 있다면, user 의 복사본이나 `main.user`에 대한 참조를 전달할 수 있습니다(궁극적으로는 우리는 변형을 원했지만 `User` 타입을 만들면서 컴파일러에 변형을 원하지 않는다고 알린 것입니다).
+
+이러한 자유로움 덕분에 Zig는 매개변수 타입에 따라 가장 최적의 전략을 사용할 수 있습니다. `User`와 같은 작은 타입은 값으로 전달(즉, 복사)하는 것이 비용이 적게 듭니다. 더 큰 타입은 참조로 전달하는 것이 더 저렴할 수 있습니다. Zig는 코드의 의도가 보존된다면 어떤 방식이든 사용할 수 있습니다. 어느 정도는 Zig가 상수 함수 매개변수 전략을 가지고 있기 때문에 가능합니다.
+
+이제 함수 매개변수가 상수인 이유 중 하나를 알게 되었습니다.
+
+어쩌면 여러분은 참조로 전달하는 것이 어떻게든 정말 작은 구조체를 복사하는 것보다 느릴 수 있다는 것에 대해 궁금해 할 것입니다. 다음에 더 명확하게 살펴 보겠지만, 요점은 포인터인 `user` 를 사용할 때 `user.power` 를 하는 것은 약간의 오버헤드를 추가한다는 것입니다. 컴파일러는 값을 복사하는 비용과 포인터를 통해 간접적으로 필드에 액세스하는 비용을 고려해야 합니다.
+
+### 포인터의 포인터Pointer to Pointer
+
+앞서 `main` 함수 내의 `user` 의 메모리가 어떻게 보이는지 살펴보았습니다. 이제 `levelUp` 을 변경했으니 그 메모리는 어떻게 보일까요?:
+
+```text
+main:
+user -> ------------  (id: 1043368d0)  <---
+        |    1     |                      |
+        ------------  (power: 1043368d8)  |
+        |   100    |                      |
+        ------------                      |
+                                          |
+        .............  empty space        |
+        .............  or other data      |
+                                          |
+levelUp:                                  |
+user -> -------------  (*User)            |
+        | 1043368d0 |----------------------
+        -------------
+```
+
+`levelUp` 안에서 `user` 는 `User` 의 포인터입니다. 그 값은 주소입니다. 물론 어떤 주소든 가능한 것은 아니지만, `main.user` 의 주소입니다. `levelUp` 의 `user` 변수가 구체적인 값을 나타낸다는 것을 명시하는 것이 가치가 있습니다. 이 값은 주소입니다. 그리고, 그것은 단순한 주소가 아닌 `*User` 타입이기도 합니다. 모든 것이 매우 일관성 있습니다. 포인터에 대해 이야기하든 아니든 상관없습니다: 변수는 주소와 타입 정보를 연결합니다. 포인터의 유일한 특별한 점은, 예를 들어 `user.power` 와 같은 점 표기법을 사용할 때, `user` 가 포인터라는 것을 알고 있기 때문에 Zig 가 주소를 자동으로 따라가게 된다는 것입니다.
+
+> [!] 변수가 구체적인 값과 타입 정보를 가지고 있다는 점 때문에 단순히 변수라고 통칭하는 대신 식별자라고 부르기도 합니다.
+
+> 어떤 언어는 포인터를 통해 필드에 접근할 때 다른 기호를 요구합니다.
+
+> [!] 예를 들어 C 에서는 `user->power` 와 같이 `->` 기호를 사용합니다.
+
+여기서 이해해야 할 중요한 점은 `levelUp` 의 `user` 변수 자체가 어떤 주소의 메모리에 존재한다는 것입니다. 이전과 마찬가지로 직접 확인할 수 있습니다:
+
+```zig
+fn levelUp(user: *User) void {
+	std.debug.print("{*}\n{*}\n", .{&user, user});
+	user.power += 1;
+}
+```
+
+위 코드는 `user` 변수가 참조하는 주소와 그 값(즉, `main` 에서의 `user` 의 주소)을 출력합니다.
+
+만약 `user` 가 `*User` 라면, `&user` 는 무엇일까요? `**User` 이거나 `User` 의 *포인터를 가리키는 포인터*입니다. 메모리가 부족할 때까지 이렇게 할 수 있습니다!
+
+어떤 경우에는 여러 수준의 간접 참조가 필요한 경우가 있습니다. 하지만 지금은 필요하지 않습니다. 이 섹션의 목적은 포인터가 특별한 것이 아니라는 것을 보여주는 것입니다. 포인터는 주소와 타입으로 이루어진 값일 뿐입니다.
+
+### 중첩된 포인터Nested Pointers
+
+지금까지 우리의 `User` 는 두 개의 정수를 포함하는 간단한 구조체였습니다. 그것의 메모리를 시각화하는 것은 쉽고, "복사"에 대해 이야기할 때 모호함이 없습니다. 하지만 `User`가 더 복잡해지고 포인터를 포함하면 어떻게 될까요?
+
+```zig
+pub const User = struct {
+	id: u64,
+	power: i32,
+	name: []const u8,
+};
+```
+
+우리는 슬라이스 타입의 `name` 을 추가했습니다. 되짚어 보자면 슬라이스는 길이와 포인터를 가집니다. `user` 를 `"Goku"` 로 초기화한다면 메모리에 어떻게 보일까요?
+
+```text
+user -> -------------  (id: 1043368d0)
+        |     1     |
+        -------------  (power: 1043368d8)
+        |    100    |
+        -------------  (name.len: 1043368dc)
+        |     4     |
+        -------------  (name.ptr: 1043368e4)
+  ------| 1182145c0 |
+  |     -------------
+  |
+  |     .............  empty space
+  |     .............  or other data
+  |
+  --->  -------------  (1182145c0)
+        |    'G'    |
+        -------------
+        |    'o'    |
+        -------------
+        |    'k'    |
+        -------------
+        |    'u'    |
+        -------------
+```
+
+새 `name` 필드는 `len` 과 `ptr` 필드로 구성된 슬라이스입니다. 이들은 다른 필드와 함께 순차적으로 배치됩니다. 64비트 플랫폼에서 `len` 과 `ptr` 모두 64비트 또는 8바이트일 것입니다. 흥미로운 부분은 `name.ptr` 의 값입니다: 이것은 메모리의 다른 곳을 가리키는 주소입니다.
+
+> 우리는 문자열 리터럴을 사용했기 때문에 `user.name.ptr` 는 컴파일된 바이너리 안의 모든 상수가 저장된 영역 내에서 특정 위치를 가리킵니다.
+
+깊은 중첩을 사용하는 타입은 이보다 훨씬 복잡해질 수 있습니다. 하지만 간단하든 복잡하든 모두 동일하게 작동합니다. 특히, `levelUp` 이 `User` 를 받고 Zig 가 복사본을 제공하는 원래 코드로 돌아간다면, 중첩된 포인터를 가진 우리 코드는 어떻게 보일까요?
+
+정답은 값의 얕은 복사(shallow copy)만이 이루어진다는 것입니다. 다른 말로 하면, 변수가 직접 참조하는 메모리만 복사된다는 것입니다. `levelUp` 이 `user` 의 반쪽짜리 복사본을 얻을 것 같지만, 아마도 잘못된 `name` 을 가진 것 같지만, 포인터(우리의 `user.name.ptr`)는 값이고, 그 값은 주소입니다. 주소의 복사본은 여전히 같은 주소입니다:
+
+```text
+main: user ->    -------------  (id: 1043368d0)
+                 |     1     |
+                 -------------  (power: 1043368d8)
+                 |    100    |
+                 -------------  (name.len: 1043368dc)
+                 |     4     |
+                 -------------  (name.ptr: 1043368e4)
+                 | 1182145c0 |-------------------------
+levelUp: user -> -------------  (id: 1043368ec)       |
+                 |     1     |                        |
+                 -------------  (power: 1043368f4)    |
+                 |    100    |                        |
+                 -------------  (name.len: 1043368f8) |
+                 |     4     |                        |
+                 -------------  (name.ptr: 104336900) |
+                 | 1182145c0 |-------------------------
+                 -------------                        |
+                                                      |
+                 .............  empty space           |
+                 .............  or other data         |
+                                                      |
+                 -------------  (1182145c0)        <---
+                 |    'G'    |
+                 -------------
+                 |    'o'    |
+                 -------------
+                 |    'k'    |
+                 -------------
+                 |    'u'    |
+                 -------------
+```
+
+Our function can't mutate the fields directly accessible by `main.user` since it got a copy, but it does have access to the same `name`, so can it mutate that? In this specific case, no, `name` is a `const`. Plus, our value "Goku" is a string literal which are always immutable. But, with a bit of work, we can see the implication of shallow copying:
+위의 예에서, 얕은 복사가 작동함을 알 수 있습니다. 포인터의 값은 주소이므로, 값 복사는 동일한 주소를 얻게 됩니다. 이는 가변성에 관한 중요한 함의를 가집니다. 우리 함수는 복사본을 얻었기 때문에 `main.user` 가 직접 액세스할 수 있는 필드를 수정할 수 없지만, 동일한 `name` 에 액세스할 수 있으므로 수정할 수 있을까요? 안됩니다. `name` 은 `const` 입니다. 게다가, 우리의 문자열 리터럴인 "Goku"는 항상 불변입니다. 하지만, 조금의 작업을 통해 얕은 복사의 깊은 의미를 알 수 있습니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	var name = [4]u8{'G', 'o', 'k', 'u'};
+	var user = User{
+		.id = 1,
+		.power = 100,
+		// slice it, [4]u8 -> []u8
+		.name = name[0..],
+	};
+	levelUp(user);
+	std.debug.print("{s}\n", .{user.name});
+}
+
+fn levelUp(user: User) void {
+	user.name[2] = '!';
+}
+
+pub const User = struct {
+	id: u64,
+	power: i32,
+	// []const u8 -> []u8
+	name: []u8
+};
+```
+
+위 코드는 "Go!u"를 출력합니다. 우리는 `name`의 타입을 `[]const u8`에서 `[]u8`로 변경하고, 항상 불변인 문자열 리터럴 대신 배열을 만들고 슬라이스해야 했습니다. 일부 사람들은 여기에 일관성이 없다고 생각할 수 있습니다. 값으로 전달하면 함수가 직접 필드를 수정하지 못하지만, 포인터 뒤에 있는 값은 수정할 수 있습니다. 만약 우리가 `name`을 불변으로 만들고 싶다면, `[]u8` 대신 `[]const u8`로 선언해야 합니다.
+
+어떤 언어는 다른 구현을 가지고 있지만, 많은 언어가 정확히 이렇게 작동합니다(또는 매우 유사합니다). 이 모든 것이 낯설게 느껴질 수 있지만, 일상적인 프로그래밍에는 기본적입니다. 좋은 소식은 간단한 예제와 코드 조각을 사용하여 이를 마스터할 수 있다는 것입니다. 시스템의 다른 부분이 복잡해지더라도 더 복잡해지지는 않는다는 것입니다.
+
+### 재귀 구조체Recursive Structures
+
+때로는 구조체가 자신의 구조를 사용해야 하는 경우도 있습니다. 기존 코드를 유지하면서, `User`에 `?User` 타입의 `manager`를 추가해보겠습니다. 이와 동시에 두 개의 `User`를 만들고 다른 하나를 다른 하나의 관리자로 지정해보겠습니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	const leto = User{
+		.id = 1,
+		.power = 9001,
+		.manager = null,
+	};
+
+	const duncan = User{
+		.id = 1,
+		.power = 9001,
+		.manager = leto,
+	};
+
+	std.debug.print("{any}\n{any}", .{leto, duncan});
+}
+
+pub const User = struct {
+	id: u64,
+	power: i32,
+	manager: ?User,
+};
+```
+
+이 코드는 컴파일되지 않습니다: *struct 'learning.User' depends on itself*. 이는 모든 타입이 컴파일 타임에 알려진 크기를 가져야 한다는 것 때문에 실패합니다.
+
+우리가 `name` 을 추가하며 다른 길이의 이름을 가지더라도 이 문제를 겪지 않았습니다. 이 문제는 값의 크기가 아니라 타입 자체의 크기 때문에 발생합니다. Zig는 위에서 설명한 것과 같이 필드의 오프셋 위치를 기반으로 필드에 액세스하기 위해 이 정보가 필요합니다. `name` 은 슬라이스, `[]const u8` 이었고, 이는 알려진 크기를 가지고 있습니다: 16바이트로 `len` 의 8바이트와 `ptr` 의 8바이트입니다.
+
+아마 이것이 옵셔널이거나 공용체에 대한 문제일 것이라고 생각할 수 있습니다. 그러나 옵셔널과 공용체 모두 가능한 가장 큰 크기가 알려져 있고 Zig는 그것을 사용할 수 있습니다. 재귀 구조체는 이러한 상한선이 없습니다. 구조체는 한 번, 두 번 또는 수백만 번 재귀될 수 있습니다. 이 재귀 타입의 크기는 `User` 의 `User` 로 증가하며 컴파일 타임에 알 수 없습니다.
+
+우리는 `name` 에서 답을 보았습니다: 포인터를 사용하세요. 포인터는 항상 `usize` 바이트를 사용합니다. 64비트 플랫폼에서는 8바이트입니다. 실제 이름 "Goku"가 `user` 와 함께 저장되지 않았던 것처럼, 포인터를 사용하면 Zig 의 메모리 관리자가 `user` 의 메모리 레이아웃에 묶이지 않습니다.
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	const leto = User{
+		.id = 1,
+		.power = 9001,
+		.manager = null,
+	};
+
+	const duncan = User{
+		.id = 1,
+		.power = 9001,
+		// changed from leto -> &leto
+		.manager = &leto,
+	};
+
+	std.debug.print("{any}\n{any}", .{leto, duncan});
+}
+
+pub const User = struct {
+	id: u64,
+	power: i32,
+	// changed from ?const User -> ?*const User
+	manager: ?*const User,
+};
+```
+
+어쩌면 여러분은 재귀 구조체가 필요하지 않을 수도 있지만, 이것은 데이터 모델링에 관한 것이 아닙니다. 포인터와 메모리 모델을 이해하고 컴파일러가 무엇을 하는지 더 잘 이해하기 위한 것입니다.
+
+---
+
+많은 개발자들이 포인터에 어려움을 겪는데, 포인터에는 이해하기 어려운 부분이 있을 수 있습니다. 정수나 문자열 또는 `User` 와 같이 구체적으로 느껴지지 않기 때문입니다. 이 모든 것이 명확하지 않아도 앞으로 나아갈 수 있습니다. 하지만 이것은 마스터할 가치가 있습니다. 그리고 Zig에만 해당하는 것이 아닙니다. 이러한 세부 사항은 Ruby, Python 및 JavaScript와 같은 언어에서 숨겨질 수 있지만, C#, Java 및 Go와 같은 언어에서는 그렇지 않습니다. 따라서 코드를 작성하는 방식과 코드가 실행되는 방식에 영향을 미칩니다. 따라서 시간을 들여서 예제를 살펴보고 변수와 주소를 확인하기 위해 디버그 출력문을 추가하세요. 더 많이 탐색할수록 더 명확해질 것입니다.
+
+## 스택 메모리Stack Memory
+
+포인터를 자세히 살펴봄으로써 변수, 데이터 및 메모리 간의 관계에 대한 통찰력을 얻었습니다. 그래서 우리는 메모리가 어떻게 보이는지에 대한 감을 잡았지만, 데이터와, 이에 따라 메모리가 어떻게 관리되는지에 대해서는 아직 이야기하지 않았습니다. 짧은 수명의 간단한 스크립트의 경우, 이는 아마도 중요하지 않을 것입니다. 32GB 랩탑 시대에, 여러분은 프로그램을 시작하고, 몇 백 메가바이트의 RAM을 사용하여 파일을 읽고 HTTP 응답에 대해 구문 분석하고, 놀라운 일을 하고, 종료할 수 있습니다. 프로그램이 종료되면, OS는 프로그램에 할당한 메모리를 다른 용도로 사용할 수 있음을 알고 있습니다.
+
+하지만 며칠 또는 몇 달 또는 심지어 몇 년 동안 실행되는 프로그램의 경우, 메모리는 제한적이고 귀중한 자원이 되며, 아마도 동일한 컴퓨터에서 실행되는 다른 프로세스가 찾고 있을 것입니다. 프로그램이 종료되기를 기다리지 않고 메모리를 해제할 수 있는 단순한 방법이 없습니다. 이것은 가비지 컬렉터의 주요 역할입니다: 더 이상 사용되지 않는 데이터를 알고 그 메모리를 해제하는 것입니다. Zig에서는 여러분이 가비지 컬렉터입니다.
+
+여러분이 작성하는 대부분의 프로그램은 메모리의 세 가지 "영역"을 사용합니다. 첫 번째는 전역 공간으로, 문자열 리터럴을 비롯한 프로그램 상수가 저장되는 곳입니다. 모든 전역 데이터는 바이너리에 포함되어 있으며, 컴파일 타임(때로는 런타임)에 완전히 알려져 있으며 불변입니다. 이 데이터는 프로그램이 끝날 동안 존재하며, 더 많거나 적은 메모리가 필요하지 않습니다. 바이너리의 크기에 미치는 영향을 제외하고는, 이것은 전혀 걱정할 필요가 없습니다.
+
+메모리의 두 번째 영역은 호출 스택으로, 이번 파트의 주제입니다. 세 번째 영역은 힙이며, 다음 파트의 주제입니다.
+
+> 메모리 영역 간에 실제 물리적인 차이는 없으며, 이는 OS와 실행 파일에 의해 논리적으로 생성된 개념입니다.
+
+### 스택 프레임Stack Frames
+
+지금까지 우리가 본 모든 데이터는 바이너리 또는 로컬 변수의 전역 데이터 섹션에 저장된 상수였습니다. "로컬"은 변수가 선언된 범위 내에서만 유효하다는 것을 의미합니다. Zig에서 범위는 중괄호, `{ ... }`로 시작하고 끝납니다. 대부분의 변수는 함수(함수 매개변수 포함) 또는 `if` 와 같은 제어 흐름 블록에 범위가 지정됩니다. 하지만 지금까지 살펴본 것처럼 임의의 블록을 생성하여 임의의 범위를 지정할 수 있습니다.
+
+이전 파트에서 우리는 `main` 과 `levelUp` 함수의 메모리를 시각화했는데, 각각 `User`를 가지고 있었습니다:
+
+```text
+main: user ->    -------------  (id: 1043368d0)
+                 |     1     |
+                 -------------  (power: 1043368d8)
+                 |    100    |
+                 -------------  (name.len: 1043368dc)
+                 |     4     |
+                 -------------  (name.ptr: 1043368e4)
+                 | 1182145c0 |-------------------------
+levelUp: user -> -------------  (id: 1043368ec)       |
+                 |     1     |                        |
+                 -------------  (power: 1043368f4)    |
+                 |    100    |                        |
+                 -------------  (name.len: 1043368f8) |
+                 |     4     |                        |
+                 -------------  (name.ptr: 104336900) |
+                 | 1182145c0 |-------------------------
+                 -------------                        |
+                                                      |
+                 .............  empty space           |
+                 .............  or other data         |
+                                                      |
+                 -------------  (1182145c0)        <---
+                 |    'G'    |
+                 -------------
+                 |    'o'    |
+                 -------------
+                 |    'k'    |
+                 -------------
+                 |    'u'    |
+                 -------------
+```
+
+`levelUp` 이 `main` 바로 뒤에 있는 이유가 있습니다: 이것은 "간소화된" 호출 스택입니다. 프로그램이 시작되면, `main`과 그 로컬 변수는 호출 스택에 푸시됩니다. `levelUp`이 호출되면, 매개변수와 모든 로컬 변수가 호출 스택에 이어서 푸시됩니다. 중요한 것은 `levelUp`이 반환되면, 스택에서 팝됩니다. `levelUp`이 반환되고 제어가 `main`으로 돌아오면, 호출 스택은 다음과 같이 보입니다:
+
+```text
+main: user ->    -------------  (id: 1043368d0)
+                 |     1     |
+                 -------------  (power: 1043368d8)
+                 |    100    |
+                 -------------  (name.len: 1043368dc)
+                 |     4     |
+                 -------------  (name.ptr: 1043368e4)
+                 | 1182145c0 |-------------------------
+                 -------------
+                                                      |
+                 .............  empty space           |
+                 .............  or other data         |
+                                                      |
+                 -------------  (1182145c0)        <---
+                 |    'G'    |
+                 -------------
+                 |    'o'    |
+                 -------------
+                 |    'k'    |
+                 -------------
+                 |    'u'    |
+                 -------------
+```
+
+함수가 호출되면 해당 함수의 전체 스택 프레임이 호출 스택에 푸시됩니다. 이것은 우리가 모든 타입의 크기를 알아야 하는 이유 중 하나입니다. 아마 특정 코드 줄이 실행될 때까지 사용자의 이름 길이를 모를 수 있지만(상수 문자열 리터럴이 아니라고 가정한다면), 우리는 우리 함수가 `User`를 가지고 있고, 다른 필드 더불어 `name.len` 에 8바이트, `name.ptr` 에 8바이트가 필요하다는 것을 알고 있습니다.
+
+함수가 반환되면, 호출 스택에 마지막으로 푸시된 함수의 스택 프레임이 팝됩니다. 놀라운 일이 일어났습니다: `levelUp` 이 사용한 메모리가 자동으로 해제되었습니다! 엄밀히 말하면, 그 메모리는 OS에 반환될 수 있지만, 제가 알고 있는 한, 실제로 호출 스택을 축소하는 구현은 없습니다(물론 필요하면 동적으로 스택을 늘릴 수는 있습니다). 하지만, `levelUp`의 스택 프레임을 저장하는 데 사용된 메모리는 이제 다른 스택 프레임을 위해 우리 프로세스 내에서 사용할 수 있습니다.
+
+> 일반적인 프로그램에서는 호출 스택이 상당히 커질 수 있습니다. 일반적인 프로그램에서 사용하는 모든 프레임워크 코드와 라이브러리 사이에 함수가 깊게 중첩되어 있기 때문입니다. 일반적으로, 이것은 문제가 되지 않지만, 때때로 스택 오버플로 오류를 겪을 수 있습니다. 이것은 우리의 호출 스택이 공간을 모두 사용했을 때 발생합니다. 대부분의 경우, 이것은 재귀 함수(자기 자신을 호출하는 함수)에서 발생합니다.
+
+글로벌 데이터와 마찬가지로 호출 스택은 OS와 실행 파일에 의해 관리됩니다. 프로그램이 시작되고, 그 후에 시작하는 각 스레드마다 호출 스택이 생성됩니다(이 스택의 크기는 일반적으로 OS에서 구성할 수 있음). 호출 스택은 프로그램의 수명 동안 또는 스레드의 경우 스레드의 수명 동안 존재합니다. 프로그램 또는 스레드가 종료되면 호출 스택이 해제됩니다. 하지만 글로벌 데이터에는 프로그램의 모든 글로벌 데이터가 있는 반면, 호출 스택에는 현재 실행 중인 함수 계층 구조에 대한 스택 프레임만 있습니다. 이는 메모리 사용량 측면에서 효율적일 뿐만 아니라 스택 프레임을 스택에 넣거나 뺄 수 있는 단순성 측면에서도 효율적입니다.
+
+### 댕글링 포인터Dangling Pointers
+
+호출 스택은 단순성과 효율성 모두에서 놀랍습니다. 하지만 두려움도 있습니다: 함수가 반환되면, 그 함수의 로컬 데이터는 더 이상 액세스할 수 없습니다. 이것은 합리적으로 들릴 수 있습니다. 그것은 결국 _로컬_ 데이터이기 때문입니다. 하지만 심각한 문제를 야기할 수 있습니다. 다음 코드를 살펴보세요:
+
+```zig
+const std = @import("std");
+
+pub fn main() void {
+	var user1 = User.init(1, 10);
+	var user2 = User.init(2, 20);
+
+	std.debug.print("User {d} has power of {d}\n", .{user1.id, user1.power});
+	std.debug.print("User {d} has power of {d}\n", .{user2.id, user2.power});
+}
+
+pub const User = struct {
+	id: u64,
+	power: i32,
+
+	fn init(id: u64, power: i32) *User{
+		var user = User{
+			.id = id,
+			.power = power,
+		};
+		return &user;
+	}
+};
+```
+
+언뜻 보기에는 다음과 같은 출력을 기대하는 것이 합리적입니다:
+
+```text
+User 1 has power of 10
+User 2 has power of 20
+```
+
+나는 다음과 같은 결과를 얻었습니다:
+
+```text
+User 2 has power of 20
+User 9114745905793990681 has power of 0
+```
+
+> [!] zig 0.11 x86_64-macos.13.6.1 에서 아래의 결과를 얻었습니다.
+
+```text
+User 2 has power of 20
+User 2 has power of 20
+```
+
+당신은 아마 다른 결과를 얻을 수 있습니다. 하지만 제 출력을 기반으로, `user1` 은 `user2` 의 값을 상속받았고, `user2` 의 값은 무의미합니다. 이 코드의 주요 문제는 `User.init` 이 로컬 유저의 주소인 `&user` 를 반환한다는 것입니다. 이것은 댕글링 포인터(dangling pointer)라고 불리며, 유효하지 않은 메모리를 참조하는 포인터입니다. 이것은 많은 세그폴트의 원인이 됩니다.
+
+호출 스택에서 스택 프레임이 팝되면, 그 메모리에 대한 모든 참조는 유효하지 않습니다. 그 메모리에 액세스하려고 시도한 결과는 정의되지 않음을 반환합니다. 아마도 말도 안되는 데이터를 얻거나 세그폴트가 발생할 것입니다. 우리는 나의 출력에서 어떤 의미를 찾아볼 수 있지만, 이는 우리가 원하거나 또는 신뢰할 수 있는 행동이 아닙니다.
+
+이런 유형의 버그에 대한 한 가지 도전 과제는 가비지 컬렉터가 있는 언어에서 위의 코드가 완벽하게 동작한다는 것입니다. 예를 들어 Go는 로컬 변수인 `user`가 `init` 함수 밖에서도 생존한다는 것을 감지하고 필요한 만큼 유효성을 보장합니다(Go가 이것을 어떻게 하는지는 구현 세부 사항이지만, 힙으로 데이터를 이동하는 것을 포함하여 몇 가지 옵션이 있습니다. 이것은 다음 파트에서 설명할 것입니다).
+
+또 다른 문제는 유감스럽게도 이것이 발견하기 어려운 버그가 될 수 있다는 것입니다. 위의 예에서, 우리는 분명히 로컬의 주소를 반환하고 있습니다. 하지만 이러한 동작은 중첩된 함수와 복잡한 데이터 유형 안에 숨어 있을 수 있습니다. 다음 미완성 코드에서 어떤 문제점을 발견하실 수 있나요?
+
+```zig
+fn read() !void {
+	const input = try readUserInput();
+	return Parser.parse(input);
+}
+```
+
+`Parser.parse` 가 반환하는 것이 무엇이든 `input` 보다 오래 갑니다. 만약 `Parser` 가 `input` 의 참조를 가지고 있다면, 그것은 우리의 앱을 부수기 위해 기다리는 댕글링 포인터가 될 것입니다. 이상적으로, `Parser` 가 `input` 이 존재하는 동안 살아있어야 한다면, 그것의 복사본을 만들고 그 복사본은 자신의 수명에 묶여 있을 것입니다(다음 파트에서 더 자세히 설명합니다). 하지만 이 계약을 강제할 수 있는 것은 없습니다. `Parser` 의 문서는 `input` 에 대해 기대하는 것이나 그것으로 무엇을 하는지에 대해 알려줄 수 있습니다. 그것이 없다면, 우리는 코드를 파헤쳐서 알아내야 할 수도 있습니다.
+
+---
+
+초기의 버그를 해결하는 가장 간단한 방법은 `init` 을 `*User`(`User` 에 대한 포인터) 대신 `User` 를 반환하도록 변경하는 것입니다. 그러면 `return &user;` 대신 `return user;` 를 할 수 있습니다. 하지만 항상 그렇지는 않습니다. 데이터는 종종 함수 범위의 엄격한 경계를 넘어서 존재해야 합니다. 이를 위해 다음 파트의 주제인 세 번째 메모리 영역인 힙이 있습니다.
+
+힙에 대해 자세히 알아보기 전, 이 가이드를 끝내기 전에 마지막으로 댕글링 포인터의 예제 하나를 더 보게 될 것입니다. 그때까지 우리는 언어의 충분한 부분을 다루어 조금 덜 복잡한 예제를 제공할 것입니다. 나는 이 주제를 다시 다루고 싶습니다. 가비지 컬렉터가 있는 언어에서 온 개발자들에게는 이것이 버그와 좌절감을 유발할 수 있기 때문입니다. 이것은 당신이 해결할 수 있는 것입니다. 데이터가 어디에 있고 언제 존재하는지를 알고 있어야 합니다.
+
+## 힙 메모리와 메모리 할당자
+
+지금까지 우리가 살펴 본 모든 것은 미리 크기를 지정해야 한다는 제약 조건을 가지고 있었습니다. 배열은 항상 컴파일 타임에 알려진 길이를 가지고 있습니다(사실 길이는 타입의 일부입니다). 우리가 본 모든 문자열은 컴파일 타임에 알려진 문자열 리터럴이었습니다.
+
+또한 지금까지 살펴본 두 가지 메모리 관리 전략인 글로벌 데이터와 호출 스택은 간단하고 효율적이지만, 제한적입니다. 두 가지 모두 동적으로 크기가 조정된 데이터를 처리할 수 없으며, 데이터 수명과 관련하여 경직되어 있습니다.
+
+이 부분은 두 테마로 구성됩니다. 첫 번째는 우리의 세 번째 메모리 영역인 힙에 대한 일반적인 개요입니다. 다른 하나는 힙 메모리를 관리하는 Zig의 간단하지만 독특한 접근 방식입니다. C의 `malloc` 을 사용해 힙 메모리에 익숙하시더라도 첫 번째 부분은 Zig에 매우 특화되어 있기 때문에 읽어보시는 것이 좋습니다.
+
+### 힙The Heap
+
+힙은 우리가 마음대로 사용할 수 있는 세 번째이자 마지막 메모리 영역입니다. 글로벌 데이터와 호출 스택에 비해 힙은 무엇이든 할 수 있는 황무지와도 같습니다. 특히 힙에서는 런타임에 알려진 크기로 런타임에 메모리를 생성하고 그 수명을 완벽하게 제어할 수 있습니다.
+
+호출 스택은 스택 프레임을 푸시하고 팝하는 방식으로 데이터를 관리하는 간단하고 예측 가능한 방식 때문에 놀랍습니다. 이 장점은 단점이기도 합니다: 데이터의 수명은 콜 스택에 있는 데이터의 위치에 묶여 있습니다. 힙은 정확히 반대입니다. 내장된 수명 주기가 없으므로 데이터는 필요한 만큼 오래 살 수 있습니다. 이 장점은 단점이기도 합니다: 내장된 수명 주기가 없으므로 우리가 스스로 데이터를 해제하지 않으면 아무도 해제하지 않습니다.
+
+예제를 살펴보겠습니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() !void {
+	// we'll be talking about allocators shortly
+	var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+	const allocator = gpa.allocator();
+
+	// ** The next two lines are the important ones **
+	var arr = try allocator.alloc(usize, try getRandomCount());
+	defer allocator.free(arr);
+
+	for (0..arr.len) |i| {
+		arr[i] = i;
+	}
+	std.debug.print("{any}\n", .{arr});
+}
+
+fn getRandomCount() !u8 {
+	var seed: u64 = undefined;
+	try std.os.getrandom(std.mem.asBytes(&seed));
+	var random = std.rand.DefaultPrng.init(seed);
+	return random.random().uintAtMost(u8, 5) + 5;
+}
+```
+
+우리는 곧 Zig 할당자에 대해 곧 다루겠지만, 지금은 `allocator` 가 `std.mem.Allocator` 인 것만 알아두세요. 우리는 두 가지 메서드를 사용하고 있습니다: `alloc` 과 `free`. `allocator.alloc` 을 `try` 와 함께 호출하기 때문에, 우리는 그것이 실패할 수 있다는 것을 알고 있습니다. 현재, 유일한 가능한 오류는 `OutOfMemory` 입니다. 이 함수의 매개변수는 대부분 그것이 어떻게 작동하는지를 알려줍니다: 타입(`T`)과 카운트를 원하고, 성공하면 `[]T` 의 슬라이스를 반환합니다. 이 할당은 런타임에 발생합니다 - 런타임에만 카운트가 알려져 있기 때문입니다.
+
+일반적으로 모든 `alloc` 은 대응하는 `free` 가 있습니다. `alloc`은 메모리를 할당하고, `free`는 메모리를 해제합니다. 이 간단한 코드가 여러분의 상상력을 제한하지 않도록 하세요. 이 `try alloc` + `defer free` 패턴은 흔히 볼 수 있으며, 여기에는 그럴만한 좋은 이유가 있습니다: 할당하는 위치에 가까이 해제하는 코드를 두는 것이 비교적 무난합니다. 하지만 한 곳에서 할당하고 다른 한 곳에서 해제하는 것도 마찬가지로 흔합니다. 우리가 말했듯이, 힙에는 내장된 수명 주기 관리가 없습니다. HTTP 핸들러에서 메모리를 할당하고, 이 코드의 완전히 다른 부분인 백그라운드 스레드에서 해제할 수 있습니다.
+
+### defer 와 errdefer
+
+짧게 돌아보면, 위의 코드는 새로운 언어 기능을 소개했습니다: `defer` 는 주어진 코드 또는 블록의 범위가 끝날 때 실행합니다. "Scope 종료"는 스코프의 끝에 도달하거나 해당 범위 안에서 반환하는 것을 포함합니다. `defer` 는 할당자나 메모리 관리와 엄격하게 관련이 없습니다; 어떤 코드든 실행할 수 있습니다. 하지만 위의 사용법이 일반적으로 흔합니다.
+
+Zig의 defer는 Go와 비슷하지만 한 가지 큰 차이점이 있습니다. Zig에서는 defer가 포함된 범위의 끝에서 실행됩니다. Go에서는 defer가 포함된 함수의 끝에서 실행됩니다. Zig의 접근 방식은 Go 개발자가 아니라면 그리 놀랍지 않을 것입니다.
+
+`defer` 의 상대적인 개념으로 `errdefer` 가 있는데, 이 역시 마찬가지로 주어진 코드나 블록을 범위 종료 시 실행되지만, 오류가 반환될 때만 실행합니다. 이것은 더 복잡한 설정을 수행하거나 오류로 인해 이전 할당을 취소해야 할 때 유용합니다.
+
+The following example is a jump in complexity. It showcases both `errdefer` and a common pattern that sees `init` allocating and `deinit` freeing:
+다음 예제는 복잡성이 급증한 예시입니다. `errdefer` 와 함께 `init` 이 할당하고 `deinit` 이 해제하는 일반적인 패턴을 모두 보여줍니다:
+
+```zig
+const std = @import("std");
+const Allocator = std.mem.Allocator;
+
+pub const Game = struct {
+	players: []Player,
+	history: []Move,
+	allocator: Allocator,
+
+	fn init(allocator: Allocator, player_count: usize) !Game {
+		var players = try allocator.alloc(Player, player_count);
+		errdefer allocator.free(players);
+
+		// store 10 most recent moves per player
+		var history = try allocator.alloc(Move, player_count * 10);
+
+		return .{
+			.players = players,
+			.history = history,
+			.allocator = allocator,
+		};
+	}
+
+	fn deinit(game: Game) void {
+		const allocator = game.allocator;
+		allocator.free(game.players);
+		allocator.free(game.history);
+	}
+};
+```
+
+여기서 두 가지를 강조했으면 좋겠네요. 첫째, `errdefer` 의 유용성입니다. 일반적인 상황에서 `players` 는 `init` 에서 할당되고 `deinit` 에서 해제됩니다. 하지만 `history` 의 초기화가 실패하는 예외적인 경우가 있습니다. 이 경우에는 오직 `players` 의 할당만 취소해야 합니다.
+
+> [!] `players` 는 할당은 성공했고, `history` 의 할당은 실패했기 때문에 해제해야 할 것이 없기 때문입니다.
+
+이 코드에서 두 번째로 주목할 점은 동적으로 할당된 두 슬라이스인 `players` 와 `history` 의 수명이 우리의 애플리케이션 로직에 기반한다는 것입니다. `deinit` 을 언제 호출해야 하는지 또는 누가 호출해야 하는지를 규정하는 규칙은 없습니다. 이것은 임의의 수명을 제공하기 때문에 좋지만, `deinit` 을 호출하지 않거나 한 번 이상 호출하여 프로그램을 망칠 수도 있기 때문에 좋지 않습니다.
+
+> `init` 과 `deinit` 이라는 이름은 특별한 것이 아닙니다. 그것들은 Zig 표준 라이브러리가 사용하고 커뮤니티가 채택한 것일 뿐입니다. 경우에 따라 표준 라이브러리를 포함해 `open` 과 `close` 또는 다른 더 적절한 이름을 사용하기도 합니다.
+
+### 중복 해제와 메모리 누수Double Free & Memory Leaks
+
+바로 위에서, 나는 무언가가 해제되어야 하는 시점을 규정하는 규칙이 없다고 언급했습니다. 하지만 이는 전적으로 사실이 아니며, 몇 가지 중요한 규칙이 있지만, 단지 여러분의 세심한 주의 없이 강제되지 않을 뿐입니다.
+
+첫 번째 규칙은 같은 메모리를 두 번 해제할 수 없다는 것입니다.
+
+```zig
+const std = @import("std");
+
+pub fn main() !void {
+	var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+	const allocator = gpa.allocator();
+
+	var arr = try allocator.alloc(usize, 4);
+	allocator.free(arr);
+	allocator.free(arr);
+
+	std.debug.print("This won't get printed\n", .{});
+}
+```
+
+이 코드의 마지막 줄은 예측이므로 출력되지 않습니다. 이것은 같은 메모리를 두 번 `free` 하기 때문입니다. 이것은 double-free 라고 알려져 있으며 잘못된 동작입니다. 이것은 피하기에 충분히 간단해 보일 수 있지만, 복잡한 수명을 가진 큰 프로젝트에서는 추적하기 어려울 수 있습니다.
+
+두 번째 규칙은 참조가 없는 메모리를 해제할 수 없다는 것입니다. 당연하게 들릴 수도 있지만, 누가 메모리를 해제할 책임이 있는지는 항상 명확하지 않습니다. 다음은 새로운 소문자 문자열을 생성합니다:
+
+```zig
+const std = @import("std");
+const Allocator = std.mem.Allocator;
+
+fn allocLower(allocator: Allocator, str: []const u8) ![]const u8 {
+	var dest = try allocator.alloc(u8, str.len);
+
+	for (str, 0..) |c, i| {
+		dest[i] = switch (c) {
+			'A'...'Z' => c + 32,
+			else => c,
+		};
+	}
+
+	return dest;
+}
+```
+
+위의 코드는 괜찮습니다. 하지만 다음 사용법은 그렇지 않습니다:
+
+```zig
+// For this specific code, we should have used std.ascii.eqlIgnoreCase
+fn isSpecial(allocator: Allocator, name: [] const u8) !bool {
+	const lower = try allocLower(allocator, name);
+	return std.mem.eql(u8, lower, "admin");
+}
+```
+
+이것이 메모리 누수입니다. `allocLower` 에서 생성된 메모리는 해제되지 않습니다. 그것만이 아니라, `isSpecial` 이 반환되면 절대 해제될 수 없습니다. 가비지 컬렉터가 있는 언어에서는 데이터에 도달할 수 없게 되면, 언젠가 가비지 컬렉터에 의해 해제됩니다. 하지만 위의 코드에서 `isSpecial` 이 반환되면, 할당된 메모리에 대한 유일한 참조인 `lower` 변수를 잃습니다. 메모리는 프로세스가 종료될 때까지 회수되지 못합니다. 우리의 함수는 몇 바이트만 누수할 수 있지만, 이것이 오래 실행되는 프로세스이고 이 함수가 반복적으로 호출된다면, 결국 메모리가 부족해질 것입니다.
+
+> [!] 함수 결과가 반환되면 콜 스택에서 호출된 함수에서 사용된 지역 변수들이, 메모리가 할당된 레퍼런스를 포함하여 사라지기(스택에서 자동으로 팝되기) 때문입니다. 해제할 참조가 없어지는 것입니다.
+
+최소한 double free 의 경우, 우리는 하드 크래시를 얻을 것입니다. 메모리 누수는 교묘하게 일어날 수 있습니다. 근본 원인을 식별하기 어려울 수 있다는 것만이 아닙니다. 아주 작은 누수나 드물게 실행되는 코드의 누수는 더 어려울 수 있습니다. 이는 매우 흔한 문제이기 때문에 Zig가 도움을 제공하는데, 이는 할당자에 대해 이야기할 때 살펴볼 것입니다.
+
+### create 와 destroy
+
+`std.mem.Allocator` 의 `alloc` 메서드는 2번째 매개변수로 전달된 길이를 가진 슬라이스를 반환합니다. 하나의 값만 사용 한다면, `alloc` 과 `free` 대신 `create` 과 `destroy` 를 사용하면 됩니다. 얼마 전, 포인터에 대해 배우면서, 우리는 `User` 를 생성하고 그의 힘을 증가시키려고 시도했습니다. 여기 `create` 를 사용한 힙 기반 버전의 코드입니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() !void {
+	// again, we'll talk about allocators soon!
+	var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+	const allocator = gpa.allocator();
+
+	// create a User on the heap
+	var user = try allocator.create(User);
+
+	// free the memory allocated for the user at the end of this scope
+	defer allocator.destroy(user);
+
+	user.id = 1;
+	user.power = 100;
+
+	// this line has been added
+	levelUp(user);
+	std.debug.print("User {d} has power of {d}\n", .{user.id, user.power});
+}
+
+fn levelUp(user: *User) void {
+	user.power += 1;
+}
+
+pub const User = struct {
+	id: u64,
+	power: i32,
+};
+```
+
+`create` 메소드는 하나의 매개변수인 타입(`T`)을 받습니다. 그것은 그 타입의 포인터 또는 오류를 반환합니다. 즉, `!*T` 입니다. 아마도 우리가 `user` 를 생성했지만 `id` 와/또는 `power` 를 설정하지 않으면 어떻게 될지 궁금할 것입니다. 이는 그 필드들을 `undefined` 로 설정하는 것과 같으며, 그 동작은, 역시, 정의되지 않음입니다.
+
+우리가 댕글링 포인터를 살펴볼 때, 지역변수 user 의 잘못된 주소를 반환하는 함수가 있었습니다:
+
+```zig
+pub const User = struct {
+	fn init(id: u64, power: i32) *User{
+		var user = User{
+			.id = id,
+			.power = power,
+		};
+		// this is a dangling pointer
+		return &user;
+	}
+};
+```
+
+이 경우, `User` 를 반환하는 것이 더 합리적이었을 수도 있습니다. 하지만 때로는 함수가 생성하는 것에 대한 포인터를 반환하고 싶을 것입니다. 이것은 콜 스택의 엄격함으로부터 자유로운 수명을 원할 때 사용할 것입니다. 위의 댕글링 포인터를 해결하기 위해, 우리는 `create` 를 사용할 수 있습니다:
+
+```zig
+// our return type changed, since init can now fail
+// *User -> !*User
+fn init(allocator: std.mem.Allocator, id: u64, power: i32) !*User{
+	var user = try allocator.create(User);
+	user.* = .{
+		.id = id,
+		.power = power,
+	};
+	return user;
+}
+```
+
+`user.* = .{...}` 형태의 문법을 소개합니다. 조금 이상하고, 그닥 좋아하지 않지만, 그래도 종종 볼 것입니다. 오른쪽 부분은 이미 보았던 것입니다: 추론된 타입을 가진 구조체 초기화입니다. 우리는 명시적으로 `user.* = User{...}` 를 사용할 수 있습니다. 왼쪽의 `user.*` 는 포인터를 역참조하는 방법입니다. `&` 는 `T` 를 가져와서 `*T` 를 반환합니다. `.*` 는 반대로, `*T` 타입의 값에 적용되어 `T` 를 반환합니다. `create` 는 `!*User` 를 반환하므로, 우리의 `user` 는 `*User` 타입입니다.
+
+### [Allocators](https://www.openmymind.net/learning_zig/heap_memory/#allocators)
+
+Zig 의 핵심 원칙 중 하나는 *숨겨진 메모리 할당이 없다* 입니다. 당신의 배경에 따라서는, 그것은 그다지 특별하지 않게 들릴 수도 있습니다. 하지만 표준 라이브러리의 `malloc` 함수로 메모리를 할당 하는 C와는 완전히 대조적입니다. C 에서는 함수가 메모리를 할당하는지 여부를 알고 싶다면, 소스 코드를 읽고 `malloc` 호출을 찾아야 합니다.
+
+Zig 는 디폴트 메모리 할당자가 없습니다. 위의 모든 예제에서 메모리를 할당하는 함수는 `std.mem.Allocator` 매개변수를 가져왔습니다. 관례상, 이것은 일반적으로 첫 번째 매개변수입니다. Zig 의 표준 라이브러리와 대부분의 서드파티 라이브러리는 메모리를 할당하려면 호출자가 할당자를 제공해야 한다고 요구합니다.
+
+이 명시성은 두 가지 형태 중 하나를 취할 수 있습니다. 간단한 경우에는, 할당자는 각 함수 호출에 제공됩니다. 이에 대한 많은 예제가 있지만, `std.fmt.allocPrint` 는 언젠가는 필요할 것입니다. 우리가 사용해온 `std.debug.print` 와 유사하지만, stderr 에 쓰는 대신 문자열을 할당하고 반환합니다:
+
+```zig
+const say = std.fmt.allocPrint(allocator, "It's over {d}!!!", .{user.power});
+defer allocator.free(say);
+```
+
+또 다른 형태는 할당자가 `init` 에 전달되고, 그런 다음 객체 내부에서 사용되는 경우입니다. 우리는 위에서 `Game` 구조체를 사용했습니다. 이것은 덜 명시적입니다. 왜냐하면 당신은 객체가 사용할 할당자를 주었지만, 어떤 메서드 호출이 실제로 할당할지 알 수 없기 때문입니다. 이 접근 방식은 수명이 긴 객체에 더 적합합니다.
+
+메모리 할당자 주입의 장점은 명시성뿐만 아니라 유연성입니다. `std.mem.Allocator` 는 `alloc`, `free`, `create` 와 `destroy` 함수를 비롯한 몇 가지 다른 함수를 제공하는 인터페이스입니다. 지금까지 우리는 `std.heap.GeneralPurposeAllocator` 만 보았지만, 다른 구현체도 표준 라이브러리나 써드파티 라이브러리에 사용할 수 있습니다.
+
+> Zig 에는 인터페이스를 만드는 좋은 문법 설탕이 없습니다. 인터페이스 수명 동작에 대한 하나의 패턴은 태그된 유니온이지만, 이것은 진정한 인터페이스에 비해 비교적 제한적입니다. 다른 패턴도 등장하여 표준 라이브러리 전체에서 사용되고 있습니다. 예를 들어, `std.mem.Allocator` 와 같습니다. 관심이 있다면, 저는 [인터페이스를 설명하는 별도의 블로그 포스트](https://www.openmymind.net/Zig-Interfaces/)를 썼습니다.
+
+라이브러리를 구축하는 경우, `std.mem.Allocator` 를 받고 사용자가 사용할 할당자 구현을 결정하도록 하는 것이 가장 좋습니다. 그렇지 않으면, 올바른 할당자를 선택해야 하는데, 우리가 볼 것처럼, 이들은 서로 배타적이지 않습니다. 프로그램 내에서 서로 다른 얼로케이터를 만들어야 하는 데는 그럴 만한 이유가 있을 수 있습니다.
+
+### 범용 얼로케이터General Purpose Allocator
+
+이름에서 알 수 있듯이, `std.heap.GeneralPurposeAllocator` 는 모든 것을 위한 "일반적인 목적"의, 스레드 안전한 얼로케이터로서 여러분의 애플리케이션의 메인 얼로케이터로 사용될 수 있습니다. 많은 프로그램에서, 이것은 유일하게 필요한 얼로케이터일 것입니다. 프로그램이 시작되면, 얼로케이터가 생성되고 필요한 함수에 전달됩니다. 이어지는 HTTP 서버 라이브러리의 샘플 코드는 좋은 예입니다:
+
+```zig
+const std = @import("std");
+const httpz = @import("httpz");
+
+pub fn main() !void {
+	// create our general purpose allocator
+	var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+
+	// get an std.mem.Allocator from it
+	const allocator = gpa.allocator();
+
+	// pass our allocator to functions and libraries that require it
+	var server = try httpz.Server().init(allocator, .{.port = 5882});
+
+	var router = server.router();
+	router.get("/api/user/:id", getUser);
+
+	// blocks the current thread
+	try server.listen();
+}
+```
+
+우리는 `GeneralPurposeAllocator` 를 생성하고, `std.mem.Allocator` 를 얻고, HTTP 서버의 `init` 함수에 전달합니다. 더 복잡한 프로젝트에서는, `allocator` 는 코드의 여러 부분에 전달되고, 각각은 그것을 자신의 함수, 객체 및 이를 의존하는 곳에 전달할 수 있습니다.
+
+아마도 `gpa` 의 생성 주위의 구문이 조금 이상하게 보일 수 있습니다. 이게 뭐죠: `GeneralPurposeAllocator(.{}){}`? 우리가 본 모든 것들을 모아둔 것 뿐입니다. `std.heap.GeneralPurposeAllocator` 는 함수이며, PascalCase 를 사용하고 있기 때문에, 우리는 그것이 타입을 반환한다는 것을 알고 있습니다. (다음 파트에서 제네릭에 대해 더 이야기할 것입니다). 타입을 반환한다는 것을 알면, 아마도 더 명확한 버전이 해독하기 쉬울 것입니다:
+
+```zig
+const T = std.heap.GeneralPurposeAllocator(.{});
+var gpa = T{};
+
+// is the same as:
+
+var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+```
+
+아직 `.{}` 의 의미에 대해 잘 모를 수 있습니다. 이 또한 이전에 본 적이 있습니다: 이것은 암시적 타입을 가진 구조체 초기화 코드입니다. 타입은 무엇이고 필드는 어디에 있을까요? 타입은 `std.heap.general_purpose_allocator.Config` 이지만, 직접 노출되지 않기 때문에 명시적이지 않습니다. 어떤 필드도 설정되지 않았습니다. 왜냐하면 `Config` 구조체는 우리가 사용할 기본값을 정의하기 때문입니다. 이것은 구성 / 옵션과 같은 일반적인 패턴입니다. 사실, 우리는 `.{.port = 5882}` 를 `init` 에 전달할 때 다시 한 번 보게 됩니다. 이 경우, 우리는 `port` 를 제외한 모든 필드에 대해 기본값을 사용합니다.
+
+### std.testing.allocator
+
+바라기는 우리가 메모리 누수에 대해 이야기하고, Zig 가 도움을 줄 수 있다고 언급했을 때, 충분히 고민하였고 더 배우고 싶어했을 것입니다. 이 도움은 `std.testing.allocator` 에서 제공되며, 마찬가지로 `std.mem.Allocator` 입니다. 현재, 이것은 `GeneralPurposeAllocator` 를 사용하여 구현되었으며, Zig 의 테스트 러너에 통합되었지만, 이것은 구현에 대한 세부 사항입니다. 중요한 것은 우리가 테스트에서 `std.testing.allocator` 를 사용한다면, 우리는 대부분의 메모리 누수를 잡을 수 있다는 것입니다.
+
+You're likely already familiar with dynamic arrays, often called ArrayLists. In many dynamic programming languages all arrays are dynamic arrays. Dynamic arrays support a variable number of elements. Zig has a proper generic ArrayList, but we'll create one specifically to hold integers and to demonstrate leak detection:
+여러분은 이미 동적 배열에 익숙할 것입니다. 많은 동적 프로그래밍 언어에서 모든 배열은 동적 배열입니다. 동적 배열은 가변 길이의 요소를 지원합니다. Zig 에는 제대로 된 제네릭 ArrayList 가 있지만, 우리는 정수를 가지며 특별히 메모리 누수 감지를 보여주기 위한 예제를 하나를 만들 것입니다:
+
+```zig
+pub const IntList = struct {
+	pos: usize,
+	items: []i64,
+	allocator: Allocator,
+
+	fn init(allocator: Allocator) !IntList {
+		return .{
+			.pos = 0,
+			.allocator = allocator,
+			.items = try allocator.alloc(i64, 4),
+		};
+	}
+
+	fn deinit(self: IntList) void {
+		self.allocator.free(self.items);
+	}
+
+	fn add(self: *IntList, value: i64) !void {
+		const pos = self.pos;
+		const len = self.items.len;
+
+		if (pos == len) {
+			// we've run out of space
+			// create a new slice that's twice as large
+			var larger = try self.allocator.alloc(i64, len * 2);
+
+			// copy the items we previously added to our new space
+			@memcpy(larger[0..len], self.items);
+
+			self.items = larger;
+		}
+
+		self.items[pos] = value;
+		self.pos = pos + 1;
+	}
+};
+```
+
+흥미로운 부분은 `add` 에서 `pos == len` 이 되었을 때입니다. 이는 우리가 현재 배열을 채웠고 더 큰 배열을 생성해야 한다는 것을 나타냅니다. 우리는 다음과 같이 `IntList` 를 사용할 수 있습니다:
+
+```zig
+const std = @import("std");
+const Allocator = std.mem.Allocator;
+
+pub fn main() !void {
+	var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+	const allocator = gpa.allocator();
+
+	var list = try IntList.init(allocator);
+	defer list.deinit();
+
+	for (0..10) |i| {
+		try list.add(@intCast(i));
+	}
+
+	std.debug.print("{any}\n", .{list.items[0..list.pos]});
+}
+```
+
+코드가 실행되고 올바른 결과를 출력합니다. 하지만, 우리가 `list` 에서 `deinit` 를 호출했음에도 불구하고, 메모리 누수가 있습니다. 이것을 잡지 못했더라도 괜찮습니다. 우리는 테스트를 작성하고 `std.testing.allocator` 를 사용할 것입니다:
+
+```zig
+const testing = std.testing;
+test "IntList: add" {
+	// We're using testing.allocator here!
+	var list = try IntList.init(testing.allocator);
+	defer list.deinit();
+
+	for (0..5) |i| {
+		try list.add(@intCast(i+10));
+	}
+
+	try testing.expectEqual(@as(usize, 5), list.pos);
+	try testing.expectEqual(@as(i64, 10), list.items[0]);
+	try testing.expectEqual(@as(i64, 11), list.items[1]);
+	try testing.expectEqual(@as(i64, 12), list.items[2]);
+	try testing.expectEqual(@as(i64, 13), list.items[3]);
+	try testing.expectEqual(@as(i64, 14), list.items[4]);
+}
+```
+
+> `@as` 는 타입 강제 변환을 수행하는 내장 함수입니다. 우리의 테스트에서 왜 이렇게 많이 사용해야 하는지 궁금하다면, 여러분만 그런 것은 아닙니다. 기술적으로는 두 번째 매개변수, "실제"가 첫 번째, "예상"으로 강제 변환되기 때문입니다. 위의 예에서, "예상"은 모두 `comptime_int` 이므로 문제가 발생합니다. 저 포함, 많은 사람들 이를 [이상하고 불행한 행동](https://github.com/ziglang/zig/issues/4437)이라고 생각합니다.
+
+코드를 따라가, 테스트를 `IntList` 와 `main` 과 같은 파일에 넣으세요. Zig 테스트는 보통 같은 파일에 작성되며, 종종 테스트하는 코드 근처에 있습니다. 우리가 `zig test learning.zig` 를 사용하여 테스트를 실행하면, 놀라운 실패가 발생합니다:
+
+```text
+Test [1/1] test.IntList: add... [gpa] (err): memory address 0x101154000 leaked:
+/code/zig/learning.zig:26:32: 0x100f707b7 in init (test)
+   .items = try allocator.alloc(i64, 2),
+                               ^
+/code/zig/learning.zig:55:29: 0x100f711df in test.IntList: add (test)
+ var list = try IntList.init(testing.allocator);
+
+... MORE STACK INFO ...
+
+[gpa] (err): memory address 0x101184000 leaked:
+/code/test/learning.zig:40:41: 0x100f70c73 in add (test)
+   var larger = try self.allocator.alloc(i64, len * 2);
+                                        ^
+/code/test/learning.zig:59:15: 0x100f7130f in test.IntList: add (test)
+  try list.add(@intCast(i+10));
+```
+
+여기에는 여러 건의 메모리 누수가 있습니다. 다행히도 테스트 얼로케이터는 누수가 발생한 메모리가 어디에서 할당되었는지 정확하게 알려줍니다. 이제 누수를 찾을 수 있습니까? 그렇지 않다면, 일반적으로 모든 `alloc` 은 대응하는 `free` 가 있어야 한다는 것을 기억하세요. 우리의 코드는 `deinit` 에서 한 번 `free` 를 호출합니다. 그러나 `init` 에서 한 번 호출되고, 그리고 더 많은 공간이 필요할 때마다 `add` 가 호출되고, 우리는 더 많은 공간이 필요합니다. 우리가 더 많은 공간을 `alloc` 할 때마다, 우리는 이전의 `self.items` 를 `free` 해야 합니다:
+
+```zig
+// existing code
+var larger = try self.allocator.alloc(i64, len * 2);
+@memcpy(larger[0..len], self.items);
+
+// Added code
+// free the previous allocation
+self.allocator.free(self.items);
+```
+
+위 코드를 추가하면, `larger` 슬라이스에 항목을 복사한 후, 문제가 해결됩니다. `zig test learning.zig` 를 실행하면 오류가 없어야 합니다.
+
+### 투기장 할당자ArenaAllocator
+
+범용 얼로케이터는 모든 가능한 경우에 잘 작동하기 때문에 합리적인 기본값입니다. 하지만 프로그램 내에서는 더 특수한 얼로케이터에서 이점을 얻을 수 있는 할당 패턴이 있을 수 있습니다. 예를 들어, 처리가 완료되면 버려질 수 있는 짧은 수명의 상태가 필요할 때입니다. 파서는 종종 이러한 요구 사항을 가지고 있습니다. 스켈레톤 `parse` 함수는 다음과 같을 수 있습니다:
+
+```zig
+fn parse(allocator: Allocator, input: []const u8) !Something {
+	var state = State{
+		.buf = try allocator.alloc(u8, 512),
+		.nesting = try allocator.alloc(NestType, 10),
+	};
+	defer allocator.free(state.buf);
+	defer allocator.free(state.nesting);
+
+	return parseInternal(allocator, state, input);
+}
+```
+
+관리하기 그리 어렵지 않지만, `parseInternal` 는 바로 해제해야 할 다른 짧은 수명의 할당이 필요할 수 있습니다. 대안으로, 우리는 한 번에 모든 할당을 해제할 수 있는 ArenaAllocator 를 만들 수 있습니다:
+
+```zig
+fn parse(allocator: Allocator, input: []const u8) !Something {
+	// create an ArenaAllocator from the supplied allocator
+	var arena = std.heap.ArenaAllocator.init(allocator);
+
+	// this will free anything created from this arena
+	defer arena.deinit();
+
+	// create an std.mem.Allocator from the arena, this will be
+	// the allocator we'll use internally
+	const aa = arena.allocator();
+
+	var state = State{
+		// we're using aa here!
+		.buf = try aa.alloc(u8, 512),
+
+		// we're using aa here!
+		.nesting = try aa.alloc(NestType, 10),
+	};
+
+	// we're passing aa here, so any we're guaranteed that
+	// any other allocation will be in our arena
+	return parseInternal(aa, state, input);
+}
+```
+
+`ArenaAllocator` 는 자식 할당자를 가져와서, 이 경우 `init` 에 전달된 할당자를 가져와서 새로운 `std.mem.Allocator` 를 만듭니다. 이 새로운 할당자가 메모리를 할당하거나 생성할 때, 우리는 `free` 나 `destroy` 를 호출할 필요가 없습니다. 우리가 `arena` 에서 `deinit` 을 호출할 때 모든 것이 해제될 것입니다. 사실, `ArenaAllocator` 의 `free` 와 `destroy` 는 아무것도 하지 않습니다.
+
+`ArenaAllocator` 는 신중하게 사용해야 합니다. 개별 할당을 해제할 수 있는 방법이 없기 때문에, 메모리가 합리적으로 증가되는 범위 내에서 `deinit` 이 호출되는지 확인해야 합니다. 흥미롭게도, 그 지식은 내부적이거나 외부적일 수 있습니다. 예를 들어, 위의 스켈레톤에서는, 상태의 수명의 세부 사항은 내부적인 문제이므로 ArenaAllocator 를 활용하는 것이 합리적입니다.
+
+> 이전의 모든 할당을 해제하는 매커니즘을 가진 ArenaAllocator 와 같은 할당자는 모든 `alloc` 에 대응하는 `free` 가 있어야 한다는 규칙을 깰 수 있습니다. 어쨋든, 만약 여러분이 `std.mem.Allocator` 를 받는다면, 여러분은 내부 구현에 대해 단정해서는 안됩니다.
+
+`IntList` 도 마찬가지 입니다. 10개 또는 1000만개의 값을 저장하는 데 사용될 수 있습니다. 몇 밀리초 또는 몇 주에 걸친 수명을 가질 수 있습니다. 이는 할당자의 타입을 결정할 수 있는 위치가 아닙니다. `IntList` 를 사용하는 코드가 이 지식을 가지고 있습니다. 원래, 우리는 `IntList` 를 다음과 같이 관리했습니다:
+
+```zig
+var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+const allocator = gpa.allocator();
+
+var list = try IntList.init(allocator);
+defer list.deinit();
+```
+
+이제 우리는 ArenaAllocator 를 대신 제공할 수 있습니다:
+
+```zig
+var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+const allocator = gpa.allocator();
+
+var arena = std.heap.ArenaAllocator.init(allocator);
+defer arena.deinit();
+const aa = arena.allocator();
+
+var list = try IntList.init(aa);
+
+// I'm honestly torn on whether or not we should call list.deinit.
+// Technically, we don't have to since we call defer arena.deinit() above.
+defer list.deinit();
+
+...
+```
+
+`IntList` 는 `std.mem.Allocator` 를 다루기 때문에 변경할 필요가 없습니다. 그리고 `IntList` 가 자체적으로 어레나를 생성한다면, 그것도 작동할 것입니다. 어레나 내에서 어레나를 생성할 수 없는 이유는 없습니다.
+
+마지막 간단한 예로, 위에서 언급한 HTTP 서버는 `Response` 에서 어레나 얼로케이터를 노출합니다. 응답이 전송되면, 어레나는 지워집니다. 어레나의 예측 가능한 수명(요청 시작부터 요청 종료까지)은 효율적인 옵션으로 만듭니다. 성능과 사용의 편이성 측면에서 효율적입니다.
+
+### 고정 버퍼 할당자FixedBufferAllocator
+
+마지막으로 살펴볼 할당자는 우리가 제공하는 버퍼(즉, `[]u8`)에서 메모리를 할당하는 `std.heap.FixedBufferAllocator` 입니다. 이 할당자에는 두 가지 주요 이점이 있습니다. 첫째, 사용할 수 있는 모든 메모리가 미리 생성되기 때문에 빠릅니다. 둘째, 자연스럽게 메모리 할당량을 제한합니다. 이 엄격한 제한은 단점으로도 볼 수 있습니다. 또 다른 단점은 `free` 와 `destroy` 가 마지막 할당/생성 항목에만 작동한다는 것입니다(스택을 생각하세요). 마지막이 아닌 할당을 해제하는 것은 안전하게 호출할 수 있지만, 아무것도 하지 않습니다.
+
+```zig
+const std = @import("std");
+
+pub fn main() !void {
+	var buf: [150]u8 = undefined;
+	var fa = std.heap.FixedBufferAllocator.init(&buf);
+	defer fa.reset();
+
+	const allocator = fa.allocator();
+
+	const json = try std.json.stringifyAlloc(allocator, .{
+		.this_is = "an anonymous struct",
+		.above = true,
+		.last_param = "are options",
+	}, .{.whitespace = .indent_2});
+
+	std.debug.print("{s}\n", .{json});
+}
+```
+
+위 코드는 다음을 출력합니다:
+
+```text
+{
+  "this_is": "an anonymous struct",
+  "above": true,
+  "last_param": "are options"
+}
+```
+
+만약 우리의 `buf` 를 `[120]u8` 로 바꾼다면, `OutOfMemory` 오류가 발생합니다.
+
+> [!] 변환되는 문자와 메타 정보의 용량이 120 바이트를 초과하기 때문입니다.
+
+고정 버퍼 할당자와, 그리고 그보다 덜하지만 어레나 할당자와 같은 경우, 일반적인 패턴은 `reset` 을 사용하여 재사용하는 것입니다. 이것은 이전의 모든 할당을 해제하고 할당자를 재사용할 수 있도록 합니다.
+
+---
+
+기본 얼로케이터가 없기 때문에, Zig 는 할당에 대해 투명하고 유연합니다. `std.mem.Allocator` 인터페이스는 강력하며, 우리가 `ArenaAllocator` 에서 보았듯이, 더 일반적인 것들을 감싸고 있는 특수화된 얼로케이터를 허용합니다.
+
+일반적으로, 힙 할당의 능력과 관련된 책임은 아마도 명백할 것입니다. 임의의 크기의 메모리를 임의의 수명으로 할당하는 능력은 대부분의 프로그램에 필수적입니다.
+
+그러나, 동적 메모리가 가져오는 복잡성 때문에, 대체제를 계속 주시해야 합니다. 예를 들어, 위에서는 `std.fmt.allocPrint` 를 사용했지만 표준 라이브러리에는 `std.fmt.bufPrint` 도 있습니다. 후자는 할당자 대신 버퍼를 사용합니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() !void {
+	const name = "Leto";
+
+	var buf: [100]u8 = undefined;
+	const greeting = try std.fmt.bufPrint(&buf, "Hello {s}", .{name});
+
+	std.debug.print("{s}\n", .{greeting});
+}
+```
+
+이 API 는 메모리 관리 부담을 호출자에게 이동합니다. 만약 우리가 더 긴 `name` 또는 더 작은 `buf` 를 가졌다면, 우리의 `bufPrint` 는 `NoSpaceLeft` 오류를 반환할 수 있습니다. 하지만 애플리케이션에는 최대 이름 길이와 같은 알려진 한계가 있는 경우가 많습니다. 이러한 경우 `bufPrint` 는 더 안전하고 빠릅니다.
+
+동적 할당을 대체할 수 있는 또 다른 방법은 `std.io.Writer` 에 데이터를 스트리밍하는 것입니다. 우리의 `Allocator` 와 마찬가지로, `Writer` 는 파일과 같은 많은 타입에 의해 구현되는 인터페이스입니다. 위에서 우리는 동적으로 할당된 문자열에 JSON 을 직렬화하기 위해 `stringifyAlloc` 를 사용했습니다. 우리는 `stringify` 를 사용하고 `Writer` 를 제공할 수 있습니다:
+
+```zig
+pub fn main() !void {
+	const out = std.io.getStdOut();
+
+	try std.json.stringify(.{
+		.this_is = "an anonymous struct",
+		.above = true,
+		.last_param = "are options",
+	}, .{.whitespace = .indent_2}, out.writer());
+}
+```
+
+> 할당자는 함수의 첫 번째 매개변수로 주어지는 경우가 많지만, 스트림 작성자는 일반적으로 마지막에 전달됩니다. ಠ_ಠ
+
+많은 경우 스트림 작성자를 `std.io.BufferedWriter` 로 래핑하면 성능이 크게 향상합니다.
+
+우리의 목표는 모든 동적 할당을 제거하는 것이 아닙니다. 이런 대안은 특정한 경우에만 의미가 있기 때문에 작동하지 않을 것입니다. 하지만 이제 여러분은 다양한 옵션을 마음대로 사용할 수 있습니다. 스택 프레임부터 범용 얼로케이터, 그리고 정적 버퍼, 스트리밍 작성자와 특수화된 얼로케이터와 같은 중간에 있는 모든 것들까지 사용할 수 있습니다.
+
+## 제네릭
+
+이전 파트에서 우리는 `IntList` 라는 기본적인 동적 배열을 만들었습니다. 이 데이터 구조의 목표는 동적인 개수의 값을 저장하는 것이었습니다. 우리가 사용한 알고리즘은 모든 데이터 타입에 대해 작동하지만, 우리의 구현은 `i64` 값에 묶여 있었습니다. 제네릭은 알고리즘과 데이터 구조를 특정 타입으로부터 추상화하는 것을 목표로 합니다.
+
+많은 프로그래밍 언어가 특별한 구문과 특정 규칙을 사용하여 제네릭을 구현합니다. Zig 는 제네릭이 특정 기능보다는 언어가 무엇을 할 수 있는지를 표현하는 데 더 가깝습니다. 구체적으로, 제네릭은 Zig 의 강력한 컴파일 타임 메타 프로그래밍을 활용합니다.
+
+우리는 방향을 잡기 위해 단순한 예제를 보면서 시작할 것입니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() !void {
+	var arr: IntArray(3) = undefined;
+	arr[0] = 1;
+	arr[1] = 10;
+	arr[2] = 100;
+	std.debug.print("{any}\n", .{arr});
+}
+
+fn IntArray(comptime length: usize) type {
+	return [length]i64;
+}
+```
+
+위의 코드는 `{ 1, 10, 100 }` 를 출력합니다. 흥미로운 부분은 함수가 `type` 을 반환한다는 것입니다(따라서 함수는 PascalCase 입니다). 그리고 그냥 타입이 아니라, 함수 매개변수를 기반으로 한 타입입니다. 이 코드가 작동하는 이유는 `length` 를 `comptime` 으로 선언했기 때문입니다. 즉, `IntArray` 를 호출하는 사람은 컴파일 타임에 알수 있는 `length` 매개변수를 전달해야 합니다. 이것은 우리의 함수가 `type` 을 반환하고 `타입 정보`는 항상 컴파일 타임에 알려져 있어야 하기 때문에 반드시 필요합니다.
+
+함수는 원시 타입과 배열뿐만 아니라 _어떤_ 타입이든 반환할 수 있습니다. 예를 들어, 작은 변경을 통해 구조체를 반환하도록 만들 수 있습니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() !void {
+	var arr: IntArray(3) = undefined;
+	arr.items[0] = 1;
+	arr.items[1] = 10;
+	arr.items[2] = 100;
+	std.debug.print("{any}\n", .{arr.items});
+}
+
+fn IntArray(comptime length: usize) type {
+	return struct {
+		items: [length]i64,
+	};
+}
+```
+
+이상하게 보일지 모르지만, `arr` 의 타입은 실제로 `IntArray(3)` 입니다. 그것은 다른 타입과 마찬가지로 타입이며, `arr` 은 다른 값과 마찬가지로 값입니다. `IntArray(7)` 을 호출하면 다른 타입이 될 것입니다. 아마 우리는 더 깔끔하게 만들 수 있을 것입니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() !void {
+	var arr = IntArray(3).init();
+	arr.items[0] = 1;
+	arr.items[1] = 10;
+	arr.items[2] = 100;
+	std.debug.print("{any}\n", .{arr.items});
+}
+
+fn IntArray(comptime length: usize) type {
+	return struct {
+		items: [length]i64,
+
+		fn init() IntArray(length) {
+			return .{
+				.items = undefined,
+			};
+		}
+	};
+}
+```
+
+언뜻 보기에는 기존 코드보다 더 깔끔해 보이지 않을 수 있습니다. 하지만 이름 없이 함수에 중첩되어 있을 뿐, 우리의 구조체는 지금까지 본 다른 모든 구조체와 같습니다. 필드가 있고 함수가 있습니다. 프로그래머들이 말하는 것처럼, _오리처럼 보인다면..._. 음, 이것은 마치 보통의 구조체처럼 헤엄치고, 꽥꽥거립니다. 왜냐하면 이것도 구조체이기 때문입니다.
+
+우리는 타입을 반환하는 함수와 관련된 구문에 익숙해지기 위해 이 길을 걸어왔습니다. 더 일반적인 제네릭을 얻으려면, 마지막으로 한 가지 변경을 해야 합니다: 함수는 `type` 을 인자로 가져야 합니다. 사실, 이것은 작은 변경이지만 `type` 은 `usize` 보다 더 추상적으로 느껴질 수 있으므로 천천히 진행했습니다. 우리의 이전 `IntList` 를 어떤 타입과도 작동하도록 수정해 보겠습니다. 먼저 골격부터 만들어보겠습니다:
+
+```zig
+fn List(comptime T: type) type {
+	return struct {
+		pos: usize,
+		items: []T,
+		allocator: Allocator,
+
+		fn init(allocator: Allocator) !List(T) {
+			return .{
+				.pos = 0,
+				.allocator = allocator,
+				.items = try allocator.alloc(T, 4),
+			};
+		}
+	}
+};
+```
+
+위의 `struct` 는 `i64` 가 `T` 로 대체된 것을 제외하면 우리의 `IntList` 와 거의 동일합니다. `T` 는 특별해 보일 수 있지만, 그것은 그냥 변수 이름입니다. 우리는 `item_type` 으로 부를 수 있습니다. 그러나 Zig 의 네이밍 컨벤션을 따르면, `type` 의 변수는 PascalCase 입니다.
+
+> 좋든 나쁘든 타입 파라미터를 나타내기 위해 단일 문자를 사용하는 것은 Zig 보다 훨씬 오래되었습니다. `T` 는 대부분의 언어에서 일반적인 기본값이지만, 여러분은 해시 맵 같은 키와 값 파라미터 타입에 대해 `K` 와 `V` 와 같은 문맥별 변형을 보게 될 것입니다.
+
+우리의 기본 구조에 대해 잘 모르겠다면, `T` 가 사용되는 두 곳을 생각해보세요: `items: []T` 와 `allocator.alloc(T, 4)` . 우리가 이 제네릭 타입을 사용하고 싶다면, 우리는 다음과 같이 인스턴스를 만들 것입니다:
+
+```zig
+var list = try List(u32).init(allocator);
+```
+
+코드가 컴파일되면, 컴파일러는 `T` 를 찾아 `u32` 로 대체하여 새로운 타입을 만듭니다. 우리가 `List(u32)` 를 다시 사용하면, 컴파일러는 이전에 만든 타입을 재사용할 것입니다. 만약 우리가 `List(bool)` 또는 `List(User)` 와 같은 새로운 값으로 `T` 를 지정한다면, 새로운 타입이 만들어질 것입니다.
+
+제네릭 `List` 를 완성하기 위해 우리는 `i64` 를 `T` 로 대체하고 나머지 `IntList` 코드를 복사하여 붙여넣기 할 수 있습니다. 여기 완전히 동작하는 예제가 있습니다:
+
+```zig
+const std = @import("std");
+const Allocator = std.mem.Allocator;
+
+pub fn main() !void {
+	var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+	const allocator = gpa.allocator();
+
+	var list = try List(u32).init(allocator);
+	defer list.deinit();
+
+	for (0..10) |i| {
+		try list.add(@intCast(i));
+	}
+
+	std.debug.print("{any}\n", .{list.items[0..list.pos]});
+}
+
+fn List(comptime T: type) type {
+	return struct {
+		pos: usize,
+		items: []T,
+		allocator: Allocator,
+
+		fn init(allocator: Allocator) !List(T) {
+			return .{
+				.pos = 0,
+				.allocator = allocator,
+				.items = try allocator.alloc(T, 4),
+			};
+		}
+
+		fn deinit(self: List(T)) void {
+			self.allocator.free(self.items);
+		}
+
+		fn add(self: *List(T), value: T) !void {
+			const pos = self.pos;
+			const len = self.items.len;
+
+			if (pos == len) {
+				// we've run out of space
+				// create a new slice that's twice as large
+				var larger = try self.allocator.alloc(T, len * 2);
+
+				// copy the items we previously added to our new space
+				@memcpy(larger[0..len], self.items);
+
+				self.allocator.free(self.items);
+
+				self.items = larger;
+			}
+
+			self.items[pos] = value;
+			self.pos = pos + 1;
+		}
+	};
+}
+```
+
+우리의 `init` 함수는 `List(T)` 를 반환하고, `deinit` 과 `add` 함수는 `List(T)` 와 `*List(T)` 를 가져옵니다. 우리의 간단한 클래스에서는 괜찮지만, 큰 데이터 구조의 경우 전체 제네릭 이름을 작성하는 것은 약간 지루해질 수 있습니다. 특히 여러 개의 타입 파라미터(예: 키와 값에 대한 별도의 `type` 을 사용하는 해시 맵)가 있는 경우입니다. `@This()` 내장 함수는 호출된 위치에서 가장 안쪽의 `type` 을 반환합니다. 아마도 우리의 `List(T)` 는 다음과 같이 작성될 것입니다:
+
+```zig
+fn List(comptime T: type) type {
+	return struct {
+		pos: usize,
+		items: []T,
+		allocator: Allocator,
+
+		// Added
+		const Self = @This();
+
+		fn init(allocator: Allocator) !Self {
+			// ... same code
+		}
+
+		fn deinit(self: Self) void {
+			// .. same code
+		}
+
+		fn add(self: *Self, value: T) !void {
+			// .. same code
+		}
+	};
+}
+```
+
+`Self` 는 특별한 이름이 아니며, 그냥 변수에 불과하며, 그 값은 `type` 이기 때문에 PascalCase 입니다. 우리는 이전에 `List(T)` 를 사용했던 곳에 `Self` 를 사용할 수 있습니다.
+
+---
+
+여러 타입 파라미터와 더 복잡한 알고리즘을 사용하여 더 복잡한 예제를 만들 수 있습니다. 하지만 결국 핵심 제네릭 코드는 위의 간단한 예제와 다를 것이 없습니다. 다음 파트에서는 표준 라이브러리의 `ArrayList(T)` 와 `StringHashMap(V)` 를 살펴볼 때 다시 제네릭을 다룰 것입니다.
+
+## Zig 로 코딩하기
+
+이제 언어의 많은 부분을 다루었으므로, 우리는 몇 가지 주제를 다시 살펴보고 Zig 를 사용하는 몇 가지 실용적인 측면을 살펴볼 것입니다. 이를 통해, 우리는 표준 라이브러리의 더 많은 부분을 소개하고 덜 중요한 코드 스니펫을 소개해 보겠습니다.
+
+### 댕글링 포인터Dangling Pointers
+
+우리는 댕글링 포인터의 더 많은 예제를 살펴보는 것으로 시작하겠습니다. 이것에 집중하는게 이상하게 보일 수 있지만, 가비지 컬렉션 언어에서 오신 분이라면, 이것이 여러분이 직면하게 될 가장 큰 도전일 것입니다.
+
+다음 출력이 무엇인지 파악할 수 있나요?
+
+```zig
+const std = @import("std");
+
+pub fn main() !void {
+	var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+	const allocator = gpa.allocator();
+
+	var lookup = std.StringHashMap(User).init(allocator);
+	defer lookup.deinit();
+
+	const goku = User{.power = 9001};
+
+	try lookup.put("Goku", goku);
+	const entry = lookup.getPtr("Goku").?;
+
+	// returns an optional, .? would panic if "Goku"
+	// wasn't in our hashmap
+	const entry = lookup.getPtr("Goku").?;
+
+	std.debug.print("Goku's power is: {d}\n", .{entry.power});
+
+	// returns true/false depending on if the item was removed
+	_ = lookup.remove("Goku");
+
+	std.debug.print("Goku's power is: {d}\n", .{entry.power});
+}
+
+const User = struct {
+	power: i32,
+};
+```
+
+이 코드를 실행했을 때, 다음 결과를 얻었습니다:
+
+```text
+Goku's power is: 9001
+Goku's power is: -1431655766
+```
+
+이 코드는 키 타입이 `[]const u8` 로 설정된 `std.AutoHashMap` 의 특수화된 버전인 `std.StringHashMap` 를 소개합니다. 100% 확신할 수 없더라도, 이런 결과는 `lookup` 에서 `entry` 를 `remove` 한 후 두 번째 출력이 발생한다는 것과 관련이 있다는 것을 추측할 수 있습니다. `remove` 호출을 주석 처리하면 출력이 정상적입니다.
+
+위 코드를 이해하는 데 있어 핵심은 데이터/메모리가 어디에 있는지 또는 누가 소유하는지를 알고 있어야 한다는 것입니다. Zig 인자는 값으로 전달되며, 즉, 값의 "얕은" 복사본을 전달합니다. 우리의 `lookup` 에있는 `User` 는 `goku` 에 의해 참조되는 메모리와 같지 않습니다. 위의 코드에는 각각 고유한 소유자가 있는 두 개의 사용자가 있습니다. `goku` 는 `main` 에 의해 소유되며, 그 복사본은 `lookup` 에 의해 소유됩니다.
+
+`getPtr` 메서드는 맵의 값에 대한 포인터를 반환합니다. 우리의 경우, `*User` 를 반환합니다. 여기에 문제가 있습니다. `remove` 는 `entry` 포인터를 무효화합니다. 이 예제에서 `getPtr` 와 `remove` 의 근접성으로 인해 문제가 다소 분명하게 만듭니다. 하지만 `remove` 가 어딘가에 있는 항목에 대한 참조를 보유하고 있다는 것을 모르고 `remove` 를 호출하는 코드를 상상하는 것은 어렵지 않습니다.
+
+> 이 예제를 작성할 당시 저는 어떤 일이 일어날지 확신할 수 없었습니다. `remove` 가 내부 플래그를 설정하여 실제 제거를 다음 이벤트까지 지연시키는 방법으로 구현할 수도 있었습니다. 그렇게 되면 위의 간단한 경우에는 "작동"할 수도 있지만, 더 복잡한 사용 사례에서는 실패할 수도 있습니다. 그건 디버깅하기가 무서울 정도로 어려울 것 같습니다.
+
+Besides not calling `remove`, we can fix this a few different ways. The first is that we could use `get` instead of `getPtr`. This would return a `User` instead of a `*User` and thus would return copy of the value in `lookup`. We'd then have three `Users`.
+
+`remove` 를 호출하지 않는 것 외에도, 우리는 몇 가지 다른 방법으로 이 문제를 해결할 수 있습니다. 첫 번째는 `getPtr` 대신 `get` 을 사용하는 것입니다. 이것은 `*User` 대신 `User` 를 반환하므로 `lookup` 에있는 값의 복사본을 반환합니다. 그러면 세 `User` 가 생깁니다.
+
+1. 함수에 묶인 원래의 `goku` 입니다.
+2. `lookup` 에 있는 복사본입니다. 이는 lookup 에 귀속되었습니다.
+3. 함수에 귀속된 우리의 복사본, `entry` 의 복사본입니다.
+
+`entry` 가 이제 사용자의 독립적인 복사본이므로, `lookup` 에서 제거되어도 무효화되지 않습니다.
+
+또다른 옵션은 `lookup` 의 타입을 `StringHashMap(User)` 에서 `StringHashMap(*const User)` 로 변경하는 것입니다. 이 코드는 작동합니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() !void {
+	var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+	const allocator = gpa.allocator();
+
+	// User -> *const User
+	var lookup = std.StringHashMap(*const User).init(allocator);
+	defer lookup.deinit();
+
+	const goku = User{.power = 9001};
+
+	// goku -> &goku
+	try lookup.put("Goku", &goku);
+
+	// getPtr -> get
+	const entry = lookup.get("Goku").?;
+
+	std.debug.print("Goku's power is: {d}\n", .{entry.power});
+	_ = lookup.remove("Goku");
+	std.debug.print("Goku's power is: {d}\n", .{entry.power});
+}
+
+const User = struct {
+	power: i32,
+};
+```
+
+위 코드는 몇 가지 미묘한 점이 있습니다. 우선, 우리는 이제 하나의 `User`, `goku` 를 가지고 있습니다. `lookup` 과 `entry` 의 값은 모두 `goku` 의 참조입니다. `remove` 를 호출하면 `lookup` 에서 값이 제거되지만, 그 값은 `user` 자체가 아니라 `user` 의 주소입니다. 우리가 `getPtr` 을 사용했다면, 우리는 `remove` 때문에 잘못된 `**User` 를 얻을 것입니다. 두 가지 솔루션 모두 `getPtr` 대신 `get` 을 사용해야 했지만, 이 경우에는 `User` 전체가 아니라 주소만 복사합니다. 큰 객체의 경우, 그것은 상당한 차이가 될 수 있습니다.
+
+With everything in a single function and a small value like `User`, this still feels like an artificially created problem. We need an example that legitimately makes data ownership an immediate concern.
+
+모든 것이 단일 함수에 있고 `User` 와 같은 작은 값이 있는 경우에도, 이것은 여전히 인위적으로 만들어진 문제 같습니다. 우리는 데이터 소유권을 즉시 고려해야 하는 합당한 예제가 필요합니다.
+
+### 소유권Ownership
+
+저는 해시 맵을 좋아합니다. 왜냐하면 모두가 알고 있고 모두가 사용하기 때문입니다. 또한 해시 맵에는 여러 가지 다른 사용 사례가 있으며, 대부분의 경우 직접 경험해 보셨을 것입니다. 해시 맵은 조회 기간이 짧은 수명으로 사용될 수 있지만, 종종 오래 지속되어 똑같이 긴 수명의 값이 필요합니다.
+
+이 코드는 터미널에 입력한 이름으로 `lookup` 을 채웁니다. 빈 이름은 프롬프트 루프를 중지합니다. 마지막으로 "Leto" 가 제공된 이름 중 하나인지 여부를 감지합니다.
+
+```zig
+const std = @import("std");
+const builtin = @import("builtin");
+
+pub fn main() !void {
+	var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+	const allocator = gpa.allocator();
+
+	var lookup = std.StringHashMap(User).init(allocator);
+	defer lookup.deinit();
+
+	// stdin is an std.io.Reader
+	// the opposite of an std.io.Writer, which we already saw
+	const stdin = std.io.getStdIn().reader();
+
+	// stdout is an std.io.Writer
+	const stdout = std.io.getStdOut().writer();
+
+	var i: i32 = 0;
+	while (true) : (i += 1) {
+		var buf: [30]u8 = undefined;
+		try stdout.print("Please enter a name: ", .{});
+		if (try stdin.readUntilDelimiterOrEof(&buf, '\n')) |line| {
+			var name = line;
+			if (builtin.os.tag == .windows) {
+				// In Windows lines are terminated by \r\n.
+				// We need to strip out the \r
+				name = std.mem.trimRight(u8, name, "\r");
+			}
+			if (name.len == 0) {
+				break;
+			}
+			try lookup.put(name, .{.power = i});
+		}
+	}
+
+	const has_leto = lookup.contains("Leto");
+	std.debug.print("{any}\n", .{has_leto});
+}
+
+const User = struct {
+	power: i32,
+};
+```
+
+이 코드는 대소문자를 구분하지만, 아무리 완벽하게 "Leto" 를 입력하해도 `contains` 는 항상 `false` 를 반환합니다. `lookup` 을 반복하고 키와 값을 덤프하여 이를 디버깅해 보겠습니다:
+
+```zig
+// Place this code after the while loop
+
+var it = lookup.iterator();
+while (it.next()) |kv| {
+	std.debug.print("{s} == {any}\n", .{kv.key_ptr.*, kv.value_ptr.*});
+}
+```
+
+이 반복자 패턴은 Zig 에서 흔하며, `while` 과 옵션 타입 간의 시너지에 의존합니다. 우리의 반복자 항목은 키와 값에 대한 포인터를 반환하므로, 실제 값을 주소가 아닌 `.*` 로 역참조하여 액세스합니다. 출력은 입력한 내용에 따라 다릅니다. 저는 다음과 같은 결과를 얻었습니다:
+
+```text
+Please enter a name: Paul
+Please enter a name: Teg
+Please enter a name: Leto
+Please enter a name:
+
+�� == learning.User{ .power = 1 }
+
+��� == learning.User{ .power = 0 }
+
+��� == learning.User{ .power = 2 }
+false
+```
+
+값은 괜찮아 보이지만 키는 그렇지 않습니다. 무슨 일이 일어나고 있는지 모르겠다면, 아마도 제 잘못입니다. 앞서 제가 의도적으로 여러분의 주의를 돌렸습니다. 해시 맵은 종종 오래 지속되어 수명이 긴 값이 필요하다고 말씀드렸습니다. 사실은 수명이 긴 키뿐만 아니라 수명이 긴 값도 필요하다는 것입니다! `buf` 는 `while` 루프 내에서 정의되었습니다. `put` 을 호출할 때, 우리는 해시 맵에 훨씬 더 짧은 수명을 가진 키를 제공합니다. `buf` 를 `while` 루프 바깥으로 이동하면 수명 문제가 해결됩니다. 하지만 그 버퍼는 각 반복에서 재사용됩니다. 하지만 기본 키 데이터를 변경하고 있기 때문에 여전히 작동하지 않습니다.
+
+위 코드의 경우, 오직 하나의 해결책만 있습니다: `lookup` 은 키의 소유권을 가져야 합니다. 한 줄을 추가하고 다른 한 줄을 변경해야 합니다:
+
+```zig
+// replace the existing lookup.put with these two lines
+const owned_name = try allocator.dupe(u8, name);
+
+// name -> owned_name
+try lookup.put(owned_name, .{.power = i});
+```
+
+`dupe` 는 우리가 이전에 본 적이 없는 `std.mem.Allocator` 의 메서드입니다. 주어진 값의 복제본을 할당합니다. 이제 코드가 작동합니다. 왜냐하면 키가 이제 힙에 있고 `lookup` 보다 오래 지속되기 때문입니다. 사실, 우리는 문자열의 수명을 너무 오래 연장했습니다: 우리는 메모리 누수를 발생시켰습니다.
+
+우리가 `lookup.deinit` 을 호출할 때 키와 값이 우리를 위해 해제될 것이라고 생각할 수 있습니다. 하지만 `StringHashMap` 이 사용할 수 있는 만능 해결책은 없습니다. 첫째, 키는 문자열 리터럴일 수 있으며, 해제할 수 없습니다. 둘째, 다른 메모리 할당자로 키를 생성했을 수 있습니다. 마지막으로, 좀 더 나아가지만, 키가 해시 맵에 의해 소유되지 않아도 되는 경우가 있을 수 있습니다.
+
+유일한 해결책은 우리가 직접 키를 해제하는 것입니다. 이 시점에서는 아마도 우리 자신의 `UserLookup` 타입을 만들고 `deinit` 함수에서 이 정리 로직을 캡슐화하는 것이 좋을 것입니다. 우리는 당분간 지저분한 상태를 유지하겠습니다:
+
+```zig
+// replace the existing:
+//   defer lookup.deinit();
+// with:
+defer {
+	var it = lookup.keyIterator();
+	while (it.next()) |key| {
+		allocator.free(key.*);
+	}
+	lookup.deinit();
+}
+```
+
+이 `defer` 로직은, 블록을 사용한 첫 번째 로직입니다. 각 키를 해제한 다음 `lookup` 을 초기화합니다. 우리는 `keyIterator` 를 사용하여 키를 조회합니다. 반복자 값은 해시 맵의 키 항목인 `*[]const u8` 의 포인터입니다. 우리는 실제 값을 해제하고 싶은데, 그것은 우리가 `dupe` 로 할당한 값이기 때문에, `.*` 를 사용하여 값을 역참조합니다.
+
+자, 이제 댕글링 포인터와 메모리 관리에 대한 이야기는 끝났습니다. 우리가 지금까지 설명한 내용이 여전히 불분명하거나 너무 추상적일 수 있습니다. 해결해야 할 실제 문제가 있을 때 다시 살펴보는 것도 괜찮습니다. 하지만 사소한 것이 아닌 것을 작성할 계획이라면 반드시 숙지해야 할 사항입니다. 여러분이 준비되었다고 생각되면, 프롬프트 루프 예제를 가져와서 스스로 연습해 보기를 권합니다. 우리가 해야 했던 모든 메모리 관리를 캡슐화하는 `UserLookup` 타입을 도입해 보세요. 키 대신 `*User` 를 사용하여 힙에 사용자를 생성하고 키와 같이 해제해 보세요. `std.testing.allocator` 를 사용하여 메모리 누수가 없는지 확인하는 테스트를 작성해 보세요.
+
+### 배열 리스트ArrayList
+
+당신은 아마 우리의 `IntList` 와 우리가 만든 제네릭 대안을 잊어버릴 수 있다는 것을 기쁘게 생각할 것입니다. Zig 에는 적절한 동적 배열 구현인 `std.ArrayList(T)` 가 있습니다.
+
+이는 꽤나 표준적인 내용이지만, 그렇게 자주 필요하고 사용되는 데이터 구조이기 때문에 실제로 동작하는 것을 보는 것은 가치가 있습니다:
+
+```zig
+const std = @import("std");
+const builtin = @import("builtin");
+const Allocator = std.mem.Allocator;
+
+pub fn main() !void {
+	var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+	const allocator = gpa.allocator();
+
+	var arr = std.ArrayList(User).init(allocator);
+	defer {
+		for (arr.items) |user| {
+			user.deinit(allocator);
+		}
+		arr.deinit();
+	}
+
+	// stdin is an std.io.Reader
+	// the opposite of an std.io.Writer, which we already saw
+	const stdin = std.io.getStdIn().reader();
+
+	// stdout is an std.io.Writer
+	const stdout = std.io.getStdOut().writer();
+
+	var i: i32 = 0;
+	while (true) : (i += 1) {
+		var buf: [30]u8 = undefined;
+		try stdout.print("Please enter a name: ", .{});
+		if (try stdin.readUntilDelimiterOrEof(&buf, '\n')) |line| {
+			var name = line;
+			if (builtin.os.tag == .windows) {
+				// In Windows lines are terminated by \r\n.
+				// We need to strip out the \r
+				name = std.mem.trimRight(u8, name, "\r");
+			}
+			if (name.len == 0) {
+				break;
+			}
+			const owned_name = try allocator.dupe(u8, name);
+			try arr.append(.{.name = owned_name, .power = i});
+		}
+	}
+
+	var has_leto = false;
+	for (arr.items) |user| {
+		if (std.mem.eql(u8, "Leto", user.name)) {
+			has_leto = true;
+			break;
+		}
+	}
+
+	std.debug.print("{any}\n", .{has_leto});
+}
+
+const User = struct {
+	name: []const u8,
+	power: i32,
+
+	fn deinit(self: User, allocator: Allocator) void {
+		allocator.free(self.name);
+	}
+};
+```
+
+위는 우리의 해시 맵 코드를 재현한 것이지만, `ArrayList(User)` 를 사용합니다. 모든 수명 및 메모리 관리 규칙이 적용됩니다. 여전히 이름의 `dupe` 를 만들고, `ArrayList` 를 `deinit` 을 하기 전에 각 이름을 해제하고 있다는 것을 알아두세요.
+
+이제 Zig 에는 속성이나 비공개 필드가 없다는 것을 지적하기 좋은 시간이 왔습니다. 값들을 통해 반복자를 돌리기 위해 `arr.items` 에 액세스하는 것을 볼 수 있습니다. 속성이 없는 이유는 놀람의 원인을 제거하기 위해서입니다. Zig 에서는 필드 액세스처럼 보이면, 필드 액세스입니다. 개인적으로, 비공개 필드가 없는 것은 실수였다고 생각하지만, 우리는 분명히 이것을 해결할 수 있습니다. 저는 "내부적으로만 사용"을 나타내기 위해 필드 앞에 밑줄을 붙이는 것으로 넘어갔습니다.
+
+왜냐하면 문자열 "type" 은 `[]u8` 또는 `[]const u8` 이기 때문에, 문자열 빌더에 적합한 타입은 `ArrayList(u8)` 입니다. .NET 의 `StringBuilder` 나 Go 의 `strings.Builder` 와 같습니다. 사실, 아마도 당신은 함수가 `Writer` 를 취하고 문자열이 필요할 때마다 이것을 사용할 것입니다. 우리는 이전에 `std.json.stringify` 를 사용하여 stdout 에 JSON 을 출력하는 예제를 보았습니다. 다음은 `ArrayList(u8)` 을 사용하여 변수에 출력하는 방법입니다:
+
+```zig
+const std = @import("std");
+
+pub fn main() !void {
+	var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+	const allocator = gpa.allocator();
+
+	var out = std.ArrayList(u8).init(allocator);
+	defer out.deinit();
+
+	try std.json.stringify(.{
+		.this_is = "an anonymous struct",
+		.above = true,
+		.last_param = "are options",
+	}, .{.whitespace = .indent_2}, out.writer());
+
+	std.debug.print("{s}\n", .{out.items});
+}
+```
+
+### 애니타입Anytype
+
+파트1 에서, 우리는 `anytype` 에 대해 간단히 얘기했습니다. 이것은 컴파일 타임의 덕 타이핑의 형태입니다. 다음은 간단한 로거입니다:
+
+```zig
+pub const Logger = struct {
+	level: Level,
+
+	// "error" is reserved, names inside an @"..." are always
+	// treated as identifiers
+	const Level = enum {
+		debug,
+		info,
+		@"error",
+		fatal,
+	};
+
+	fn info(logger: Logger, msg: []const u8, out: anytype) !void {
+		if (@intFromEnum(logger.level) <= @intFromEnum(Level.info)) {
+			try out.writeAll(msg);
+		}
+	}
+};
+```
+
+`info` 함수의 `out` 매개 변수는 `anytype` 입니다. 이는 `Logger` 가 `writeAll` 가지면서 `[]const u8` 을 받아들이고 `!void` 를 반환하는 모든 구조체에 메시지를 기록할 수 있다는 것을 의미합니다. 이것은 런타임 기능이 아닙니다. 타입 체크는 컴파일 타임에 발생하며, 사용된 각 타입에 대해 올바른 타입의 함수가 생성됩니다. 우리가 필요한 모든 함수를 가지고 있지 않은 타입으로 `info` 를 호출하려고 하면 (이 경우에는 `writeAll` 만), 컴파일 타임 오류가 발생합니다:
+
+```zig
+var l = Logger{.level = .info};
+try l.info("sever started", true);
+```
+
+Giving us: _no field or member function named 'writeAll' in 'bool'_. Using the `writer` of an `ArrayList(u8)` works:
+위 결과는 _'bool' 에 'writeAll' 이라는 필드 또는 멤버 함수가 없습니다._ 입니다. `ArrayList(u8)` 의 `writer` 를 사용하면 작동합니다:
+
+```zig
+pub fn main() !void {
+	var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+	const allocator = gpa.allocator();
+
+	var l = Logger{.level = .info};
+
+	var arr = std.ArrayList(u8).init(allocator);
+	defer arr.deinit();
+
+	try l.info("sever started", arr.writer());
+	std.debug.print("{s}\n", .{arr.items});
+}
+```
+
+`anytype` 의 가장 큰 단점은 문서화입니다. 우리가 몇 번 사용한 `std.json.stringify` 함수의 시그니처는 다음과 같습니다:
+
+```zig
+// I **hate** multi-line function definitions
+// But I'll make an exception for a guide which
+// you might be reading on a small screen.
+
+fn stringify(
+	value: anytype,
+	options: StringifyOptions,
+	out_stream: anytype
+) @TypeOf(out_stream).Error!void
+```
+
+첫 번째 매개 변수인 `value: anytype` 은 명백합니다. 직렬화 할 값이며, 어떤 것이든 될 수 있습니다 (실제로 Zig의 JSON 직렬화기가 직렬화할 수 없는 것이 몇 가지 있습니다). `out_stream` 이 JSON을 작성할 _위치_라는 것은 짐작할 수 있지만, 어떤 메서드를 구현해야 하는지는 여러분도 저와 마찬가지로 추측할 수 있습니다. 이를 알아낼 수 있는 유일한 방법은 소스 코드를 읽거나 더미 값을 전달하고 컴파일러 오류를 문서로 사용하는 것입니다. 이 문제는 더 나은 자동 문서 생성기를 사용하면 개선될 수 있는 부분입니다. 하지만 Zig에 인터페이스가 있었으면 좋겠다는 생각은 이번이 처음이 아닙니다.
+
+### @TypeOf
+
+이전 파트에서, 우리는 다양한 변수의 타입을 검사하는 데 `@TypeOf` 를 사용했습니다. 우리의 사용법을 보면, 여러분은 문자열로 타입의 이름을 반환한다고 생각할 수 있습니다. 그러나 PascalCase 함수이므로, 더 나은 답을 해야 합니다: `type` 을 반환합니다.
+
+제가 가장 좋아하는 `anytype` 사용법 중 하나는 테스트 헬퍼를 작성하기 위해 `@TypeOf` 와 `@hasField` 내장 함수를 사용하는 것입니다. 우리가 본 `User` 타입 중 하나는 매우 간단했지만, 여러분은 많은 필드를 가진 더 복잡한 구조를 상상해야 합니다. 우리의 많은 테스트에서는 `User` 가 필요하지만, 테스트와 관련된 필드만 지정하고 싶습니다. `userFactory` 를 만들어 보겠습니다:
+
+```zig
+fn userFactory(data: anytype) User {
+	const T = @TypeOf(data);
+	return .{
+		.id = if (@hasField(T, "id")) data.id else 0,
+		.power = if (@hasField(T, "power")) data.power else 0,
+		.active  = if (@hasField(T, "active")) data.active else true,
+		.name  = if (@hasField(T, "name")) data.name else "",
+	};
+}
+
+pub const User = struct {
+	id: u64,
+	power: u64,
+	active: bool,
+	name: [] const u8,
+};
+```
+
+기본 사용자는 `userFactory(.{})` 를 호출하여 생성할 수 있으며, `userFactory(.{.id = 100, .active = false})` 와 같이 특정 필드를 재정의할 수도 있습니다. 작은 패턴이지만, 저는 이것을 정말 좋아합니다. 이는 메타 프로그래밍의 세계로 가는 좋은 첫걸음이기도 합니다.
+
+일반적으로 `@TypeOf` 는 `@typeInfo` 와 함께 사용됩니다. 이는 `std.builtin.Type` 을 반환하는데, 이는 타입을 완전히 설명하는 강력한 태그 유니온입니다. `std.json.stringify` 함수는 `value` 에 대해 이를 재귀적으로 사용하여 직렬화하는 방법을 알아냅니다.
+
+### 빌드하기Zig Build
+
+이 가이드 전체를 읽으면서 여러 종속 요소와 다양한 타깃이 있는 복잡한 프로젝트 설정에 대한 통찰력을 기대했다면 실망할 것입니다. Zig는 강력한 빌드 시스템을 갖추고 있기 때문에 libsodium과 같이 Zig를 사용하지 않는 프로젝트도 점점 더 많이 Zig를 사용하고 있습니다. 하지만 안타깝게도 이러한 강력한 기능은 단순한 요구 사항의 경우 사용하거나 이해하기 쉽지 않다는 것을 의미합니다.
+
+> 사실 저는 Zig의 빌드 시스템을 설명할 만큼 잘 이해하지 못합니다.
+
+그래도, 우리는 최소한 간단한 개요를 얻을 수 있습니다. Zig 코드를 실행하기 위해 `zig run learning.zig` 를 사용했습니다. 한 번은 `zig test learning.zig` 를 사용하여 테스트를 실행했습니다. `run` 과 `test` 명령은 단순 학습용으로는 좋지만, 더 복잡한 것에는 `build` 명령이 필요합니다. `build` 명령은 특수한 `build` 진입점을 가진 `build.zig` 파일에 의존합니다. 여기에 기본 골격이 있습니다:
+
+```zig
+// build.zig
+
+const std = @import("std");
+
+pub fn build(b: *std.Build) !void {
+	_ = b;
+}
+```
+
+모든 빌드에는 기본 "install" 단계가 있습니다. 이제 `zig build install` 로 실행할 수 있지만, 파일이 거의 비어 있기 때문에 의미있는 아티팩트를 얻을 수 없습니다. 빌드를 위해 프로그램의 진입점을 알려줘야 합니다. `learning.zig` 파일입니다.
+
+```zig
+const std = @import("std");
+
+pub fn build(b: *std.Build) !void {
+	const target = b.standardTargetOptions(.{});
+	const optimize = b.standardOptimizeOption(.{});
+
+	// setup executable
+	const exe = b.addExecutable(.{
+		.name = "learning",
+		.target = target,
+		.optimize = optimize,
+		.root_source_file = .{ .path = "learning.zig" },
+	});
+	b.installArtifact(exe);
+}
+```
+
+Now if you run `zig build install`, you'll get a binary at `./zig-out/bin/learning`. Using the standard targets and optimizations allows us to override the default as command line arguments. For example to build a size-optimized version of our program for Windows, we'd do:
+이제 `zig build install` 을 실행하면 `./zig-out/bin/learning` 에 바이너리가 생성됩니다. 명령줄 인수로 표준 타겟과 최적화 옵션을 사용하면 기본값을 재정의할 수 있습니다. 예를 들어 Windows 용 크기 최적화 버전을 빌드하려면 다음과 같이 합니다:
+
+```zig
+zig build install -Doptimize=ReleaseSmall -Dtarget=x86_64-windows-gnu
+```
+
+실행 파일에는 기본 "install" 외에 "run"과 "test" 두 가지 단계가 더 있습니다. 라이브러리에는 하나의 "test" 단계가 있을 수 있습니다. 기본 인수가 없는 `run` 을 위해 빌드의 끝에 네 줄을 추가해야 합니다:
+
+```zig
+// add after: b.installArtifact(exe);
+
+const run_cmd = b.addRunArtifact(exe);
+run_cmd.step.dependOn(b.getInstallStep());
+
+const run_step = b.step("run", "Start learning!");
+run_step.dependOn(&run_cmd.step);
+```
+
+이렇게 하면 두 번의 `dependOn` 호출을 통해 두 개의 종속성이 생성됩니다. 첫 번째는 새로운 실행 명령을 내장된 설치 단계에 연결합니다. 두 번째는 "run" 단계를 새로 만든 "run" 명령에 연결합니다. 왜 실행 명령과 실행 단계가 모두 필요한지 궁금할 수 있습니다. 저는 이 분리가 더 복잡한 설정을 지원하기 위해서라고 생각합니다: 여러 명령에 의존하는 단계 또는 여러 단계에서 사용되는 명령. `zig build --help` 를 실행하고 맨 위로 스크롤하면 새로운 "run" 단계가 표시됩니다. 이제 `zig build run` 을 실행하여 프로그램을 실행할 수 있습니다.
+
+"테스트" 단계를 추가하려면 방금 추가한 실행 코드의 대부분을 복제하지만, `b.addExecutable` 대신 `b.addTest` 로 시작해야 합니다:
+
+```zig
+const tests = b.addTest(.{
+	.target = target,
+	.optimize = optimize,
+	.root_source_file = .{ .path = "learning.zig" },
+});
+
+const test_cmd = b.addRunArtifact(tests);
+test_cmd.step.dependOn(b.getInstallStep());
+const test_step = b.step("test", "Run the tests");
+test_step.dependOn(&test_cmd.step);
+```
+
+이 단계에 "test" 라는 이름을 지정했습니다. `zig build --help` 를 실행하면 이제 "test" 라는 다른 사용 가능한 단계가 표시됩니다. 테스트가 없으므로 이것이 작동하는지 여부를 알기 어렵습니다. `learning.zig` 에 다음을 추가합니다:
+
+```zig
+test "dummy build test" {
+	try std.testing.expectEqual(false, true);
+}
+```
+
+이제 `zig build test` 를 실행하면 테스트 실패가 발생합니다. 테스트를 수정하고 `zig build test` 를 다시 실행하면 출력이 없습니다. 기본적으로 Zig의 테스트 실행기는 실패할 때만 출력합니다. 저처럼 pass 또는 fail 에 대해 항상 요약을 원한다면 `zig build test --summary all` 을 사용하세요.
+
+이것은 시작하고 실행하는 데 필요한 최소한의 구성입니다. 하지만 빌드가 필요한 경우 Zig가 처리할 수 있으니 안심하세요. 마지막으로, Zig가 잘 문서화된 build.zig 파일을 생성하도록 프로젝트 루트에서 `zig init-exe` 또는 `zig init-lib` 을 사용할 수 있으며, 아마도 그렇게 해야 할 것입니다.
+
+### 서드파티 라이브러리Third Party Dependencies
+
+Zig의 기본 제공 패키지 관리자는 비교적 새롭기 때문에 여러 가지 거친 부분이 있습니다. 개선의 여지가 있지만 지금도 충분히 사용할 수 있습니다. 우리가 살펴봐야 할 부분은 패키지를 만드는 것과 패키지를 사용하는 두 가지입니다. 전체 과정을 살펴보겠습니다.
+
+먼저 `calc` 라는 이름의 새 폴더를 만들고 세 개의 파일을 만듭니다. 첫 번째 파일은 `add.zig` 이며, 내용은 다음과 같습니다:
+
+```zig
+// Oh, a hidden lesson, look at the type of b
+// and the return type!!
+
+pub fn add(a: anytype, b: @TypeOf(a)) @TypeOf(a) {
+	return a + b;
+}
+
+const testing = @import("std").testing;
+test "add" {
+	try testing.expectEqual(@as(i32, 32), add(30, 2));
+}
+```
+
+뭔가 이상해보이지만, 두 값을 더하는 것만으로도 완전한 패키지를 만들 수 있습니다. 다음으로 여전히 애매한 `calc.zig` 를 추가합니다:
+
+```zig
+pub const add = @import("add.zig").add;
+
+test {
+	// By default, only tests in the specified file
+	// are included. This magic line of code will
+	// cause a reference to all nested containers
+	// to be tested.
+	@import("std").testing.refAllDecls(@This());
+}
+```
+
+두 파일을 나누어 `calc.zig` 와 `add.zig` 를 통해 `zig build` 가 프로젝트 파일을 자동으로 빌드하고 패키징할 수 있음을 증명합니다. 마지막으로 `build.zig` 를 추가하면 됩니다:
+
+```zig
+const std = @import("std");
+
+pub fn build(b: *std.Build) !void {
+	const target = b.standardTargetOptions(.{});
+	const optimize = b.standardOptimizeOption(.{});
+
+	const tests = b.addTest(.{
+		.target = target,
+		.optimize = optimize,
+		.root_source_file = .{ .path = "calc.zig" },
+	});
+
+	const test_cmd = b.addRunArtifact(tests);
+	test_cmd.step.dependOn(b.getInstallStep());
+	const test_step = b.step("test", "Run the tests");
+	test_step.dependOn(&test_cmd.step);
+}
+```
+
+이것은 이전 섹션에서 본 내용을 반복한 것 입니다. 이제 `zig build test --summary all` 을 실행할 수 있습니다.
+
+학습 프로젝트와 이전에 만든 `build.zig` 로 돌아갑니다. 먼저 로컬 `calc` 를 종속성으로 추가합니다. 세 가지 추가가 필요합니다. 먼저 `calc.zig` 를 가리키는 모듈을 만듭니다:
+
+```zig
+// You can put this near the top of the build
+// function, before the call to addExecutable.
+
+const calc_module = b.addModule("calc", .{
+	.source_file = .{ .path = "PATH_TO_CALC_PROJECT/calc.zig" },
+});
+```
+
+아마 `calc.zig` 의 경로를 조정해야 할 것입니다. 이제 이 모듈을 기존의 `exe` 와 `tests` 변수에 추가해야 합니다:
+
+```zig
+const exe = b.addExecutable(.{
+	.name = "learning",
+	.target = target,
+	.optimize = optimize,
+	.root_source_file = .{ .path = "learning.zig" },
+});
+// add this
+exe.addModule("calc", calc_module);
+b.installArtifact(exe);
+
+....
+
+const tests = b.addTest(.{
+	.target = target,
+	.optimize = optimize,
+	.root_source_file = .{ .path = "learning.zig" },
+});
+// add this
+tests.addModule("calc", calc_module);
+```
+
+이제 프로젝트에서 `@import("calc")` 를 사용할 수 있습니다:
+
+```zig
+const calc = @import("calc");
+...
+calc.add(1, 2);
+```
+
+원격에 있는 종속성을 추가하는 것은 좀 더 많은 노력이 필요합니다. 먼저, `calc` 프로젝트로 돌아가서 모듈을 정의해야 합니다. 프로젝트 자체가 모듈이라고 생각할 수 있지만, 프로젝트는 여러 모듈을 노출할 수 있기 때문에 명시적으로 만들어야 합니다. 우리는 동일한 `addModule` 을 사용하지만 반환 값을 버립니다. 다른 프로젝트에서 가져올 수 있는 모듈을 정의하는 데 `addModule` 을 호출하는 것만으로 충분합니다.
+
+```zig
+_ = b.addModule("calc", .{
+	.source_file = .{ .path = "calc.zig" },
+});
+```
+
+라이브러리에서 변경해야 할 유일한 부분입니다. 이것은 원격 종속성을 가지는 연습이기 때문에, 이 `calc` 프로젝트를 GitHub에 푸시하여 학습 프로젝트에 가져올 수 있습니다. 원격 파일은 [https://github.com/karlseguin/calc.zig](https://github.com/karlseguin/calc.zig) 에 있습니다.
+
+학습 프로젝트로 돌아가, 새 파일 `build.zig.zon` 을 생성합니다. "ZON" 은 Zig Object Notation 의 약자로, Zig 데이터를 사람이 읽을 수 있는 형식으로 표현하고, 그 사람이 읽을 수 있는 형식을 Zig 코드로 변환할 수 있습니다. `build.zig.zon` 의 내용은 다음과 같습니다:
+
+```zig
+.{
+  .name = "learning",
+  .paths = .{""},
+  .version = "0.0.0",
+  .dependencies = .{
+    .calc = .{
+      .url = "https://github.com/karlseguin/calc.zig/archive/e43c576da88474f6fc6d971876ea27effe5f7572.tar.gz",
+      .hash = "12ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+  },
+}
+```
+
+이 파일에는 두 가지 의심스러운 값이 있는데, 첫 번째는 `url` 내의 `e43c576da88474f6fc6d971876ea27effe5f7572` 입니다. 이것은 단순히 git 커밋 해시입니다. 두 번째는 `hash` 의 값입니다. 알기 쉬운 좋은 방법이 없기 때문에 일단 더미 값을 사용합니다.
+
+이 종속성을 사용하려면 `build.zig` 에 한 가지 변경을 해야 합니다:
+
+```zig
+// replace this:
+const calc_module = b.addModule("calc", .{
+	.source_file = .{ .path = "calc/calc.zig" },
+});
+
+// with this:
+const calc_dep = b.dependency("calc", .{.target = target,.optimize = optimize});
+const calc_module = calc_dep.module("calc");
+```
+
+`build.zig.zon` 에서 종속성 패키지의 이름을 `calc` 로 지정했고, 여기서 로드하는 종속성도 `calc` 입니다. 이 종속성에서 `calc` 모듈을 가져오는데, 이 모듈은 `calc` 의 `build.zig` 에서 모듈의 이름을 지정한 것입니다.
+
+이제 `zig build test` 를 실행하면 오류가 발생합니다:
+
+```text
+error: hash mismatch:
+expected:
+12ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff,
+
+found:
+122053da05e0c9348d91218ef015c8307749ef39f8e90c208a186e5f444e818672d4
+```
+
+올바른 해시를 복사해서 `build.zig.zon` 에 다시 붙여넣고 `zig build test` 를 다시 실행해 보세요. 이제 모든 것이 작동해야 합니다.
+
+많은 작업이 있었지만 잘 진행되었기를 바랍니다. 보통 대부분 다른 프로젝트에서 복사하여 붙여넣을 수 있으며, 한 번 세팅하면, 계속 사용할 수 있습니다.
+
+A word of warning, I've found Zig's caching of dependencies to be on the aggressive side. If you try to update a dependency but Zig doesn't seem to detect the change...well, I nuke the project's `zig-cache` folder as well as `~/.cache/zig`.
+
+경고의 말씀을 드린다면, 저는 Zig의 종속성 캐싱이 과도하다고 생각합니다. 종속성을 업데이트하려고 하지만 Zig가 변경 사항을 감지하지 못하는 경우... 저는 프로젝트의 `zig-cache` 폴더와 `~/.cache/zig` 를 날려 버립니다.
+
+---
+
+우리는 몇 가지 핵심 데이터 구조를 탐색하고 이전 부분의 큰 덩어리를 하나로 모으는 등 많은 부분을 다뤘습니다. 코드가 조금 더 복잡해졌고, 특정 구문에 덜 집중하고 실제 코드처럼 보이게 되었습니다. 저는 이렇게 복잡해졌음에도 불구하고 코드가 대부분 이해된다는 가능성에 흥분했습니다. 그렇지 않더라도 포기하지 마세요. 예제를 하나 골라 분해하고, 출력문을 추가하고, 몇 가지 테스트를 작성해 보세요. 코드를 직접 만져보고 자신만의 코드를 만든 다음 다시 돌아와서 이해가 되지 않는 부분을 다시 읽어보세요.
+
+## 결론
+
+일부 독자들은 저를 다양한 "The Little $TECH Book"의 저자로 알고 있으며, 왜 "The Little Zig Book"이라고 부르지 않는지 궁금해할 것입니다. 사실 Zig가 "The Little" 형식에 맞는지 잘 모르겠습니다. Zig의 복잡성과 학습 곡선은 사용자의 배경과 경험에 따라 크게 달라질 수 있다는 점이 문제입니다. 숙련된 C 또는 C++ 프로그래머라면 언어에 대한 간결한 요약만으로도 충분하겠지만, 그렇지 않다면 [Zig 언어 레퍼런스](https://ziglang.org/documentation/master/)에 의존하게 될 것입니다.
+
+이 가이드에서 많은 내용을 다루었지만, 아직 다루지 않은 내용이 많이 있습니다. 그렇다고 해서 낙담하거나 부담스러워하지 마세요. 모든 언어는 다층적이기 때문에 이제 여러분은 숙달을 시작하고 시작할 수 있는 기초와 참고 자료를 얻게 되었습니다. 솔직히 제가 다루지 않은 부분은 설명할 만큼 잘 이해하지 못합니다. 그렇다고 해서 인기 있는 http 서버 라이브러리와 같은 의미 있는 것들을 Zig에서 사용하거나 구축하는 것을 막지는 못했습니다.
+
+완전히 건너뛰었던 한 가지를 강조하고 싶습니다. 이미 알고 계신 내용일 수도 있지만, Zig는 특히 C 코드와 잘 작동합니다. 생태계가 아직 초기 단계이고 표준 라이브러리가 적기 때문에 C 라이브러리를 사용하는 것이 최선의 선택인 경우가 있을 수 있습니다. 예를 들어, Zig의 표준 라이브러리에는 정규식 모듈이 없는 경우 C 라이브러리를 사용하는 것이 합리적인 선택일 수 있습니다. 저는 SQLite와 DuckDB용 Zig 라이브러리를 작성해 본 적이 있는데, 아주 간단했습니다. 이 가이드의 모든 내용을 대부분 따랐다면 아무런 문제가 없을 것입니다.
+
+이 자료가 도움이 되었기를 바라며 즐거운 프로그래밍이 되기를 바랍니다.
+
+### 감사의 말Thanks
+
+이 시리즈에 수정 및 제안을 해주신 모든 분들께 감사드립니다. 특히, 철저한 편집을 제공해주신 [Gonzalo Diethelm](https://github.com/gonzus)에게 감사드립니다.
+
