@@ -5,7 +5,7 @@ date: 2023-01-07T20:00:00+09:00
 author: soomtong 
 tags: 
   - compiler 
-  - assembliy
+  - assembly
   - javascript 
 keywords: 
   - compiler

@@ -17,3 +17,4 @@ draft: false
 #### 예전 블로그
 
 - https://faultnote.tistory.com/
+- https://velog.io/@soomtong/
