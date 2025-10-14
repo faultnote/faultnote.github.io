@@ -23,13 +23,15 @@ hasCJKLanguage = true
   [languages.ko]
     languageName = "한국어"
     title = "FaultNote"
-    menuMore = "메뉴 더 보기"
-    readMore = "읽기"
-    newerPosts = "최근 포스트"
-    olderPosts = "지난 포스트"
-    readOtherPosts = "다른 글 읽기"
     missingContentMessage = "페이지를 찾을 수 없습니다..."
     missingBackButtonLabel = "홈으로 이동하기"
+
+    [languages.ko.params]
+      menuMore = "메뉴 더 보기"
+      readMore = "읽기"
+      readOtherPosts = "다른 글 읽기"
+      newerPosts = "최근 포스트"
+      olderPosts = "지난 포스트"
 
     [languages.ko.params.logo]
       logoText = "FaultNote"
@@ -55,13 +57,15 @@ hasCJKLanguage = true
   [languages.en]
     languageName = "English"
     title = "FaultNote"
-    menuMore = "Show more"
-    readMore = "Read more"
-    readOtherPosts = "Read other posts"
-    newerPosts = "Newer posts"
-    olderPosts = "Older posts"
     missingContentMessage = "Page not found..."
     missingBackButtonLabel = "Back to home page"
+
+    [languages.en.params]
+      menuMore = "Show more"
+      readMore = "Read more"
+      readOtherPosts = "Read other posts"
+      newerPosts = "Newer posts"
+      olderPosts = "Older posts"
 
     [languages.en.params.logo]
       logoText = "FaultNote"
