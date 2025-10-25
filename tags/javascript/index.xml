@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Javascript on FaultNote</title><link>https://faultnote.github.io/tags/javascript/</link><description>Recent content in Javascript on FaultNote</description><generator>Hugo</generator><language>ko</language><lastBuildDate>Sat, 07 Jan 2023 20:00:00 +0900</lastBuildDate><atom:link href="https://faultnote.github.io/tags/javascript/index.xml" rel="self" type="application/rss+xml"/><item><title>Write Deadly Simple Compiler Part 3</title><link>https://faultnote.github.io/posts/write-simple-compiler-3/</link><pubDate>Sat, 07 Jan 2023 20:00:00 +0900</pubDate><guid>https://faultnote.github.io/posts/write-simple-compiler-3/</guid><description>&lt;blockquote&gt;
-&lt;p&gt;&lt;a href="https://notes.eatonphil.com"&gt;Phil&lt;/a&gt; 의 &amp;lsquo;Writing a lisp compiler from scratch in JavaScript&amp;rsquo; 첫 포스트의 세 번째 파트인데 분량이 많아 새 포스트를 열었다.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href="https://notes.eatonphil.com"&gt;Phil&lt;/a&gt; 의 &amp;lsquo;Writing a lisp compiler from scratch in JavaScript&amp;rsquo; 첫 포스트의 세 번째 파트인데 분량이 많아 새 포스트를 열었다.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;지난 포스트에 이어서&amp;hellip;&lt;/p&gt;
 &lt;p&gt;Phil 의 가이드에 마지막 부분은 파싱된 배열을 어셈블리로 변환하는 컴파일 과정을 담고 있다.
 그리고 어셈블리를 어셈블! 하는 것으로 첫 포스트를 마치고 있다.&lt;/p&gt;</description></item><item><title>Write Deadly Simple Compiler Part 2</title><link>https://faultnote.github.io/posts/write-simple-compiler-2/</link><pubDate>Sun, 27 Nov 2022 22:00:00 +0900</pubDate><guid>https://faultnote.github.io/posts/write-simple-compiler-2/</guid><description>&lt;blockquote&gt;
-&lt;p&gt;&lt;a href="https://notes.eatonphil.com"&gt;Phil&lt;/a&gt; 의 &amp;lsquo;Writing a lisp compiler from scratch in JavaScript&amp;rsquo; 첫 포스트의 두 번째 파트인데 분량이 많아 새 포스트를 열었다.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href="https://notes.eatonphil.com"&gt;Phil&lt;/a&gt; 의 &amp;lsquo;Writing a lisp compiler from scratch in JavaScript&amp;rsquo; 첫 포스트의 두 번째 파트인데 분량이 많아 새 포스트를 열었다.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;지난 포스트에 이어서&amp;hellip;&lt;/p&gt;
 &lt;p&gt;Phil 의 가이드는 S-expression 을 배열 데이터로 만들고 이를 어셈블리 코드(텍스트)로 기록하도록 하고 있다. 그후 어셈블러를 사용하여 실행 가능한 바이너리 파일을 만든다.&lt;/p&gt;</description></item><item><title>Write Deadly Simple Compiler Part 1</title><link>https://faultnote.github.io/posts/write-simple-compiler-1/</link><pubDate>Sat, 19 Nov 2022 22:00:00 +0900</pubDate><guid>https://faultnote.github.io/posts/write-simple-compiler-1/</guid><description>&lt;blockquote&gt;
-&lt;p&gt;내가 처음으로 구독한 개인 메일인 &lt;a href="https://notes.eatonphil.com"&gt;Phil&lt;/a&gt; 의 웹 페이지에 있는 2018년 말 포스트인 &amp;lsquo;Writing a lisp compiler from scratch in JavaScript&amp;rsquo; 를 학습하며 기록한 글이다.&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;내가 처음으로 구독한 개인 메일인 &lt;a href="https://notes.eatonphil.com"&gt;Phil&lt;/a&gt; 의 웹 페이지에 있는 2018년 말 포스트인 &amp;lsquo;Writing a lisp compiler from scratch in JavaScript&amp;rsquo; 를 학습하며 기록한 글이다.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;p&gt;우선 Node 환경에서 구동되는 Lisp 컴파일러를 구현하는 투토리얼을 따라가 보도록 한다. 본문은 여기에 있다.&lt;/p&gt;</description></item><item><title>TypeScript 50 Lessons Part 7</title><link>https://faultnote.github.io/posts/typescript-50-lessons-7/</link><pubDate>Sat, 27 Aug 2022 22:00:00 +0900</pubDate><guid>https://faultnote.github.io/posts/typescript-50-lessons-7/</guid><description>&lt;div id="outline-container-headline-1" class="outline-2"&gt;
 &lt;h2 id="headline-1"&gt;
 타입스크립트 in 50 레슨

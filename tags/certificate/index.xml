@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Certificate on FaultNote</title><link>https://faultnote.github.io/tags/certificate/</link><description>Recent content in Certificate on FaultNote</description><generator>Hugo</generator><language>ko</language><lastBuildDate>Sat, 12 Feb 2022 14:05:53 +0900</lastBuildDate><atom:link href="https://faultnote.github.io/tags/certificate/index.xml" rel="self" type="application/rss+xml"/><item><title>로컬 웹 서비스에 Easy-RSA 인증서 적용하기</title><link>https://faultnote.github.io/posts/easyrsa-nginx-guide/</link><pubDate>Sat, 12 Feb 2022 14:05:53 +0900</pubDate><guid>https://faultnote.github.io/posts/easyrsa-nginx-guide/</guid><description>&lt;blockquote&gt;
-&lt;p&gt;nginx 서버에 로컬 호스트의 도메인을 위한 인증서를 적용하는 가장 쉽고 빠른 방법&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;nginx 서버에 로컬 호스트의 도메인을 위한 인증서를 적용하는 가장 쉽고 빠른 방법&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id="개인-키공개-키-기반-인증-시스템"&gt;개인 키/공개 키 기반 인증 시스템&lt;/h2&gt;
 &lt;h3 id="pki---public-key-infrastructure-이해하기"&gt;PKI - Public Key Infrastructure 이해하기&lt;/h3&gt;
 &lt;p&gt;우리말로 &lt;code&gt;공개 키 기반 인증 시스템&lt;/code&gt; 으로 이해할 수 있는데, 사실 한 쌍의 키가 중심이 되지만 &amp;lsquo;공개 키&amp;rsquo; 라고 불리는 이유는 이 공개 키를 기반으로 암호화 하는 과정이 핵심이라 그런 듯 하다.&lt;/p&gt;</description></item></channel></rss>
