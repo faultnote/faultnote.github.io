@@ -1,17 +1,15 @@
-+++
-title = "Bun 1.3 의 Redis 지원과 RESP"
-date = "2025-10-25T09:25:30+09:00"
-#dateFormat = "2006-01-02" # This value can be configured for per-post date formatting
-author = "soomtong"
-authorTwitter = "" #do not include @
-cover = ""
-tags = ["redis", "bun", "nodejs"]
-keywords = ["bunjs", "ioredis", "node-redis", "resp3"]
-description = "Bun 에서 드디어 PG, MySQL, Sqlite 와 함께 내장 Redis 클라이언트가 추가되었다. 이 글에서는 RESP3 프로토콜 중심의 변화와 기존 ioredis, node-redis 와의 차이를 살펴본다."
-showFullContent = false
-readingTime = false
-hideComments = false
-+++
+---
+title: "Bun 1.3 의 Redis 지원과 RESP"
+date: "2025-10-25T09:25:30+09:00"
+author: "soomtong"
+authorTwitter: "soomtong"
+tags: ["redis", "bun", "nodejs"]
+keywords: ["bunjs", "ioredis", "node-redis", "resp3"]
+description: "Bun 에서 드디어 PG, MySQL, Sqlite 와 함께 내장 Redis 클라이언트가 추가되었다. 이 글에서는 RESP3 프로토콜 중심의 변화와 기존 ioredis, node-redis 와의 차이를 살펴본다."
+showFullContent: false
+readingTime: true
+hideComments: false
+---
 
 얼마 전 레디스가 라이선스 문제로 Fork 도 일어나고 이에 대응하는 새로운 솔루션들이 등장했지만, 여전히 레디스는 많은 서비스에서 핵심 데이터 저장소로 사용되고 있습니다. (단순 데이터 저장소 이상의 일을 하고 있습니다.)
 
