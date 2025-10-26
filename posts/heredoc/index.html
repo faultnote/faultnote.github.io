@@ -1,0 +1,272 @@
+<!doctype html><html lang=ko><head><title>Heredoc (Here Document) 완전 가이드 :: FaultNote</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Heredoc은 쉘 스크립팅에서 손쉽게 다중 라인 텍스트를 처리하는 강력한 기능입니다."><meta name=keywords content="shell,pipe,terminal"><meta name=robots content="noodp"><link rel=canonical href=https://faultnote.github.io/posts/heredoc/><script async src="https://www.googletagmanager.com/gtag/js?id=G-6J40Z181KC"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6J40Z181KC")}</script><link rel=stylesheet href=https://faultnote.github.io/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css><link rel=stylesheet href=https://faultnote.github.io/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css><link rel=stylesheet href=https://faultnote.github.io/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css><link rel=stylesheet href=https://faultnote.github.io/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css><link rel=stylesheet href=https://faultnote.github.io/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css><link rel=stylesheet href=https://faultnote.github.io/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css><link rel=stylesheet href=https://faultnote.github.io/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css><link rel=stylesheet href=https://faultnote.github.io/css/menu.min.6a067853fcfe9d726ce02f96db38608eb850d4cb16a27d1395b74c23205aff9e.css><link rel=stylesheet href=https://faultnote.github.io/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css><link rel=stylesheet href=https://faultnote.github.io/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css><link rel=stylesheet href=https://faultnote.github.io/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css><link rel=stylesheet href=https://faultnote.github.io/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css><link rel=stylesheet href=https://faultnote.github.io/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css><link rel="shortcut icon" href=https://faultnote.github.io/favicon.png><link rel=apple-touch-icon href=https://faultnote.github.io/apple-touch-icon.png><meta name=twitter:card content="summary"><meta property="og:locale" content="ko"><meta property="og:type" content="article"><meta property="og:title" content="Heredoc (Here Document) 완전 가이드"><meta property="og:description" content="Heredoc은 쉘 스크립팅에서 손쉽게 다중 라인 텍스트를 처리하는 강력한 기능입니다."><meta property="og:url" content="https://faultnote.github.io/posts/heredoc/"><meta property="og:site_name" content="FaultNote"><meta property="og:image" content="https://faultnote.github.io/og-image.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="627"><meta property="article:published_time" content="2024-08-09 16:07:19 +0900 +0900"></head><body><div class=container><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>FaultNote</div></a></div><ul class="menu menu--mobile"><li class=menu__trigger>Menu&nbsp;▾</li><li><ul class=menu__dropdown><li><a href=/about>소개</a></li><li><a href=/series>연재</a></li><li><a href=/blog>블로그</a></li><hr><li><a href=https://faultnote.github.io/>한국어</a></li><li><a href=https://faultnote.github.io/en/>English</a></li></ul></li></ul><ul class="menu menu--desktop menu--language-selector"><li class=menu__trigger>한국어&nbsp;▾</li><li><ul class=menu__dropdown><li><a href=https://faultnote.github.io/>한국어</a></li><li><a href=https://faultnote.github.io/en/>English</a></li></ul></li></ul></div><nav class=navigation-menu><ul class="navigation-menu__inner menu--desktop"><li><a href=/about>소개</a></li><li><a href=/series>연재</a></li><li><a href=/blog>블로그</a></li></ul></nav></header><div class=content><article class=post><h1 class=post-title><a href=https://faultnote.github.io/posts/heredoc/>Heredoc (Here Document) 완전 가이드</a></h1><div class=post-meta><time class=post-date>2024-08-09</time><span class=post-author>soomtong</span><span class=post-reading-time>3 min read (1345 words)</span></div><span class=post-tags>#<a href=https://faultnote.github.io/tags/shell/>shell</a>&nbsp;
+#<a href=https://faultnote.github.io/tags/hererdoc/>hererdoc</a>&nbsp;</span><div class=post-content><div><p>긴 말 필요 없습니다. 빠르게 예제를 본 후 자세히 알아보겠습니다.</p><blockquote><p>라인 입력 이벤트를 기준으로 동작하기 때문에 마지막 글자 타이핑 후 엔터 키 누르기가 필요합니다.</p></blockquote><h2 id=사용-예시>사용 예시<a href=#사용-예시 class=hanchor arialabel=Anchor>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 파일에 내용 쓰기</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># &#39;EOF&#39; 대신 EOF 사용 가능</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># &#39; 사용 미사용 차이는 있음</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># XXX end 등 임의의 식별자를 사용할 수 있음</span>
+</span></span><span style=display:flex><span>cat <span style=color:#e6db74>&lt;&lt;&#39;EOF&#39; &gt; output.txt
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>This is line 1
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>This is line 2
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 또는 이렇게도 사용</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 파이프 연산자 주변 공백은 무시됨</span>
+</span></span><span style=display:flex><span>cat &gt; output.txt <span style=color:#e6db74>&lt;&lt; &#39;END&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>This is line 1
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>This is line 2
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>END</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># cat 이 아니어도 pipe 가능한 어떤 명령이라도 사용할 수 있음</span>
+</span></span><span style=display:flex><span>xh http://localhost:1337/api/chat/completions <span style=color:#e6db74>&lt;&lt;EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>{ &#34;model&#34;: &#34;gemma-3n-e4b-it-lm-4bit&#34;, 
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  &#34;messages&#34;: [ { &#34;role&#34;: &#34;user&#34;, &#34;content&#34;: &#34;Why is the sky blue?&#34; } ] }
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 변수와 함께 사용</span>
+</span></span><span style=display:flex><span>NAME<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;John&#34;</span>
+</span></span><span style=display:flex><span>cat <span style=color:#e6db74>&lt;&lt;EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Hello, $NAME!
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Today is $(date)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 스크립트에서 도움말 출력</span>
+</span></span><span style=display:flex><span>cat <span style=color:#e6db74>&lt;&lt;&#39;HELP&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Usage: script.sh [options]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Options:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  -h    Show this help
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  -v    Verbose mode
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>HELP</span>
+</span></span></code></pre></div><h3 id=장점>장점<a href=#장점 class=hanchor arialabel=Anchor>#</a></h3><ol><li>다중 라인 텍스트를 쉽게 처리할 수 있습니다.</li><li>임시 파일 생성 없이 긴 텍스트를 명령에 전달할 수 있습니다.</li><li>스크립트 가독성이 향상됩니다.</li><li>특수 문자 이스케이핑을 걱정할 필요가 없습니다.</li></ol><p>이 문법은 쉘 스크립팅에서 매우 유용하며, <strong>설정 파일 생성</strong>, 도움말 출력, 템플릿 처리 등에 자주 사용됩니다.</p><h2 id=기본-문법>기본 문법<a href=#기본-문법 class=hanchor arialabel=Anchor>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>command <span style=color:#e6db74>&lt;&lt;DELIMITER
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>content line 1
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>content line 2
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>DELIMITER</span>
+</span></span></code></pre></div><h2 id=주요-특징>주요 특징<a href=#주요-특징 class=hanchor arialabel=Anchor>#</a></h2><h3 id=1-구분자delimiter-규칙>1. 구분자(Delimiter) 규칙<a href=#1-구분자delimiter-규칙 class=hanchor arialabel=Anchor>#</a></h3><ul><li>구분자는 임의의 문자열을 사용할 수 있습니다. 관례적으로 <code>EOF</code>, <code>END</code>, <code>HEREDOC</code> 등을 사용</li><li>종료 구분자는 <strong>반드시 줄의 맨 앞</strong>에 위치해야 합니다</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 다양한 구분자 예시</span>
+</span></span><span style=display:flex><span>cat <span style=color:#e6db74>&lt;&lt;END
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>This is content
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>END</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cat <span style=color:#e6db74>&lt;&lt;MARKER
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Another content
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>MARKER</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cat <span style=color:#e6db74>&lt;&lt;123
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Numbers as delimiter
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>123</span>
+</span></span></code></pre></div><h3 id=2-quoted-vs-unquoted-heredoc>2. Quoted vs Unquoted Heredoc<a href=#2-quoted-vs-unquoted-heredoc class=hanchor arialabel=Anchor>#</a></h3><h4 id=unquoted-heredoc-eof>Unquoted Heredoc (<code>&lt;&lt;EOF</code>)<a href=#unquoted-heredoc-eof class=hanchor arialabel=Anchor>#</a></h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>NAME<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Alice&#34;</span>
+</span></span><span style=display:flex><span>AGE<span style=color:#f92672>=</span><span style=color:#ae81ff>30</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cat <span style=color:#e6db74>&lt;&lt;EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Hello, $NAME!
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>You are $AGE years old.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Today is $(date +%Y-%m-%d)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Current directory: $(pwd)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span></code></pre></div><p>출력:</p><pre tabindex=0><code>Hello, Alice!
+You are 30 years old.
+Today is 2024-01-15
+Current directory: /home/user
+</code></pre><h4 id=quoted-heredoc-eof>Quoted Heredoc (<code>&lt;&lt;'EOF'</code>)<a href=#quoted-heredoc-eof class=hanchor arialabel=Anchor>#</a></h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>NAME<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Alice&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># bat 을 사용하는 경우 예시</span>
+</span></span><span style=display:flex><span>cat -l perl <span style=color:#e6db74>&lt;&lt;&#39;EOF&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Hello, $NAME!
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Current directory: $(pwd)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Special characters: \ $ ` &#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span></code></pre></div><p>출력:</p><pre tabindex=0><code>Hello, $NAME!
+Current directory: $(pwd)
+Special characters: \ $ ` &#34;
+</code></pre><h3 id=3-들여쓰기-제거-->3. 들여쓰기 제거 (<code>&lt;&lt;-</code>)<a href=#3-들여쓰기-제거-- class=hanchor arialabel=Anchor>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 탭으로 들여쓰기된 heredoc</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> true; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    cat <span style=color:#e6db74>&lt;&lt;- EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>	This line starts with a tab
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>	This line also starts with a tab
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>	EOF</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span></code></pre></div><p><strong>주의:</strong> <code>&lt;&lt;-</code>는 <strong>탭만</strong> 제거하고, 공백은 제거하지 않습니다.</p><h2 id=실용적인-사용-예시>실용적인 사용 예시<a href=#실용적인-사용-예시 class=hanchor arialabel=Anchor>#</a></h2><h3 id=1-설정-파일-생성>1. 설정 파일 생성<a href=#1-설정-파일-생성 class=hanchor arialabel=Anchor>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># nginx 설정 파일 생성</span>
+</span></span><span style=display:flex><span>cat &gt; /etc/nginx/sites-available/mysite <span style=color:#e6db74>&lt;&lt; &#39;NGINX_CONF&#39; 
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>server {
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    listen 80;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    server_name example.com;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    location / {
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        proxy_pass http://localhost:3000;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        proxy_set_header Host $host;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        proxy_set_header X-Real-IP $remote_addr;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    }
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>}
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>NGINX_CONF</span>
+</span></span></code></pre></div><h3 id=2-sql-스크립트-실행>2. SQL 스크립트 실행<a href=#2-sql-스크립트-실행 class=hanchor arialabel=Anchor>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>mysql -u root -p <span style=color:#e6db74>&lt;&lt;&#39;SQL&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>CREATE DATABASE IF NOT EXISTS myapp;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>USE myapp;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>CREATE TABLE users (
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    id INT AUTO_INCREMENT PRIMARY KEY,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    username VARCHAR(50) NOT NULL,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    email VARCHAR(100) NOT NULL,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>);
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>INSERT INTO users (username, email) VALUES 
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>(&#39;john_doe&#39;, &#39;john@example.com&#39;),
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>(&#39;jane_smith&#39;, &#39;jane@example.com&#39;);
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SQL</span>
+</span></span></code></pre></div><h3 id=3-도움말-메시지>3. 도움말 메시지<a href=#3-도움말-메시지 class=hanchor arialabel=Anchor>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>show_help<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    cat <span style=color:#e6db74>&lt;&lt;&#39;HELP&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>MyScript v1.0 - A sample script
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>USAGE:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    myscript.sh [OPTIONS] &lt;input_file&gt;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>OPTIONS:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    -h, --help      Show this help message
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    -v, --verbose   Enable verbose output
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    -o, --output    Specify output file
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    -f, --force     Force overwrite existing files
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EXAMPLES:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    myscript.sh input.txt
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    myscript.sh -v -o output.txt input.txt
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    myscript.sh --force --output result.txt data.txt
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>For more information, visit: https://example.com/docs
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>HELP</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><h3 id=4-jsonxml-데이터-생성>4. JSON/XML 데이터 생성<a href=#4-jsonxml-데이터-생성 class=hanchor arialabel=Anchor>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># JSON 생성</span>
+</span></span><span style=display:flex><span>USER_ID<span style=color:#f92672>=</span><span style=color:#ae81ff>123</span>
+</span></span><span style=display:flex><span>USER_NAME<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;John Doe&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cat <span style=color:#e6db74>&lt;&lt;EOF &gt; user.json
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>{
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;id&#34;: $USER_ID,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;name&#34;: &#34;$USER_NAME&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;email&#34;: &#34;${USER_NAME,,}@example.com&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;created_at&#34;: &#34;$(date -Iseconds)&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    &#34;preferences&#34;: {
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        &#34;theme&#34;: &#34;dark&#34;,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        &#34;notifications&#34;: true
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    }
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>}
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span></code></pre></div><h3 id=5-이메일-템플릿>5. 이메일 템플릿<a href=#5-이메일-템플릿 class=hanchor arialabel=Anchor>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>send_notification<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    local recipient<span style=color:#f92672>=</span>$1
+</span></span><span style=display:flex><span>    local subject<span style=color:#f92672>=</span>$2
+</span></span><span style=display:flex><span>    local message<span style=color:#f92672>=</span>$3
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    mail -s <span style=color:#e6db74>&#34;</span>$subject<span style=color:#e6db74>&#34;</span> <span style=color:#e6db74>&#34;</span>$recipient<span style=color:#e6db74>&#34;</span> <span style=color:#e6db74>&lt;&lt;EMAIL
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Dear User,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>$message
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>This is an automated message from our system.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Generated at: $(date)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Best regards,
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>System Administrator
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>---
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>This email was sent automatically. Please do not reply.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EMAIL</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span></code></pre></div><h2 id=고급-사용법>고급 사용법<a href=#고급-사용법 class=hanchor arialabel=Anchor>#</a></h2><h3 id=1-함수와-함께-사용>1. 함수와 함께 사용<a href=#1-함수와-함께-사용 class=hanchor arialabel=Anchor>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>generate_dockerfile<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    local base_image<span style=color:#f92672>=</span>$1
+</span></span><span style=display:flex><span>    local app_name<span style=color:#f92672>=</span>$2
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    cat <span style=color:#e6db74>&lt;&lt;DOCKERFILE
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>FROM $base_image
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>WORKDIR /app
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>COPY package*.json ./
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>RUN npm install
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>COPY . .
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EXPOSE 3000
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>CMD [&#34;npm&#34;, &#34;start&#34;]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74># Generated for $app_name at $(date)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>DOCKERFILE</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 사용</span>
+</span></span><span style=display:flex><span>generate_dockerfile <span style=color:#e6db74>&#34;node:lts-alpine&#34;</span> <span style=color:#e6db74>&#34;my-app&#34;</span> &gt; Dockerfile
+</span></span></code></pre></div><h3 id=2-배열과-루프-활용>2. 배열과 루프 활용<a href=#2-배열과-루프-활용 class=hanchor arialabel=Anchor>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>SERVICES<span style=color:#f92672>=(</span><span style=color:#e6db74>&#34;web&#34;</span> <span style=color:#e6db74>&#34;api&#34;</span> <span style=color:#e6db74>&#34;database&#34;</span> <span style=color:#e6db74>&#34;cache&#34;</span><span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> service in <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>SERVICES[@]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>; <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>    cat <span style=color:#e6db74>&lt;&lt;SERVICE_CONF &gt; &#34;docker-compose-$service.yml&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>version: &#39;3.8&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>services:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>  $service:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    image: $service:latest
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    container_name: ${service}_container
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    restart: unless-stopped
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    environment:
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      - NODE_ENV=production
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      - SERVICE_NAME=$service
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SERVICE_CONF</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span></code></pre></div><h3 id=3-조건부-내용>3. 조건부 내용<a href=#3-조건부-내용 class=hanchor arialabel=Anchor>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>DEBUG<span style=color:#f92672>=</span><span style=color:#e6db74>${</span>DEBUG<span style=color:#66d9ef>:-</span>false<span style=color:#e6db74>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cat <span style=color:#e6db74>&lt;&lt;SCRIPT &gt; run.sh
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>#!/bin/bash
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>set -e
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>echo &#34;Starting application...&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>$([ &#34;$DEBUG&#34; = &#34;true&#34; ] &amp;&amp; cat &lt;&lt;&#39;DEBUG_SECTION&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>echo &#34;Debug mode enabled&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>set -x
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>DEBUG_SECTION
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>)
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>echo &#34;Application started successfully&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SCRIPT</span>
+</span></span></code></pre></div><h2 id=주의사항과-팁>주의사항과 팁<a href=#주의사항과-팁 class=hanchor arialabel=Anchor>#</a></h2><h3 id=1-들여쓰기-주의>1. 들여쓰기 주의<a href=#1-들여쓰기-주의 class=hanchor arialabel=Anchor>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 잘못된 예: 종료 구분자가 들여쓰기됨</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> true; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    cat <span style=color:#e6db74>&lt;&lt;EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Content here
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>    EOF</span>  <span style=color:#75715e># 이것은 작동하지 않음</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 올바른 예</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> true; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    cat <span style=color:#e6db74>&lt;&lt;EOF
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Content here
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span></code></pre></div><h3 id=2-특수-문자-처리>2. 특수 문자 처리<a href=#2-특수-문자-처리 class=hanchor arialabel=Anchor>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Quoted heredoc에서는 모든 것이 문자 그대로 처리됨</span>
+</span></span><span style=display:flex><span>cat <span style=color:#e6db74>&lt;&lt;&#39;SPECIAL&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Backslash: \
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Dollar: $
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Backtick: `
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Quote: &#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>SPECIAL</span>
+</span></span></code></pre></div><h3 id=3-파이프와-리다이렉션>3. 파이프와 리다이렉션<a href=#3-파이프와-리다이렉션 class=hanchor arialabel=Anchor>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 파이프 사용</span>
+</span></span><span style=display:flex><span>cat <span style=color:#e6db74>&lt;&lt; EOF | grep &#34;pattern&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>line with pattern
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>another line
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>line with pattern again
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 파일로 리다이렉션</span>
+</span></span><span style=display:flex><span>cat &gt; output.txt <span style=color:#e6db74>&lt;&lt;EOF 
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>This goes to file
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cat <span style=color:#e6db74>&lt;&lt;EOF &gt; output.txt
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>This goes to file
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 추가 모드로 리다이렉션</span>
+</span></span><span style=display:flex><span>cat <span style=color:#e6db74>&lt;&lt;EOF &gt;&gt; log.txt
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>This is appended
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>EOF</span>
+</span></span></code></pre></div><h3 id=4-변수에-heredoc-할당>4. 변수에 heredoc 할당<a href=#4-변수에-heredoc-할당 class=hanchor arialabel=Anchor>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 변수에 heredoc 내용 저장</span>
+</span></span><span style=display:flex><span>TEMPLATE<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>cat <span style=color:#e6db74>&lt;&lt;&#39;TEMPLATE&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Hello, {{NAME}}!
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Your order #{{ORDER_ID}} is ready.
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>Total: ${{AMOUNT}}
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>TEMPLATE</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;</span>$TEMPLATE<span style=color:#e6db74>&#34;</span>
+</span></span></code></pre></div><p>Heredoc은 쉘 스크립팅에서 매우 유용한 기능으로, 복잡한 텍스트 처리나 설정 파일 생성, 템플릿 처리 등에 광범위하게 활용됩니다. 익숙해지긴 힘들지도 모르지만 알고 있으면 유용하게 사용할 수 있습니다.</p></div></div></article></div><footer class=footer><div class=footer__inner><div class=copyright><span>© 2025 Powered by <a href=https://gohugo.io>Hugo</a></span>
+<span>:: <a href=https://github.com/panr/hugo-theme-terminal target=_blank>Theme</a> made by <a href=https://github.com/panr target=_blank>panr</a></span></div></div></footer><script type=text/javascript src=/bundle.min.js></script></div></body></html>
