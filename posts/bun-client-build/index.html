@@ -1,0 +1,135 @@
+<!doctype html><html lang=ko><head><title>Bun Client Build :: FaultNote</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="간단하게 다른 종속성 없이 Bun으로 JSX 빌드 및 통합 서버 구축하기"><meta name=keywords content="bun,react,client,build"><meta name=robots content="noodp"><link rel=canonical href=https://faultnote.github.io/posts/bun-client-build/><script async src="https://www.googletagmanager.com/gtag/js?id=G-6J40Z181KC"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-6J40Z181KC")}</script><link rel=stylesheet href=https://faultnote.github.io/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css><link rel=stylesheet href=https://faultnote.github.io/css/code.min.d529ea4b2fb8d34328d7d31afc5466d5f7bc2f0bc9abdd98b69385335d7baee4.css><link rel=stylesheet href=https://faultnote.github.io/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css><link rel=stylesheet href=https://faultnote.github.io/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css><link rel=stylesheet href=https://faultnote.github.io/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css><link rel=stylesheet href=https://faultnote.github.io/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css><link rel=stylesheet href=https://faultnote.github.io/css/main.min.36833afd348409fc6c3d09d0897c5833d9d5bf1ff31f5e60ea3ee42ce2b1268c.css><link rel=stylesheet href=https://faultnote.github.io/css/menu.min.6a067853fcfe9d726ce02f96db38608eb850d4cb16a27d1395b74c23205aff9e.css><link rel=stylesheet href=https://faultnote.github.io/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css><link rel=stylesheet href=https://faultnote.github.io/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css><link rel=stylesheet href=https://faultnote.github.io/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css><link rel=stylesheet href=https://faultnote.github.io/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css><link rel=stylesheet href=https://faultnote.github.io/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css><link rel="shortcut icon" href=https://faultnote.github.io/favicon.png><link rel=apple-touch-icon href=https://faultnote.github.io/apple-touch-icon.png><meta name=twitter:card content="summary"><meta property="og:locale" content="ko"><meta property="og:type" content="article"><meta property="og:title" content="Bun Client Build"><meta property="og:description" content="간단하게 다른 종속성 없이 Bun으로 JSX 빌드 및 통합 서버 구축하기"><meta property="og:url" content="https://faultnote.github.io/posts/bun-client-build/"><meta property="og:site_name" content="FaultNote"><meta property="og:image" content="https://faultnote.github.io/"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="627"><meta property="article:published_time" content="2025-11-28 08:41:52 +0900 +0900"></head><body><div class=container><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>FaultNote</div></a></div><ul class="menu menu--mobile"><li class=menu__trigger>Menu&nbsp;▾</li><li><ul class=menu__dropdown><li><a href=/about>소개</a></li><li><a href=/series>연재</a></li><li><a href=/blog>블로그</a></li><hr><li><a href=https://faultnote.github.io/>한국어</a></li><li><a href=https://faultnote.github.io/en/>English</a></li></ul></li></ul><ul class="menu menu--desktop menu--language-selector"><li class=menu__trigger>한국어&nbsp;▾</li><li><ul class=menu__dropdown><li><a href=https://faultnote.github.io/>한국어</a></li><li><a href=https://faultnote.github.io/en/>English</a></li></ul></li></ul></div><nav class=navigation-menu><ul class="navigation-menu__inner menu--desktop"><li><a href=/about>소개</a></li><li><a href=/series>연재</a></li><li><a href=/blog>블로그</a></li></ul></nav></header><div class=content><article class=post><h1 class=post-title><a href=https://faultnote.github.io/posts/bun-client-build/>Bun Client Build</a></h1><div class=post-meta><time class=post-date>2025-11-28</time><span class=post-author>soomtong</span></div><span class=post-tags>#<a href=https://faultnote.github.io/tags/bun/>bun</a>&nbsp;
+#<a href=https://faultnote.github.io/tags/react/>react</a>&nbsp;
+#<a href=https://faultnote.github.io/tags/client/>client</a>&nbsp;
+#<a href=https://faultnote.github.io/tags/build/>build</a>&nbsp;</span><div class=post-content><div><h2 id=bun으로-jsx-빌드-및-통합-서버-구축하기>Bun으로 JSX 빌드 및 통합 서버 구축하기<a href=#bun으로-jsx-빌드-및-통합-서버-구축하기 class=hanchor arialabel=Anchor>#</a></h2><p>Bun에는 별도의 설정(Babel, Webpack 등) 없이도 JSX/TSX 파일을 직접 변환할 수 있는 번들러가 내장되어 있습니다. 또한 Bun.serve를 사용하면 정적 파일 서빙과 API 서버를 하나로 통합할 수 있습니다.</p><ol><li>프로젝트 구조</li></ol><pre tabindex=0><code>/bun-client-server
+[ 608]  .
+├── [ 192]  archive
+├── [    ]  dist -------- 빌드된 정적 파일이 위치하는 폴더
+├── [2.4K]  bun.lock
+├── [5.5K]  CLAUDE.md
+├── [ 128]  client
+│   ├── [5.3K]  app.tsx
+│   └── [2.9K]  styles.css
+├── [ 550]  index.ts
+├── [ 574]  package.json
+├── [ 128]  public
+├── [1.9K]  README.md
+├── [ 352]  server
+│   ├── [4.9K]  app.test.ts
+│   ├── [2.2K]  app.ts
+│   ├── [4.8K]  archive.test.ts
+│   ├── [6.9K]  archive.ts
+│   ├── [ 712]  db.schema.ts
+│   ├── [ 12K]  db.test.ts
+│   ├── [6.9K]  db.ts
+│   ├── [2.1K]  render.tsx
+│   └── [1.4K]  zip.ts
+└── [ 830]  tsconfig.json
+</code></pre><ol start=2><li>소스 코드</li></ol><p>사용되는 종속성 패키지는 React와 ReactDOM 뿐이며, Bun이 자체적으로 JSX 변환을 처리합니다.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js><span style=display:flex><span><span style=color:#75715e>// package.json
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#e6db74>&#34;dependencies&#34;</span><span style=color:#f92672>:</span> {
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;react&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;^19.2.0&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;react-dom&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;^19.2.0&#34;</span>
+</span></span><span style=display:flex><span>},
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;devDependencies&#34;</span><span style=color:#f92672>:</span> {
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;@types/bun&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;latest&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;@types/react&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;^19.2.6&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;@types/react-dom&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;^19.2.3&#34;</span>
+</span></span><span style=display:flex><span>},
+</span></span></code></pre></div><p><code>/view/index.html</code></p><p>진입점 HTML 파일입니다. 스크립트 경로가 /app.js를 가리키는지 확인하세요.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span><span style=color:#75715e>&lt;!DOCTYPE html&gt;</span>
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>html</span> <span style=color:#a6e22e>lang</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;ko&#34;</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>head</span>&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>meta</span> <span style=color:#a6e22e>charset</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;UTF-8&#34;</span>&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>meta</span> <span style=color:#a6e22e>name</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;viewport&#34;</span> <span style=color:#a6e22e>content</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;width=device-width, initial-scale=1.0&#34;</span>&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>title</span>&gt;Bun JSX <span style=color:#960050;background-color:#1e0010>&amp;</span> Server App&lt;/<span style=color:#f92672>title</span>&gt;
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>head</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>body</span>&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>id</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;root&#34;</span>&gt;&lt;/<span style=color:#f92672>div</span>&gt;
+</span></span><span style=display:flex><span>    <span style=color:#75715e>&lt;!-- Bun이 빌드한 파일을 로드합니다 --&gt;</span>
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>script</span> <span style=color:#a6e22e>type</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;module&#34;</span> <span style=color:#a6e22e>src</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;./app.js&#34;</span>&gt;&lt;/<span style=color:#f92672>script</span>&gt;
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>body</span>&gt;
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>html</span>&gt;
+</span></span></code></pre></div><p><code>/client/app.jsx</code></p><p>React 메인 진입점입니다. 서버에서 제공하는 동적 데이터를 가져오는 예시를 추가했습니다.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-jsx data-lang=jsx><span style=display:flex><span><span style=color:#66d9ef>import</span> <span style=color:#a6e22e>React</span>, { <span style=color:#a6e22e>useState</span>, <span style=color:#a6e22e>useEffect</span> } <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;react&#39;</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>import</span> { <span style=color:#a6e22e>createRoot</span> } <span style=color:#a6e22e>from</span> <span style=color:#e6db74>&#39;react-dom/client&#39;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>App</span> <span style=color:#f92672>=</span> () =&gt; {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> [<span style=color:#a6e22e>count</span>, <span style=color:#a6e22e>setCount</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>useState</span>(<span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> [<span style=color:#a6e22e>serverMsg</span>, <span style=color:#a6e22e>setServerMsg</span>] <span style=color:#f92672>=</span> <span style=color:#a6e22e>useState</span>(<span style=color:#e6db74>&#39;데이터 로딩 중...&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>useEffect</span>(() =&gt; {
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 통합 서버의 동적 API 호출
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>      <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>params</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>URLSearchParams</span>();
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>currentCursor</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>cursorRef</span>.<span style=color:#a6e22e>current</span>;
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>currentCursor</span>) <span style=color:#a6e22e>params</span>.<span style=color:#a6e22e>set</span>(<span style=color:#e6db74>&#39;cursor&#39;</span>, <span style=color:#a6e22e>currentCursor</span>);
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>params</span>.<span style=color:#a6e22e>set</span>(<span style=color:#e6db74>&#39;limit&#39;</span>, <span style=color:#e6db74>&#39;50&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>fetch</span>(<span style=color:#e6db74>`/list?</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>params</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span>)
+</span></span><span style=display:flex><span>      .<span style=color:#a6e22e>then</span>(<span style=color:#a6e22e>res</span> =&gt; <span style=color:#a6e22e>res</span>.<span style=color:#a6e22e>json</span>())
+</span></span><span style=display:flex><span>      .<span style=color:#a6e22e>then</span>(<span style=color:#a6e22e>data</span> =&gt; <span style=color:#a6e22e>setServerMsg</span>(<span style=color:#a6e22e>data</span>.<span style=color:#a6e22e>message</span>));
+</span></span><span style=display:flex><span>  }, []);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> (
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>style</span><span style=color:#f92672>=</span>{{ <span style=color:#a6e22e>fontFamily</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;sans-serif&#39;</span>, <span style=color:#a6e22e>padding</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;20px&#39;</span> }}&gt;
+</span></span><span style=display:flex><span>      &lt;<span style=color:#f92672>h1</span>&gt;<span style=color:#a6e22e>Hello</span> <span style=color:#a6e22e>from</span> <span style=color:#a6e22e>Bun</span><span style=color:#f92672>!</span> <span style=color:#960050;background-color:#1e0010>🚀</span>&lt;/<span style=color:#f92672>h1</span>&gt;
+</span></span><span style=display:flex><span>      &lt;<span style=color:#f92672>p</span>&gt;<span style=color:#a6e22e>이</span> <span style=color:#a6e22e>JSX는</span> <span style=color:#a6e22e>Bun으로</span> <span style=color:#a6e22e>번들링되었습니다</span>.&lt;/<span style=color:#f92672>p</span>&gt;
+</span></span><span style=display:flex><span>      
+</span></span><span style=display:flex><span>      &lt;<span style=color:#f92672>div</span> <span style=color:#a6e22e>style</span><span style=color:#f92672>=</span>{{ <span style=color:#a6e22e>border</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;1px solid #ccc&#39;</span>, <span style=color:#a6e22e>padding</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;10px&#39;</span>, <span style=color:#a6e22e>margin</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;10px 0&#39;</span> }}&gt;
+</span></span><span style=display:flex><span>        &lt;<span style=color:#f92672>h3</span>&gt;<span style=color:#a6e22e>서버</span> <span style=color:#a6e22e>메시지</span> (<span style=color:#a6e22e>동적</span>)<span style=color:#f92672>:</span>&lt;/<span style=color:#f92672>h3</span>&gt;
+</span></span><span style=display:flex><span>        &lt;<span style=color:#f92672>p</span>&gt;{<span style=color:#a6e22e>serverMsg</span>}&lt;/<span style=color:#f92672>p</span>&gt;
+</span></span><span style=display:flex><span>      &lt;/<span style=color:#f92672>div</span>&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      &lt;<span style=color:#f92672>button</span> <span style=color:#a6e22e>onClick</span><span style=color:#f92672>=</span>{() =&gt; <span style=color:#a6e22e>setCount</span>(<span style=color:#a6e22e>count</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>)}&gt;
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>카운트</span><span style=color:#f92672>:</span> {<span style=color:#a6e22e>count</span>}
+</span></span><span style=display:flex><span>      &lt;/<span style=color:#f92672>button</span>&gt;
+</span></span><span style=display:flex><span>    &lt;/<span style=color:#f92672>div</span>&gt;
+</span></span><span style=display:flex><span>  );
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>root</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createRoot</span>(document.<span style=color:#a6e22e>getElementById</span>(<span style=color:#e6db74>&#39;root&#39;</span>));
+</span></span><span style=display:flex><span><span style=color:#a6e22e>root</span>.<span style=color:#a6e22e>render</span>(&lt;<span style=color:#f92672>App</span> /&gt;);
+</span></span></code></pre></div><ol start=3><li>프로젝트 빌드</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ts data-lang=ts><span style=display:flex><span><span style=color:#75715e>// index.ts
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// 서버 시작 전 archive 폴더 스캔
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>await</span> <span style=color:#a6e22e>scanArchiveFolder</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 번들 빌드
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>await</span> <span style=color:#a6e22e>Bun</span>.<span style=color:#a6e22e>build</span>({
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>entrypoints</span><span style=color:#f92672>:</span> [<span style=color:#e6db74>&#39;./client/app.jsx&#39;</span>],
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>outdir</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;./dist&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>minify</span>: <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>sourcemap</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;external&#34;</span>,
+</span></span><span style=display:flex><span>});
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;빌드 완료! ✅&#34;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// 서버 시작
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#a6e22e>Bun</span>.<span style=color:#a6e22e>serve</span>(<span style=color:#a6e22e>createApp</span>(<span style=color:#a6e22e>port</span>));
+</span></span></code></pre></div><ol start=4><li>통합 서버 실행 (app.js)</li></ol><p>이제 정적 파일(HTML, JS)을 서빙하면서 동시에 API 요청도 처리하는 서버를 만듭니다.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ts data-lang=ts><span style=display:flex><span><span style=color:#75715e>// app.js
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>server</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>Bun</span>.<span style=color:#a6e22e>serve</span>({
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>port</span>: <span style=color:#66d9ef>3000</span>,
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>routes</span><span style=color:#f92672>:</span> {
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;/&#34;</span><span style=color:#f92672>:</span> {
+</span></span><span style=display:flex><span>      <span style=color:#a6e22e>GET</span>: <span style=color:#66d9ef>async</span> () <span style=color:#f92672>=&gt;</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>// 루트 경로 요청 시 index.html 반환
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Response</span>(<span style=color:#a6e22e>Bun</span>.<span style=color:#a6e22e>file</span>(<span style=color:#e6db74>&#34;../view/index.html&#34;</span>), {
+</span></span><span style=display:flex><span>            <span style=color:#a6e22e>headers</span><span style=color:#f92672>:</span> { <span style=color:#e6db74>&#34;Content-Type&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;text/html&#34;</span> },
+</span></span><span style=display:flex><span>        });
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// 빌드된 JS 파일 및 기타 정적 파일 서빙 (/dist/...)
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>url</span>.<span style=color:#a6e22e>pathname</span>.<span style=color:#a6e22e>startsWith</span>(<span style=color:#e6db74>&#34;/dist/&#34;</span>)) {
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>filePath</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;.&#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>url</span>.<span style=color:#a6e22e>pathname</span>;
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Response</span>(<span style=color:#a6e22e>Bun</span>.<span style=color:#a6e22e>file</span>(<span style=color:#a6e22e>filePath</span>));
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>renderIndexPage</span>();
+</span></span><span style=display:flex><span>      },
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;/dist/styles.css&#34;</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>Bun</span>.<span style=color:#a6e22e>file</span>(<span style=color:#e6db74>&#34;client/styles.css&#34;</span>),
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;/dist/app.js&#34;</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>Bun</span>.<span style=color:#a6e22e>file</span>(<span style=color:#e6db74>&#34;client/app.tsx&#34;</span>),
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;/.ping&#34;</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>Response</span>.<span style=color:#a6e22e>json</span>({ <span style=color:#a6e22e>data</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;hello world&#34;</span> }),
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>});
+</span></span></code></pre></div><p>Bun의 내장 번들러와 서버 기능을 활용하면, React 클라이언트와 API 서버를 하나의 애플리케이션으로 쉽게 통합할 수 있습니다. vite, Next.js 같은 복잡한 설정 없이도 빠르게 개발을 시작할 수 있습니다.</p></div></div></article></div><footer class=footer><div class=footer__inner><div class=copyright><span>© 2025 Powered by <a href=https://gohugo.io>Hugo</a></span>
+<span>:: <a href=https://github.com/panr/hugo-theme-terminal target=_blank>Theme</a> made by <a href=https://github.com/panr target=_blank>panr</a></span></div></div></footer><script type=text/javascript src=/bundle.min.js></script></div></body></html>
