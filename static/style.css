@@ -1,0 +1,13 @@
+/* 테마 기본값(word-break: break-word)은 표 열의 최소 폭을 한 글자까지 줄여
+   "HTM/L"처럼 단어 중간에서 줄바꿈된다. 표 안에서는 어절 단위로만 줄바꿈한다. */
+.post-content table td,
+.post-content table th {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* 첫 열은 행 제목이므로 줄바꿈하지 않는다. */
+.post-content table td:first-child,
+.post-content table th:first-child {
+  white-space: nowrap;
+}
