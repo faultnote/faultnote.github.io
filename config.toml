@@ -1,6 +1,6 @@
 baseURL = 'https://faultnote.github.io/'
 defaultContentLanguage = 'ko'
-languageCode = 'ko-kr'
+locale = 'ko-kr'
 title = 'FaultNote'
 theme = 'terminal'
 enableEmoji = true
@@ -21,7 +21,7 @@ hasCJKLanguage = true
 
 [languages]
   [languages.ko]
-    languageName = "한국어"
+    label = "한국어"
     title = "FaultNote"
     missingContentMessage = "페이지를 찾을 수 없습니다..."
     missingBackButtonLabel = "홈으로 이동하기"
@@ -55,7 +55,7 @@ hasCJKLanguage = true
 		weight = 3
 
   [languages.en]
-    languageName = "English"
+    label = "English"
     title = "FaultNote"
     missingContentMessage = "Page not found..."
     missingBackButtonLabel = "Back to home page"
@@ -82,3 +82,6 @@ hasCJKLanguage = true
         name = "Series"
         url = "/en/series"
 		weight = 1
+
+[security]
+  allowContent = ['.*']
