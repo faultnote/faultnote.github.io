@@ -28,7 +28,7 @@ Linear는 제품 개발 조직의 태스크 추적과 프로젝트 관리를 위
 
 ### 0.2 Jira 이야기부터
 
-이 시장의 대표 주자는 Atlassian의 Jira다. Atlassian은 [Dia Browser and...](/posts/dia-browser-and/)에서 Dia 브라우저를 인수한 바로 그 회사다.
+이 시장의 대표 주자는 Atlassian의 Jira다. Atlassian은 Dia 브라우저를 인수한 바로 그 회사다.
 
 Jira는 과도한 설정과 나쁜 UX로 비판을 많이 받는다. 그럼에도 배제하기 어려운 솔루션이 되었다. 이미 너무 많은 기업이 쓰고 있고, 무엇보다 많은 프로젝트 관리자가 선호한다.
 
